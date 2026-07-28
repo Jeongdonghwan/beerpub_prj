@@ -3,10 +3,11 @@
    PC(≥1025px): scroll-snap 한 화면씩 / 모바일: 일반 스크롤
    ============================================================ */
 
-/* ---------- 풀페이지 코어 ---------- */
+/* ---------- 풀페이지 코어 ----------
+   PC 전환은 main.js 의 자체 easing 이 담당 (CSS snap 은 JS 애니메이션과
+   간섭해 전환이 끊기므로 미사용). 모바일은 일반 스크롤. */
 @media(min-width:1025px){
-  html{scroll-snap-type:y mandatory}
-  .fp{height:100vh;scroll-snap-align:start;scroll-snap-stop:always}
+  .fp{height:100vh}
 }
 .fp{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;min-height:100svh;padding:var(--hd-h) 0 var(--form-h)}
 @media(max-width:1024px){.fp{min-height:auto;padding:80px 0}}
