@@ -1,8 +1,8 @@
-from datetime import date, datetime
+from datetime import date
 from functools import wraps
 
 from flask import (
-    Blueprint, abort, current_app, redirect, render_template, request, session, url_for,
+    Blueprint, abort, redirect, render_template, request, session, url_for,
 )
 from werkzeug.security import check_password_hash
 
@@ -11,7 +11,7 @@ from config.brand import BRAND
 from ..extensions import db
 from ..models import (
     AdminUser, Banner, History, Inquiry, Interior, Menu, MenuCategory, Notice,
-    Popup, SiteConfig, Story, Store,
+    Popup, Story, Store,
 )
 from ..utils.security import check_csrf
 from ..utils.uploads import save_image
@@ -96,20 +96,6 @@ BOARDS = {
         "cols": ["id", "title", "hit", "created_at"],
     },
 }
-
-DOC_KEYS = {
-    "doc_policy": "이용약관",
-    "doc_private": "개인정보처리방침",
-    "doc_antiemail": "이메일무단수집거부",
-}
-
-CONFIG_KEYS = {
-    "meta_title": "기본 메타 타이틀",
-    "meta_description": "기본 메타 설명",
-    "naver_verification": "네이버 서치어드바이저 verification",
-    "s2_bg_image": "S2 시즌 키비주얼 배경 이미지 URL",
-}
-
 
 # ---------------------------------------------------------------- 인증
 def login_required(view):
@@ -248,34 +234,3 @@ def board_delete(board, item_id):
     db.session.delete(item)
     db.session.commit()
     return redirect(url_for("admin.board_list", board=board))
-
-
-# ---------------------------------------------------------------- 약관 / 설정
-def _set_config(key, value):
-    row = SiteConfig.query.get(key)
-    if row is None:
-        row = SiteConfig(cfg_key=key)
-        db.session.add(row)
-    row.cfg_value = value
-
-
-@bp.route("/docs", methods=["GET", "POST"])
-def doc_edit():
-    if request.method == "POST":
-        for key in DOC_KEYS:
-            _set_config(key, request.form.get(key, ""))
-        db.session.commit()
-        return redirect(url_for("admin.doc_edit"))
-    values = {row.cfg_key: row.cfg_value for row in SiteConfig.query.filter(SiteConfig.cfg_key.in_(DOC_KEYS)).all()}
-    return render_template("admin/doc_edit.html", doc_keys=DOC_KEYS, values=values)
-
-
-@bp.route("/config", methods=["GET", "POST"])
-def config_edit():
-    if request.method == "POST":
-        for key in CONFIG_KEYS:
-            _set_config(key, request.form.get(key, ""))
-        db.session.commit()
-        return redirect(url_for("admin.config_edit"))
-    values = {row.cfg_key: row.cfg_value for row in SiteConfig.query.filter(SiteConfig.cfg_key.in_(CONFIG_KEYS)).all()}
-    return render_template("admin/config_edit.html", config_keys=CONFIG_KEYS, values=values)
