@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OO펍 — 맥주 프랜차이즈 (풀페이지 프로토타입 v2)</title>
+<style>
+@font-face{font-family:'GmarketSans';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');font-weight:700;font-display:swap}
+@font-face{font-family:'GmarketSans';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');font-weight:500;font-display:swap}
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
+
+:root{
+  --red:#E8262B; --black:#111111; --paper:#EDEAE4; --dark:#0D0D0F;
+  --hd-h:96px; --form-h:96px;
+  --disp:'GmarketSans','Pretendard Variable',sans-serif;
+  --body:'Pretendard Variable',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--body);background:var(--dark);color:#fff}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--body);cursor:pointer}
+.disp{font-family:var(--disp);font-weight:700}
+
+/* ============ 풀페이지 스크롤 코어 ============
+   PC(≥1025px): html 에 scroll-snap, 각 section 100vh 스냅
+   모바일: 스냅 해제 → 일반 스크롤                    */
+@media(min-width:1025px){
+  html{scroll-snap-type:y mandatory;scroll-behavior:smooth}
+  .fp{height:100vh;scroll-snap-align:start;scroll-snap-stop:always}
+}
+.fp{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;min-height:100svh;padding:var(--hd-h) 0 var(--form-h)}
+@media(max-width:1024px){.fp{min-height:auto;padding:80px 0}}
+.wrap{width:min(1240px,92%);margin:0 auto}
+
+/* reveal — 섹션 재진입 시마다 재생 (풀페이지 감성) */
+[data-rv]{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+[data-rv="l"]{transform:translateX(-60px)} [data-rv="r"]{transform:translateX(60px)}
+.fp.active [data-rv]{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){[data-rv]{opacity:1!important;transform:none!important}}
+
+/* ============ 헤더 (화이트 고정) ============ */
+header{position:fixed;inset:0 0 auto;height:var(--hd-h);background:#fff;z-index:100;display:flex;align-items:center}
+.hd{width:min(1560px,96%);margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.logo{color:var(--black);line-height:1}
+.logo .t1{font-family:var(--disp);font-weight:700;font-size:30px;letter-spacing:-.02em}
+.logo .t2{font-family:var(--disp);font-weight:700;font-size:15px;margin-top:3px}
+nav.gnb{display:flex;gap:56px}
+nav.gnb a{color:var(--black);font-size:17px;font-weight:600;position:relative;padding:6px 0}
+nav.gnb a:hover{color:var(--red)}
+.hd-call{text-align:right;color:var(--black)}
+.hd-call .lbl{color:var(--red);font-weight:800;font-size:14px}
+.hd-call .num{font-family:var(--disp);font-weight:700;font-size:28px;letter-spacing:.01em}
+@media(max-width:1024px){nav.gnb{display:none}.hd-call .num{font-size:22px}}
+
+/* ============ 하단 고정 가맹문의 폼 바 ============ */
+.inq-bar{position:fixed;inset:auto 0 0;height:var(--form-h);background:#141414;z-index:100;display:flex;align-items:center;border-top:1px solid rgba(255,255,255,.08)}
+.inq-in{width:min(1560px,96%);margin:0 auto;display:flex;align-items:center;gap:16px}
+.inq-logo{line-height:1;flex-shrink:0}
+.inq-logo .t1{font-family:var(--disp);font-weight:700;font-size:20px}
+.inq-logo .t2{font-family:var(--disp);font-weight:700;font-size:11px;margin-top:2px}
+.inq-call{flex-shrink:0;margin-right:8px}
+.inq-call .lbl{color:var(--red);font-weight:800;font-size:12px}
+.inq-call .num{font-family:var(--disp);font-weight:700;font-size:22px}
+.inq-bar form{display:flex;align-items:center;gap:10px;flex:1}
+.inq-bar input,.inq-bar select{height:48px;background:#1E1E1E;border:1px solid #333;color:#fff;font-size:14px;padding:0 16px;border-radius:2px;flex:1;min-width:0;outline:none}
+.inq-bar input::placeholder{color:#888}
+.inq-bar input:focus,.inq-bar select:focus{border-color:var(--red)}
+.agree{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#ccc;flex-shrink:0;line-height:1.4}
+.agree u{cursor:pointer}
+.btn-sub{height:56px;background:var(--red);color:#fff;font-weight:800;font-size:17px;border:none;padding:0 44px;border-radius:2px;flex-shrink:0;transition:background .2s}
+.btn-sub:hover{background:#c91b20}
+@media(max-width:1024px){
+  .inq-bar{height:auto;padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+  .inq-in{gap:8px}
+  .inq-logo,.inq-call,.inq-bar .f-region,.inq-bar .f-channel,.agree{display:none}
+  .btn-sub{height:48px;padding:0 22px;font-size:15px}
+  .inq-bar input{height:48px}
+}
+
+/* ============ S1 히어로 (영상) ============ */
+.s1{background:#000}
+.s1 .vwrap{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.s1 .vbg{position:absolute;inset:0;background:
+  radial-gradient(900px 500px at 50% 50%, #2a2a2e 0%, #0a0a0c 70%)}
+.s1 .sign{position:relative;transform:rotate(-7deg);opacity:.8;filter:blur(1.2px);text-align:center;color:#d8d5cf}
+.s1 .sign .a{font-family:var(--disp);font-weight:700;font-size:clamp(70px,11vw,150px);letter-spacing:.02em}
+.s1 .sign .b{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.6vw,62px);margin-top:6px}
+.s1 .ctrl{position:absolute;display:flex;gap:18px}
+.s1 .ctrl i{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-style:normal;color:#fff;font-size:15px;backdrop-filter:blur(4px)}
+.s1 .note{position:absolute;bottom:calc(var(--form-h) + 26px);left:50%;transform:translateX(-50%);color:rgba(255,255,255,.45);font-size:13px;letter-spacing:.06em;white-space:nowrap}
+
+/* ============ S2 브랜드 이유 6 (네온 박스) ============ */
+.s2{background:linear-gradient(160deg,#0E1A3A 0%, #10265E 55%, #0B1530 100%)}
+.s2 .grid{display:grid;grid-template-columns:1.05fr 1fr;gap:70px;align-items:center}
+.neon-title .hand{font-family:var(--body);font-weight:600;font-size:clamp(17px,1.8vw,24px);color:#CFE4FF;letter-spacing:.12em;margin-bottom:18px}
+.neon-title h2{font-family:var(--disp);font-weight:700;font-size:clamp(52px,6.5vw,96px);line-height:1.12;color:#fff;
+  text-shadow:0 0 14px rgba(120,190,255,.9),0 0 46px rgba(60,140,255,.55)}
+.neon-title .line{width:100%;height:1px;background:rgba(255,255,255,.5);margin:26px 0 18px}
+.neon-title .why{font-size:clamp(15px,1.6vw,21px);color:#EAF3FF;letter-spacing:.06em}
+.rbox-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.rbox{aspect-ratio:1/1.05;border:2px solid rgba(190,225,255,.9);border-radius:14px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px;
+  box-shadow:0 0 12px rgba(120,190,255,.45), inset 0 0 12px rgba(120,190,255,.2)}
+.rbox b{position:absolute;top:-16px;font-family:var(--disp);font-size:26px;color:#fff;text-shadow:0 0 10px rgba(120,190,255,.9);background:transparent;padding:0 8px}
+.rbox p{font-family:var(--disp);font-weight:700;font-size:clamp(14px,1.25vw,18px);line-height:1.45;color:#fff}
+.rbox p em{font-style:normal;color:#FFE24A;text-shadow:0 0 12px rgba(255,210,60,.7)}
+.s2 .foot{margin-top:26px;color:rgba(220,235,255,.55);font-size:12.5px;text-align:right}
+@media(max-width:1024px){.s2 .grid{grid-template-columns:1fr;gap:44px}}
+
+/* ============ S3 문제제기 (종이 텍스처 + 찢김) ============ */
+.s3{background:var(--paper);color:var(--black)}
+.s3::before,.s3::after{content:'';position:absolute;left:0;right:0;height:56px;
+  background:var(--dark);z-index:2}
+.s3::before{top:calc(var(--hd-h) * -0 + 0px);clip-path:polygon(0 0,100% 0,100% 30%,94% 55%,86% 25%,78% 60%,70% 30%,61% 65%,52% 28%,44% 58%,36% 26%,28% 62%,20% 32%,12% 58%,5% 30%,0 55%)}
+.s3::after{bottom:0;clip-path:polygon(0 45%,6% 70%,14% 38%,22% 74%,30% 42%,39% 72%,48% 36%,56% 70%,64% 40%,72% 74%,80% 38%,88% 68%,95% 42%,100% 70%,100% 100%,0 100%)}
+.s3 .grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.plan{background:#fff;box-shadow:14px 18px 44px -14px rgba(0,0,0,.35);transform:rotate(-1.4deg);padding:26px;position:relative}
+.plan .tag{position:absolute;top:-16px;left:-10px;background:var(--black);color:#fff;font-weight:800;font-size:15px;padding:10px 18px}
+.plan .tag em{font-style:normal;color:#FFD34D}
+.plan svg{display:block;width:100%;height:auto}
+.s3 .txt{text-align:right}
+.s3 h2{font-family:var(--disp);font-weight:700;font-size:clamp(40px,4.8vw,72px);line-height:1.22;letter-spacing:-.01em}
+.s3 h2 .r{color:var(--red)}
+.s3 .strip{display:inline-block;background:var(--red);color:#fff;font-weight:800;font-size:clamp(15px,1.7vw,23px);padding:12px 20px;margin-top:30px}
+@media(max-width:1024px){.s3 .grid{grid-template-columns:1fr}.s3 .txt{text-align:left}}
+
+/* ============ S4 해결 (다크 인테리어 + 네온 레드) ============ */
+.s4{background:
+  radial-gradient(1000px 500px at 70% 30%, #2E2620 0%, transparent 60%),
+  linear-gradient(180deg,#17140F 0%, #0B0908 100%)}
+.s4 .badge{position:absolute;top:calc(var(--hd-h) + 34px);right:5%;background:var(--red);color:#fff;font-weight:800;font-size:clamp(14px,1.5vw,20px);padding:13px 22px;z-index:3}
+.s4 .badge em{font-style:normal;color:#FFD34D}
+.s4 .room{position:absolute;inset:0;opacity:.5;background:
+  linear-gradient(180deg,transparent 55%, rgba(0,0,0,.8)),
+  repeating-linear-gradient(90deg,#241E17 0 60px,#1C1712 60px 62px)}
+.s4 .lamp{position:absolute;width:120px;height:60px;border-radius:0 0 999px 999px;background:#E8C766;filter:blur(2px);opacity:.85;top:20%}
+.s4 .txt{position:relative;z-index:2;align-self:flex-start;margin-top:auto;padding-bottom:30px}
+.s4 h2{font-family:var(--disp);font-weight:700;font-size:clamp(38px,4.6vw,70px);line-height:1.3}
+.s4 h2 .neon{color:#FF3C3C;text-shadow:0 0 12px rgba(255,60,60,.95),0 0 42px rgba(255,40,40,.6)}
+.s4 h2 .mark{position:relative;display:inline-block}
+.s4 h2 .mark::after{content:'';position:absolute;inset:-6px -12px;border:3px solid var(--red);border-radius:50%;transform:rotate(-4deg)}
+.s4 .sub{margin-top:20px;color:rgba(255,255,255,.55);font-size:15px}
+
+/* ============ S5 시그니처 주류 캐러셀 ============ */
+.s5{background:
+  radial-gradient(700px 360px at 15% 12%, rgba(120,150,180,.15), transparent 60%),
+  radial-gradient(700px 360px at 85% 18%, rgba(120,150,180,.12), transparent 60%),
+  #0A0B0E;text-align:center}
+.s5 h2{font-family:var(--disp);font-weight:700;font-size:clamp(34px,4.4vw,64px);line-height:1.25}
+.s5 h2 .r{color:var(--red)}
+.s5 h2 .glow{display:block;margin-top:10px;color:#fff;text-shadow:0 0 14px rgba(255,80,80,.9),0 0 44px rgba(255,60,60,.5);font-size:clamp(30px,4vw,58px)}
+.carousel{margin-top:40px;position:relative;height:min(44vh,420px);display:flex;align-items:flex-end;justify-content:center}
+.dr{position:absolute;bottom:0;transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .6s,filter .6s;cursor:pointer}
+.dr .glass-svg{display:block;margin:0 auto}
+.dr .lb{position:absolute;top:38%;left:50%;transform:translateX(-50%) rotate(-4deg);background:rgba(255,255,255,.92);color:var(--black);padding:8px 10px;font-size:11px;font-weight:800;line-height:1.4;white-space:nowrap;border-radius:3px}
+.dr .lb em{font-style:normal;color:var(--red)}
+.pill{display:inline-block;background:#1B1B1E;border:1px solid #333;color:#fff;font-family:var(--disp);font-weight:700;font-size:18px;padding:13px 34px;border-radius:999px;margin-top:26px}
+.dots{display:flex;gap:12px;justify-content:center;margin-top:22px}
+.dots i{width:10px;height:10px;border-radius:99px;background:#3A3A3E;cursor:pointer;transition:.3s}
+.dots i.on{width:30px;background:var(--red)}
+
+/* ============ S6 메뉴 ============ */
+.s6{background:var(--paper);color:var(--black)}
+.s6 .head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:38px;flex-wrap:wrap;gap:16px}
+.s6 h2{font-family:var(--disp);font-weight:700;font-size:clamp(32px,3.8vw,54px);line-height:1.25}
+.s6 .head p{color:#6b675f;font-weight:600;margin-top:12px}
+.btn-line{border:2px solid var(--black);background:transparent;color:var(--black);font-weight:800;font-size:14px;padding:14px 28px;transition:.2s}
+.btn-line:hover{background:var(--black);color:#fff}
+.mgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.mc{background:#fff;border:1px solid #DDD8CE;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.mc:hover{transform:translateY(-8px);box-shadow:0 22px 40px -18px rgba(0,0,0,.35)}
+.mc .th{height:130px;display:flex;align-items:center;justify-content:center;position:relative}
+.mc .bd{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;font-size:10.5px;font-weight:800;padding:4px 9px}
+.mc .nm{padding:14px 16px 16px}
+.mc .nm h4{font-size:15.5px;font-weight:800}
+.mc .nm span{font-family:var(--disp);font-weight:700;font-size:14px;color:#333;display:block;margin-top:6px}
+.t1{background:#1A1A1C}.t2{background:#8C2B1E}.t3{background:#C98A2B}.t4{background:#33402E}.t5{background:#20262E}
+@media(max-width:1024px){.mgrid{grid-template-columns:repeat(2,1fr)}}
+
+/* ============ S7 인테리어 마퀴 ============ */
+.s7{background:#0B0B0D;text-align:center}
+.s7 h2{font-family:var(--disp);font-weight:700;font-size:clamp(30px,3.6vw,52px);margin-bottom:44px}
+.mq{overflow:hidden}
+.mq-track{display:flex;gap:20px;width:max-content;animation:mq var(--dur,42s) linear infinite}
+.mq:hover .mq-track{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-33.3333%)}}
+.mq.rev .mq-track{animation-direction:reverse}
+.it{width:320px;height:200px;flex-shrink:0;position:relative;display:flex;align-items:flex-end;padding:16px;font-weight:700;font-size:13.5px;color:rgba(255,255,255,.9)}
+.it::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.6))}
+.it span{position:relative}
+.i1{background:#2A2018}.i2{background:#1A2530}.i3{background:#332A1C}.i4{background:#232E2A}.i5{background:#2E1E1E}.i6{background:#1E2620}
+.s7 .rows{display:flex;flex-direction:column;gap:20px}
+
+/* ============ S8 상권 3분할 ============ */
+.s8{padding:0!important}
+.s8 .cols{display:grid;grid-template-columns:repeat(3,1fr);height:100%;min-height:inherit}
+.s8 .c{position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:0 40px calc(var(--form-h) + 60px);transition:flex .4s}
+.s8 .c::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25) 30%,rgba(0,0,0,.75))}
+.c-a{background:#25334A}.c-b{background:#173026}.c-c{background:#3A2233}
+.s8 .c>*{position:relative}
+.s8 .c b{font-family:var(--disp);font-size:44px;color:rgba(255,255,255,.25)}
+.s8 .c h3{font-family:var(--disp);font-weight:700;font-size:clamp(24px,2.4vw,36px);margin-top:10px}
+.s8 .c p{color:rgba(255,255,255,.6);font-weight:600;margin-top:8px;font-size:15px}
+@media(max-width:1024px){.s8 .cols{grid-template-columns:1fr}.s8 .c{padding:52px 24px}}
+
+/* ============ S9 스토리 ============ */
+.s9{background:var(--paper);color:var(--black)}
+.s9 h2{font-family:var(--disp);font-weight:700;font-size:clamp(30px,3.6vw,50px);text-align:center;margin-bottom:44px;line-height:1.3}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.sc{background:#fff;border:1px solid #DDD8CE;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.sc:hover{transform:translateY(-8px);box-shadow:0 22px 40px -18px rgba(0,0,0,.3)}
+.sc .th{height:130px;background:#1A1A1C;display:flex;align-items:center;justify-content:center;position:relative}
+.sc .br{position:absolute;bottom:-13px;left:16px;background:var(--red);color:#fff;font-size:12px;font-weight:800;padding:6px 14px}
+.sc .bd{padding:26px 18px 20px}
+.sc .bd p{font-size:14.5px;font-weight:700;line-height:1.55;word-break:keep-all}
+@media(max-width:1024px){.sgrid{grid-template-columns:repeat(2,1fr)}}
+
+/* ============ S10 절차 + S11 비용 (한 화면 구성) ============ */
+.s10{background:#0B0B0D}
+.s10 h2{font-family:var(--disp);font-weight:700;font-size:clamp(28px,3.2vw,46px);text-align:center;margin-bottom:38px;line-height:1.3}
+.stp{width:190px;background:#151518;border:1px solid #26262A;padding:24px 20px;flex-shrink:0}
+.stp b{font-family:var(--disp);font-size:13px;color:var(--red);letter-spacing:.15em}
+.stp h4{font-size:17px;font-weight:800;margin-top:10px}
+.stp p{color:rgba(255,255,255,.4);font-size:12.5px;margin-top:6px;line-height:1.55}
+
+.s11{background:var(--paper);color:var(--black)}
+.s11 h2{font-family:var(--disp);font-weight:700;font-size:clamp(30px,3.6vw,50px);text-align:center;line-height:1.3}
+.s11 h2 .r{color:var(--red)}
+.s11 .sub{text-align:center;color:#6b675f;font-weight:600;margin-top:12px}
+.tabs{display:flex;justify-content:center;gap:8px;margin:28px 0 24px}
+.tabs button{font-family:var(--disp);font-weight:700;font-size:15px;padding:12px 30px;border:2px solid var(--black);background:transparent;color:var(--black);transition:.2s}
+.tabs button.on{background:var(--black);color:#fff}
+.ctab{max-width:820px;margin:0 auto;background:#fff;border:1px solid #DDD8CE}
+.ctab table{width:100%;border-collapse:collapse}
+.ctab th{background:var(--black);color:#fff;font-size:13.5px;padding:14px 18px;text-align:left}
+.ctab th:last-child{text-align:right;color:#FFD34D}
+.ctab td{padding:13px 18px;border-top:1px solid #EFEBE2;font-size:14px}
+.ctab td:last-child{text-align:right;font-family:var(--disp);font-weight:700;font-size:15px}
+.ctab td small{display:block;color:#98938a;font-size:11.5px;margin-top:3px}
+.ctab tr.tt td{background:var(--red);color:#fff;font-weight:800}
+.ctab tr.tt td:last-child{font-size:22px}
+.s11 .note{text-align:center;color:#98938a;font-size:12px;margin-top:16px}
+
+/* ============ S12 클로징 ============ */
+.s12{background:#0B0B0D;text-align:center}
+.s12 h2{font-family:var(--disp);font-weight:700;font-size:clamp(36px,4.6vw,68px);line-height:1.3}
+.s12 h2 .r{color:var(--red)}
+.s12 p{color:rgba(255,255,255,.5);margin-top:18px;font-weight:600}
+.s12 .strip{margin-top:56px;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:22px 0}
+.s12 .strip span{color:rgba(255,255,255,.25);font-family:var(--disp);font-weight:700;font-size:16px;letter-spacing:.1em;white-space:nowrap}
+.s12 .ft{margin-top:40px;color:rgba(255,255,255,.35);font-size:12.5px;line-height:2}
+
+/* PC 우측 섹션 도트 내비 */
+.fp-nav{position:fixed;right:26px;top:50%;transform:translateY(-50%);z-index:99;display:flex;flex-direction:column;gap:14px}
+.fp-nav a{width:9px;height:9px;border-radius:99px;background:rgba(255,255,255,.35);transition:.3s;display:block}
+.fp-nav a.on{height:28px;background:var(--red)}
+@media(max-width:1024px){.fp-nav{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd">
+    <a class="logo" href="#s1"><div class="t1">OO펍</div><div class="t2">살얼음맥주</div></a>
+    <nav class="gnb">
+      <a href="#s2">브랜드</a><a href="#s6">메뉴안내</a><a href="#s7">매장 인테리어</a><a href="#s8">매장찾기</a><a href="#s11">창업안내</a>
+    </nav>
+    <div class="hd-call"><div class="lbl">가맹문의</div><div class="num">1577 · 0000</div></div>
+  </div>
+</header>
+
+<nav class="fp-nav" id="fpnav"></nav>
+
+<!-- S1 영상 히어로 -->
+<section class="fp s1" id="s1">
+  <div class="vwrap">
+    <div class="vbg"></div>
+    <div class="sign" data-rv><div class="a">OO펍</div><div class="b">살얼음맥주</div></div>
+    <div class="ctrl"><i>⏮</i><i>⏸</i><i>⏭</i></div>
+  </div>
+  <div class="note">실서비스: 유튜브 브랜드 영상 풀스크린 자동재생 (autoplay · mute · loop)</div>
+</section>
+
+<!-- S2 선택해야 하는 이유 6 -->
+<section class="fp s2" id="s2">
+  <div class="wrap grid">
+    <div class="neon-title">
+      <div class="hand" data-rv>창업만족도 1위</div>
+      <h2 data-rv>OO펍<br>살얼음맥주</h2>
+      <div class="line" data-rv></div>
+      <div class="why" data-rv>OO펍을 선택해야 하는 이유</div>
+    </div>
+    <div>
+      <div class="rbox-grid">
+        <div class="rbox" data-rv><b>1</b><p>고급스러운<br>인테리어에<br><em>저렴한 창업비</em></p></div>
+        <div class="rbox" data-rv style="transition-delay:.08s"><b>2</b><p><em>3일</em>이면<br>교육 끝!</p></div>
+        <div class="rbox" data-rv style="transition-delay:.16s"><b>3</b><p><em>4분</em>이면 뚝딱!<br>맛있는 메뉴</p></div>
+        <div class="rbox" data-rv style="transition-delay:.24s"><b>4</b><p>광고분담금<br><em>제로</em></p></div>
+        <div class="rbox" data-rv style="transition-delay:.32s"><b>5</b><p><em>연 2회</em><br>신메뉴 출시</p></div>
+        <div class="rbox" data-rv style="transition-delay:.4s"><b>6</b><p>고객이 신뢰하는<br>브랜드<br><em>[확인필요]</em></p></div>
+      </div>
+      <p class="foot" data-rv>※ 메뉴별 조리시간 상이할 수 있음 · 6번 항목 수상이력 자료 수급 후 확정</p>
+    </div>
+  </div>
+</section>
+
+<!-- S3 문제제기 -->
+<section class="fp s3" id="s3">
+  <div class="wrap grid">
+    <div class="plan" data-rv="l">
+      <div class="tag">대부분의 프랜차이즈 <em>2D 평면도면</em></div>
+      <svg viewBox="0 0 440 320" fill="none" stroke="#333" stroke-width="1.2">
+        <rect x="10" y="10" width="420" height="300" stroke-width="2"/>
+        <path d="M10 90 H150 M150 10 V150 M150 150 H10"/>
+        <rect x="30" y="30" width="34" height="20"/><rect x="80" y="30" width="34" height="20"/>
+        <rect x="30" y="110" width="34" height="20"/><rect x="80" y="110" width="34" height="20"/>
+        <path d="M300 10 V80 H430"/>
+        <rect x="320" y="26" width="90" height="16"/><rect x="320" y="50" width="90" height="16"/>
+        <g stroke-width="1">
+          <rect x="190" y="120" width="26" height="40"/><rect x="230" y="120" width="26" height="40"/><rect x="270" y="120" width="26" height="40"/>
+          <rect x="190" y="180" width="26" height="40"/><rect x="230" y="180" width="26" height="40"/><rect x="270" y="180" width="26" height="40"/>
+          <circle cx="90" cy="230" r="22"/><circle cx="90" cy="230" r="3"/>
+          <rect x="340" y="140" width="30" height="24"/><rect x="340" y="180" width="30" height="24"/><rect x="340" y="220" width="30" height="24"/>
+          <rect x="40" y="270" width="40" height="22"/><rect x="110" y="270" width="40" height="22"/><rect x="180" y="270" width="40" height="22"/><rect x="250" y="270" width="40" height="22"/>
+        </g>
+      </svg>
+    </div>
+    <div class="txt">
+      <h2 data-rv="r">아직도! 내 미래를<br><span class="r">종이 한 장(도면)</span> 에<br>맡기시나요?</h2>
+      <span class="strip" data-rv="r">정말 이 한장의 그림으로 이해가 되시나요?</span>
+    </div>
+  </div>
+</section>
+
+<!-- S4 해결 -->
+<section class="fp s4" id="s4">
+  <div class="badge">OO펍의 구체적인 <em>3D 렌더링 도면</em></div>
+  <div class="room"></div>
+  <div class="lamp" style="left:18%"></div><div class="lamp" style="left:46%;top:16%"></div><div class="lamp" style="left:74%;top:22%"></div>
+  <div class="wrap txt">
+    <h2 data-rv><span class="r" style="color:var(--red)">OO펍</span>은 <span class="neon">3D도면</span>으로<br>미리 매장을 <span class="mark">확인</span>할 수 있습니다!</h2>
+    <p class="sub" data-rv>기본 작업은 3D 모델링으로 진행되며 렌더링 작업 시 추가 비용 발생할 수 있습니다.</p>
+  </div>
+</section>
+
+<!-- S5 시그니처 주류 캐러셀 -->
+<section class="fp s5" id="s5">
+  <div class="wrap">
+    <h2 data-rv>살얼음으로 <span class="r">시원하게</span><span class="glow">OO펍 살얼음 주류</span></h2>
+    <div class="carousel" id="car"></div>
+    <div class="pill" id="carName">살얼음 맥주</div>
+    <div class="dots" id="carDots"></div>
+  </div>
+</section>
+
+<!-- S6 메뉴 -->
+<section class="fp s6" id="s6">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <h2 data-rv><span style="color:var(--red)">안주가 맛있는</span> OO펍의 메뉴</h2>
+        <p data-rv>가격에서 한 번, 퀄리티에서 또 한 번 크게 놀라실 겁니다!</p>
+      </div>
+      <button class="btn-line" data-rv>메뉴전체보기</button>
+    </div>
+    <div class="mgrid">
+      <div class="mc" data-rv><div class="th t1"><span class="bd">BEST</span><svg width="70" height="52" viewBox="0 0 70 52"><ellipse cx="35" cy="40" rx="30" ry="9" fill="#EDEAE4"/><path d="M16 35 Q35 12 54 35" stroke="#E8262B" stroke-width="8" fill="none" stroke-linecap="round"/></svg></div><div class="nm"><h4>고추바사삭 치킨</h4><span>15,900원</span></div></div>
+      <div class="mc" data-rv style="transition-delay:.06s"><div class="th t2"><svg width="70" height="52" viewBox="0 0 70 52"><ellipse cx="35" cy="38" rx="28" ry="10" fill="#EDEAE4"/><circle cx="28" cy="30" r="8" fill="#E8734A"/><circle cx="43" cy="28" r="9" fill="#D85A30"/></svg></div><div class="nm"><h4>새우폭탄 로제파스타</h4><span>14,500원</span></div></div>
+      <div class="mc" data-rv style="transition-delay:.12s"><div class="th t3"><span class="bd">NEW</span><svg width="70" height="52" viewBox="0 0 70 52"><rect x="12" y="22" width="46" height="18" rx="9" fill="#EDEAE4"/><rect x="17" y="17" width="36" height="13" rx="6" fill="#8C5A1E"/></svg></div><div class="nm"><h4>롱롱치즈 돈까스</h4><span>13,900원</span></div></div>
+      <div class="mc" data-rv style="transition-delay:.18s"><div class="th t4"><svg width="70" height="52" viewBox="0 0 70 52"><ellipse cx="35" cy="36" rx="27" ry="10" fill="#EDEAE4"/><path d="M20 33 Q35 18 50 33" stroke="#8FA86A" stroke-width="6" fill="none" stroke-linecap="round"/></svg></div><div class="nm"><h4>페스츄리 오징어</h4><span>12,900원</span></div></div>
+      <div class="mc" data-rv style="transition-delay:.24s"><div class="th t5"><svg width="70" height="52" viewBox="0 0 70 52"><circle cx="35" cy="28" r="16" fill="#EDEAE4"/><circle cx="35" cy="28" r="10" fill="#E0A93F"/></svg></div><div class="nm"><h4>킬바사 콘치즈</h4><span>9,900원</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- S7 인테리어 -->
+<section class="fp s7" id="s7">
+  <h2 data-rv>매장 인테리어<br><span style="font-size:.5em;font-weight:500;color:rgba(255,255,255,.5)">OO펍의 인테리어를 확인해보세요</span></h2>
+  <div class="rows" data-rv>
+    <div class="mq"><div class="mq-track" style="--dur:46s"><div class="set" style="display:flex;gap:20px">
+      <div class="it i1"><span>OO점 · 바 카운터</span></div><div class="it i2"><span>OO점 · 홀 전경</span></div><div class="it i3"><span>OO점 · 외부 파사드</span></div><div class="it i4"><span>OO점 · 룸 좌석</span></div>
+    </div></div></div>
+    <div class="mq rev"><div class="mq-track" style="--dur:52s"><div class="set" style="display:flex;gap:20px">
+      <div class="it i5"><span>OO점 · 네온 사인</span></div><div class="it i6"><span>OO점 · 테라스</span></div><div class="it i1"><span>OO점 · 오픈 주방</span></div><div class="it i2"><span>OO점 · 야간 전경</span></div>
+    </div></div></div>
+  </div>
+</section>
+
+<!-- S8 상권 -->
+<section class="fp s8" id="s8">
+  <div class="cols">
+    <div class="c c-a"><b>01</b><h3 data-rv>편안하게 한 잔</h3><p data-rv>우리동네 술집</p></div>
+    <div class="c c-b"><b>02</b><h3 data-rv>퇴근 후 한 잔</h3><p data-rv>회사근처 술집</p></div>
+    <div class="c c-c"><b>03</b><h3 data-rv>느낌있게 한 잔</h3><p data-rv>번화가 술집</p></div>
+  </div>
+</section>
+
+<!-- S9 스토리 -->
+<section class="fp s9" id="s9">
+  <div class="wrap">
+    <h2 data-rv>성공창업 스토리<br><span style="font-size:.45em;font-weight:500;color:#6b675f">직접 경험해보고 전하는 OO펍 창업 추천 이유!</span></h2>
+    <div class="sgrid">
+      <div class="sc" data-rv><div class="th"><svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="17" r="9" fill="#E8262B"/><path d="M6 44 Q23 26 40 44" fill="#E8262B"/></svg><span class="br">OO 1호점</span></div><div class="bd"><p>장사 초보였던 제가 6개월 만에 단골 가게 사장이 됐습니다</p></div></div>
+      <div class="sc" data-rv style="transition-delay:.08s"><div class="th"><svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="17" r="9" fill="#E8262B"/><path d="M6 44 Q23 26 40 44" fill="#E8262B"/></svg><span class="br">OO역점</span></div><div class="bd"><p>18년 장사 끝에 고른 브랜드, 지금이 제일 마음 편합니다</p></div></div>
+      <div class="sc" data-rv style="transition-delay:.16s"><div class="th"><svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="17" r="9" fill="#E8262B"/><path d="M6 44 Q23 26 40 44" fill="#E8262B"/></svg><span class="br">OO점</span></div><div class="bd"><p>손님은 맛으로, 점주는 시스템으로 만족!</p></div></div>
+      <div class="sc" data-rv style="transition-delay:.24s"><div class="th"><svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="17" r="9" fill="#E8262B"/><path d="M6 44 Q23 26 40 44" fill="#E8262B"/></svg><span class="br">OO점</span></div><div class="bd"><p>퇴근길 손님이 줄 서는 가게, 저도 신기합니다</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- S10 절차 -->
+<section class="fp s10" id="s10">
+  <h2 data-rv>처음부터 끝까지 빠르고 친절하게!<br><span style="font-size:.5em;font-weight:500;color:rgba(255,255,255,.45)">성공창업의 빠른 길로 이끌어 드립니다</span></h2>
+  <div class="mq" data-rv><div class="mq-track" style="--dur:40s"><div class="set" style="display:flex;gap:20px">
+    <div class="stp"><b>STEP 01</b><h4>창업상담</h4><p>예산·지역 기반 1:1 상담</p></div>
+    <div class="stp"><b>STEP 02</b><h4>상권분석</h4><p>후보지 데이터 분석</p></div>
+    <div class="stp"><b>STEP 03</b><h4>점포계약</h4><p>임대 조건 검토 동행</p></div>
+    <div class="stp"><b>STEP 04</b><h4>가맹계약</h4><p>정보공개서 기반 계약</p></div>
+    <div class="stp"><b>STEP 05</b><h4>인테리어</h4><p>표준 설계 시공</p></div>
+    <div class="stp"><b>STEP 06</b><h4>교육</h4><p>3일 집중 조리·운영 교육</p></div>
+    <div class="stp"><b>STEP 07</b><h4>오픈준비</h4><p>물류 입고·오픈 리허설</p></div>
+    <div class="stp"><b>STEP 08</b><h4>그랜드오픈</h4><p>본사 지원 오픈 이벤트</p></div>
+  </div></div></div>
+</section>
+
+<!-- S11 비용 -->
+<section class="fp s11" id="s11">
+  <div class="wrap">
+    <h2 data-rv>소자본 창업이 가능한 OO펍<br><span style="font-size:.55em">당신의 <span class="r">성공창업 OO펍</span>이 함께합니다</span></h2>
+    <div class="tabs" data-rv>
+      <button class="on" onclick="setSize(0,this)">15평</button><button onclick="setSize(1,this)">20평</button><button onclick="setSize(2,this)">25평</button>
+    </div>
+    <div class="ctab" data-rv>
+      <table><thead><tr><th>구분</th><th id="thS">15평 기준 (만원)</th></tr></thead><tbody id="cb"></tbody></table>
+    </div>
+    <p class="note">※ 수치는 더미 — 자료 수급 후 교체 · 별도비용: 철거, 냉난방기, 가스, 승압, 외부공사 등</p>
+  </div>
+</section>
+
+<!-- S12 클로징 -->
+<section class="fp s12" id="s12">
+  <div class="wrap">
+    <h2 data-rv>당신의 성공창업<br><span class="r">OO펍</span>이 함께합니다</h2>
+    <p data-rv>지금 문의하시면 상권 분석 리포트를 무료로 보내드립니다</p>
+    <div class="strip">
+      <div class="mq"><div class="mq-track" style="--dur:30s"><div class="set" style="display:flex;gap:70px;align-items:center">
+        <span>NEWS · 언론보도</span><span>PARTNER · 제휴사</span><span>AWARD · 수상이력</span><span>INSTAGRAM</span><span>YOUTUBE</span>
+      </div></div></div>
+    </div>
+    <div class="ft">주소 [확인필요] · 대표 [확인필요] · 사업자등록번호 [확인필요] · 이메일 [확인필요]<br>COPYRIGHT © OO PUB CO.,LTD ALL RIGHTS RESERVED.</div>
+  </div>
+</section>
+
+<!-- 하단 고정 가맹문의 폼 -->
+<div class="inq-bar">
+  <div class="inq-in">
+    <div class="inq-logo"><div class="t1">OO펍</div><div class="t2">살얼음맥주</div></div>
+    <div class="inq-call"><div class="lbl">가맹문의</div><div class="num">1577·0000</div></div>
+    <form onsubmit="event.preventDefault();alert('프로토타입 — 실서비스에서 POST /inquiry/submit 접수')">
+      <input type="text" placeholder="성함" required>
+      <input type="tel" placeholder="연락처" required>
+      <select class="f-region" required><option value="">가맹희망지역</option><option>서울</option><option>경기</option><option>인천</option><option>강원</option><option>충남</option><option>충북</option><option>대전</option><option>세종</option><option>경남</option><option>경북</option><option>대구</option><option>부산</option><option>울산</option><option>전남·광주</option><option>전북</option><option>제주</option></select>
+      <select class="f-channel" required><option value="">유입경로</option><option>네이버</option><option>인스타그램</option><option>페이스북</option><option>유튜브</option><option>구글</option><option>매장방문</option><option>지인소개</option></select>
+      <label class="agree"><input type="checkbox" checked required style="width:auto;height:auto;flex:none"> <span><u>개인정보처리방침</u><br>동의하기</span></label>
+      <button class="btn-sub" type="submit">문의하기</button>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ---------- 풀페이지: 섹션 활성화 + 도트 내비 ---------- */
+const secs=[...document.querySelectorAll('.fp')];
+const nav=document.getElementById('fpnav');
+secs.forEach((s,i)=>{const a=document.createElement('a');a.href='#'+s.id;nav.appendChild(a)});
+const dots=[...nav.children];
+const secIO=new IntersectionObserver(es=>es.forEach(e=>{
+  const i=secs.indexOf(e.target);
+  if(e.isIntersecting){e.target.classList.add('active');dots.forEach(d=>d.classList.remove('on'));dots[i].classList.add('on');}
+  else e.target.classList.remove('active'); /* 재진입 시 리빌 재생 */
+}),{threshold:.45});
+secs.forEach(s=>secIO.observe(s));
+
+/* ---------- 마퀴 세트 3복제 ---------- */
+document.querySelectorAll('.mq-track').forEach(t=>{const s=t.querySelector('.set');t.appendChild(s.cloneNode(true));t.appendChild(s.cloneNode(true));});
+
+/* ---------- S5 주류 캐러셀 (센터 포커스) ---------- */
+const drinks=[
+  {n:'살얼음 맥주', c1:'#F5A93B', c2:'#FBE4B0', mug:1},
+  {n:'레몬 살얼음 하이볼', c1:'#EFE3C0', c2:'#FFF6DE', mug:1},
+  {n:'자몽 살얼음 하이볼', c1:'#E86A6A', c2:'#F8C9C9', mug:1},
+  {n:'오션 살얼음 하이볼', c1:'#5BC8E8', c2:'#C9EEF8', mug:1},
+  {n:'유자 살얼음 하이볼', c1:'#E8D25B', c2:'#F8F0C0', mug:1},
+];
+const car=document.getElementById('car'), dEl=document.getElementById('carDots'), nameEl=document.getElementById('carName');
+let cur=0;
+function glassSVG(d,big){
+  const w=big?190:150,h=big?300:240;
+  return `<svg class="glass-svg" width="${w}" height="${h}" viewBox="0 0 190 300" fill="none">
+    <path d="M40 40 L48 270 Q49 286 65 286 L125 286 Q141 286 142 270 L150 40 Z" fill="${d.c1}"/>
+    <path d="M40 40 L44 130 L146 130 L150 40 Z" fill="${d.c2}"/>
+    <ellipse cx="95" cy="40" rx="56" ry="17" fill="#FDFBF6"/>
+    <ellipse cx="70" cy="32" rx="20" ry="12" fill="#fff"/><ellipse cx="112" cy="29" rx="24" ry="14" fill="#fff"/>
+    <path d="M150 70 Q182 74 180 110 Q178 144 146 146" stroke="${d.c2}" stroke-width="14" fill="none"/>
+    <rect x="52" y="150" width="10" height="110" rx="5" fill="rgba(255,255,255,.35)"/>
+  </svg>`;
+}
+function renderCar(){
+  car.innerHTML='';
+  drinks.forEach((d,i)=>{
+    let off=i-cur; if(off>2)off-=5; if(off<-2)off+=5;
+    const el=document.createElement('div');el.className='dr';
+    const big=off===0;
+    el.innerHTML=glassSVG(d,big)+`<div class="lb">목 넘김에<br><em>서리가 맺힌다!</em><br><span style="font-size:9px;color:#666">OO펍 살얼음주류</span></div>`;
+    el.style.transform=`translateX(${off*180}px) scale(${big?1:.78})`;
+    el.style.zIndex=10-Math.abs(off);
+    el.style.opacity=Math.abs(off)===2?.5:1;
+    el.style.filter=big?'none':'brightness(.6)';
+    el.onclick=()=>{cur=i;renderCar()};
+    car.appendChild(el);
+  });
+  nameEl.textContent=drinks[cur].n;
+  dEl.innerHTML=drinks.map((_,i)=>`<i class="${i===cur?'on':''}" onclick="cur=${i};renderCar()"></i>`).join('');
+}
+renderCar();
+setInterval(()=>{cur=(cur+1)%drinks.length;renderCar()},3500);
+
+/* ---------- S11 비용 탭 ---------- */
+const rows=[
+  {i:'가맹비',d:'상호·상표 사용료, 영업노하우, 영업권 보호',c:[300,300,300]},
+  {i:'교육비',d:'운영·경영·서비스·조리 교육, 레시피 매뉴얼',c:[200,200,200]},
+  {i:'인테리어',d:'목공사, 설비, 도장, 전기·조명, 내부공사 일체',c:[2400,3200,4000]},
+  {i:'주방집기·비품·의탁자',d:'냉장/냉동, 튀김기, 생맥주 시스템, 의탁자, 유니폼, 전용잔 등',c:[2500,2700,2900]},
+  {i:'간판 및 사인물',d:'전면간판, 내·외부 사인물, 네온',c:[800,800,800]},
+  {i:'스피커 음향',d:'내부 스피커, 앰프',c:[100,100,100]},
+];
+function setSize(n,btn){
+  if(btn){document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+  document.getElementById('thS').textContent=['15평','20평','25평'][n]+' 기준 (만원)';
+  let html='',sum=0;
+  rows.forEach(r=>{sum+=r.c[n];html+=`<tr><td><b>${r.i}</b><small>${r.d}</small></td><td>${r.c[n].toLocaleString()}</td></tr>`});
+  html+=`<tr class="tt"><td>합계</td><td>${sum.toLocaleString()}</td></tr>`;
+  document.getElementById('cb').innerHTML=html;
+}
+setSize(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% from "_macros.html" import ph, page_head with context %}
+{% block title %}매장 인테리어 — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head('매장 인테리어', brand.name ~ '의 공간을 미리 만나보세요') }}
+  <div class="masonry">
+    {% for it in items %}
+    <figure class="ms" data-reveal data-modal-url="{{ url_for('interior.popup', interior_id=it.id) }}">
+      {{ ph(it.thumb or it.image, '인테리어 사진', '1600x1000', alt=brand.name ~ ' ' ~ it.title, tone='light') }}
+      <figcaption>{{ it.title }}</figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

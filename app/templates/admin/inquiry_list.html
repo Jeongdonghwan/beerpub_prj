@@ -1,0 +1,48 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}가맹문의{% endblock %}
+{% block body %}
+<h2>가맹문의 관리</h2>
+<div class="filter">
+  <a class="{{ 'on' if not status }}" href="{{ url_for('admin.inquiry_list') }}">전체</a>
+  <a class="{{ 'on' if status == 'new' }}" href="{{ url_for('admin.inquiry_list', status='new') }}">신규</a>
+  <a class="{{ 'on' if status == 'contacted' }}" href="{{ url_for('admin.inquiry_list', status='contacted') }}">상담중</a>
+  <a class="{{ 'on' if status == 'closed' }}" href="{{ url_for('admin.inquiry_list', status='closed') }}">종료</a>
+</div>
+<table class="tbl">
+  <thead><tr><th>#</th><th>성함</th><th>연락처</th><th>지역</th><th>유입경로</th><th>문의내용</th><th>상태/메모</th><th>접수일</th></tr></thead>
+  <tbody>
+    {% for q in pg.items %}
+    <tr>
+      <td>{{ q.id }}</td><td>{{ q.name }}</td><td>{{ q.phone }}</td>
+      <td>{{ q.region }}</td><td>{{ q.channel }}</td>
+      <td class="msg">{{ q.message | truncate(60) }}</td>
+      <td>
+        <form method="post" action="{{ url_for('admin.inquiry_update', inquiry_id=q.id) }}" class="inline-form">
+          <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+          <select name="status">
+            <option value="new" {{ 'selected' if q.status == 'new' }}>신규</option>
+            <option value="contacted" {{ 'selected' if q.status == 'contacted' }}>상담중</option>
+            <option value="closed" {{ 'selected' if q.status == 'closed' }}>종료</option>
+          </select>
+          <input type="text" name="memo" value="{{ q.memo }}" placeholder="메모">
+          <button type="submit">저장</button>
+        </form>
+      </td>
+      <td>{{ q.created_at.strftime('%y.%m.%d %H:%M') }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="8" class="empty">문의가 없습니다.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% if pg.pages > 1 %}
+<div class="adm-paging">
+  {% for p in pg.iter_pages() %}
+    {% if p %}
+      {% if p == pg.page %}<span class="cur">{{ p }}</span>
+      {% else %}<a href="{{ url_for('admin.inquiry_list', page=p, status=status) }}">{{ p }}</a>{% endif %}
+    {% else %}<span>…</span>{% endif %}
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

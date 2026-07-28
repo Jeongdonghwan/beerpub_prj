@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}접수완료 — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap inq-done">
+  <p class="big disp">창업문의가 <span>정상 접수</span>되었습니다</p>
+  <p>담당자가 확인 후 빠르게 연락드리겠습니다.<br>급하신 경우 <b>{{ brand.phone }}</b> 으로 전화 주세요.</p>
+  <a class="btn-red" href="{{ url_for('main.index') }}">메인으로</a>
+</div>
+{% endblock %}

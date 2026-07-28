@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head with context %}
+{% block title %}연혁 — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head('연혁', brand.name ~ '이 걸어온 길') }}
+  <div class="timeline">
+    {% for r in rows %}
+    <div class="tl-item" data-reveal>
+      <div class="yr disp">{{ r.year }}</div>
+      <div class="mo">{{ '%02d' | format(r.month) }}월</div>
+      <p>{{ r.content }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

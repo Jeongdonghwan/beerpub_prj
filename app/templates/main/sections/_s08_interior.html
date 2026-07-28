@@ -1,0 +1,17 @@
+{% from "_macros.html" import ph with context %}
+<section class="fp s8" id="s8">
+  <h2 class="disp" data-rv>매장 인테리어<br><span class="s-sub">{{ brand.name }}의 공간을 미리 만나보세요</span></h2>
+  <div class="rows" data-rv>
+    <div class="mq"><div class="mq-track" style="--dur:46s"><div class="set">
+      {% for it in interiors[:6] %}
+      <div class="it">{{ ph(it.thumb or it.image, '인테리어 사진', '1600x1000', alt=brand.name ~ ' ' ~ it.title) }}<span>{{ it.title }}</span></div>
+      {% endfor %}
+    </div></div></div>
+    <div class="mq rev"><div class="mq-track" style="--dur:52s"><div class="set">
+      {% for it in interiors[6:12] %}
+      <div class="it">{{ ph(it.thumb or it.image, '인테리어 사진', '1600x1000', alt=brand.name ~ ' ' ~ it.title) }}<span>{{ it.title }}</span></div>
+      {% endfor %}
+    </div></div></div>
+  </div>
+  <a class="btn-line inv" href="{{ url_for('interior.list_') }}" data-rv>더보기</a>
+</section>

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "_macros.html" import ph, page_head, badge_label with context %}
+{% block title %}메뉴판 미리보기 — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head('메뉴판 미리보기', '안주가 맛있는 ' ~ brand.name ~ '의 전체 메뉴') }}
+  {% for c in categories %}
+  {% set items = c.menus | selectattr('is_active') | list %}
+  {% if items %}
+  <div class="cat-sec" data-reveal>
+    <h3>{{ c.name }}</h3>
+    <div class="menu-grid">
+      {% for m in items %}
+      <div class="mc" data-modal-url="{{ url_for('menu.popup', menu_id=m.id) }}">
+        <div class="mth">
+          {% if m.badge %}<span class="bd">{{ badge_label(m.badge) }}</span>{% endif %}
+          {{ ph(m.image, '메뉴 사진', '800x800', alt=brand.name ~ ' ' ~ m.name, tone='light') }}
+        </div>
+        <div class="nm"><h4>{{ m.name }}</h4><span>{{ '{:,}'.format(m.price) }}원</span></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+{% endblock %}

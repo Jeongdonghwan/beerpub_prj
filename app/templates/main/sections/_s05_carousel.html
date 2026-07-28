@@ -1,0 +1,17 @@
+{% from "_macros.html" import ph with context %}
+{% set drink_cat = (gnb_categories | selectattr('name', 'equalto', '주류') | list | first) %}
+<section class="fp s5" id="s5">
+  <div class="wrap">
+    <h2 data-rv>살얼음으로 <span class="r">시원하게</span><span class="glow">{{ brand.name }} {{ brand.signature_product }} <small>[확인필요: 콘셉트명]</small></span></h2>
+    <div class="carousel" id="car"
+         data-link="{{ url_for('menu.list_', ca_id=drink_cat.id) if drink_cat else url_for('menu.preview') }}">
+      {% for d in brand.signature_menus %}
+      <div class="dr" data-name="{{ d.name }}">
+        <div class="dr-ph">{{ ph(d.image, '주류 상품컷', '800x1200 누끼', alt=brand.name ~ ' ' ~ d.name) }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="pill disp" id="carName">{{ brand.signature_menus[0].name }}</div>
+    <div class="dots" id="carDots"></div>
+  </div>
+</section>

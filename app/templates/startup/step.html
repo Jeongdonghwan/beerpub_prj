@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head with context %}
+{% block title %}개설절차 — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head('개설절차', '상담부터 오픈까지, 빠르고 투명하게') }}
+  <div class="step-list">
+    {% for s in brand.startup_steps %}
+    <div class="step-card" data-reveal data-delay="{{ loop.index0 * 0.05 }}">
+      <b>STEP {{ '%02d' | format(loop.index) }}</b>
+      <div><h4>{{ s.name }}</h4><p>{{ s.desc }}</p></div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="cost-cta" data-reveal>
+    <p>지금 바로 하단 폼으로 창업 상담을 신청해 보세요.</p>
+    <a class="btn-red" href="{{ url_for('inquiry.form') }}">창업문의 바로가기</a>
+  </div>
+</div>
+{% endblock %}

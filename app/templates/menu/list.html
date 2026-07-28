@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "_macros.html" import ph, page_head, badge_label with context %}
+{% block title %}{{ current.name if current else '전체 메뉴' }} — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head(current.name if current else '전체 메뉴', brand.name ~ ' 메뉴안내') }}
+  <div class="cat-tabs" data-reveal>
+    <a href="{{ url_for('menu.list_') }}" class="{{ 'on' if not current }}">전체</a>
+    {% for c in categories %}
+    <a href="{{ url_for('menu.list_', ca_id=c.id) }}" class="{{ 'on' if current and current.id == c.id }}">{{ c.name }}</a>
+    {% endfor %}
+  </div>
+  {% if menus %}
+  <div class="menu-grid">
+    {% for m in menus %}
+    <div class="mc" data-reveal data-delay="{{ (loop.index0 % 4) * 0.06 }}" data-modal-url="{{ url_for('menu.popup', menu_id=m.id) }}">
+      <div class="mth">
+        {% if m.badge %}<span class="bd">{{ badge_label(m.badge) }}</span>{% endif %}
+        {{ ph(m.image, '메뉴 사진', '800x800', alt=brand.name ~ ' ' ~ m.name, tone='light') }}
+      </div>
+      <div class="nm"><h4>{{ m.name }}</h4><span>{{ '{:,}'.format(m.price) }}원</span></div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="empty-msg">등록된 메뉴가 없습니다.</p>
+  {% endif %}
+</div>
+{% endblock %}

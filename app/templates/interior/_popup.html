@@ -1,0 +1,5 @@
+{% from "_macros.html" import ph with context %}
+<div class="lightbox">
+  <div class="lightbox-img">{{ ph(item.image, '인테리어 사진', '1600x1000', alt=brand.name ~ ' ' ~ item.title, tone='light') }}</div>
+  <p style="margin-top:14px;font-weight:800">{{ item.title }}</p>
+</div>

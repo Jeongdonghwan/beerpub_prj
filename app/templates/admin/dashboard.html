@@ -1,0 +1,32 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}대시보드{% endblock %}
+{% block body %}
+<h2>대시보드</h2>
+<div class="stat-grid">
+  <a class="stat hot" href="{{ url_for('admin.inquiry_list', status='new') }}">
+    <b>{{ new_count }}</b><span>신규 문의</span>
+  </a>
+  {% for key, cfg in boards.items() %}
+  <a class="stat" href="{{ url_for('admin.board_list', board=key) }}">
+    <b>{{ counts[key] }}</b><span>{{ cfg.title }}</span>
+  </a>
+  {% endfor %}
+</div>
+
+<h3>최근 가맹문의</h3>
+<table class="tbl">
+  <thead><tr><th>#</th><th>성함</th><th>연락처</th><th>지역</th><th>유입경로</th><th>상태</th><th>접수일</th></tr></thead>
+  <tbody>
+    {% for q in recent %}
+    <tr>
+      <td>{{ q.id }}</td><td>{{ q.name }}</td><td>{{ q.phone }}</td>
+      <td>{{ q.region }}</td><td>{{ q.channel }}</td>
+      <td><span class="st st-{{ q.status }}">{{ {'new':'신규','contacted':'상담중','closed':'종료'}[q.status] }}</span></td>
+      <td>{{ q.created_at.strftime('%m.%d %H:%M') }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" class="empty">접수된 문의가 없습니다.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

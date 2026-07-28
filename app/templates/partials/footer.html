@@ -1,0 +1,17 @@
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="f-info">
+      {{ brand.company or "회사명 [확인필요]" }} ·
+      주소 {{ brand.footer.address or "[확인필요]" }} ·
+      대표 {{ brand.footer.ceo or "[확인필요]" }} ·
+      사업자등록번호 {{ brand.footer.biz_no or "[확인필요]" }} ·
+      이메일 {{ brand.footer.email or "[확인필요]" }}
+    </p>
+    <p class="f-copy">COPYRIGHT © {{ brand.name }}{% if brand.name_en %} ({{ brand.name_en }}){% endif %} ALL RIGHTS RESERVED.</p>
+    <p class="f-links">
+      <a href="{{ url_for('main.doc', slug='policy') }}">이용약관</a>
+      <a href="{{ url_for('main.doc', slug='private') }}"><b>개인정보처리방침</b></a>
+      <a href="{{ url_for('main.doc', slug='antiemail') }}">이메일무단수집거부</a>
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head, pagination with context %}
+{% block title %}창업소식 — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head('창업소식', brand.name ~ '의 새로운 소식을 전해드립니다') }}
+  {% if pg.items %}
+  <ul class="board-list" data-reveal>
+    {% for n in pg.items %}
+    <li>
+      <a href="{{ url_for('board.notice_view', notice_id=n.id) }}">
+        <span class="no">{{ pg.total - (pg.page - 1) * pg.per_page - loop.index0 }}</span>
+        <span class="tt2">{{ n.title }}</span>
+        <span class="dt">{{ n.created_at.strftime('%Y.%m.%d') }}</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+  {{ pagination(pg, 'board.notice_list') }}
+  {% else %}
+  <p class="empty-msg">등록된 소식이 없습니다.</p>
+  {% endif %}
+</div>
+{% endblock %}

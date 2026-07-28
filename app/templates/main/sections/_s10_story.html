@@ -1,0 +1,18 @@
+{% from "_macros.html" import ph with context %}
+<section class="fp s10" id="s10">
+  <div class="wrap">
+    <h2 class="disp" data-rv>성공창업 스토리<br><span class="s-sub">먼저 시작한 점주님들의 진짜 이야기</span></h2>
+    <div class="sgrid">
+      {% for s in stories %}
+      <div class="sc" data-rv style="transition-delay:{{ loop.index0 * 0.08 }}s"
+           data-modal-url="{{ url_for('main.story_popup', story_id=s.id) }}">
+        <div class="th">
+          {{ ph(s.thumb, '점주 사진', '800x600', alt=brand.name ~ ' ' ~ s.branch_name ~ ' 점주') }}
+          <span class="br">{{ s.branch_name }}</span>
+        </div>
+        <div class="bd"><p>{{ s.summary }}</p></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

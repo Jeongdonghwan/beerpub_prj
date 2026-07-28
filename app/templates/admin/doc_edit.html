@@ -1,0 +1,15 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}약관 관리{% endblock %}
+{% block body %}
+<h2>약관 관리</h2>
+<form class="edit-form" method="post">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  {% for key, label in doc_keys.items() %}
+  <div class="row">
+    <label>{{ label }}</label>
+    <textarea name="{{ key }}" rows="14">{{ values.get(key, '') }}</textarea>
+  </div>
+  {% endfor %}
+  <div class="row btns"><button type="submit" class="btn">저장</button></div>
+</form>
+{% endblock %}

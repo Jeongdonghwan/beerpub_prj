@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head with context %}
+{% block title %}{{ item.title }} — {{ brand.name }}{% endblock %}
+{% block description %}{{ item.content | striptags | truncate(140) }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head('창업소식') }}
+  <div class="board-view" data-reveal>
+    <div class="bv-head">
+      <h3>{{ item.title }}</h3>
+      <p class="bv-meta">{{ item.created_at.strftime('%Y.%m.%d') }} · 조회 {{ item.hit }}</p>
+    </div>
+    <div class="bv-body">{{ item.content | replace('\n', '<br>') | safe }}</div>
+  </div>
+  <div class="board-view-back">
+    <a class="btn-line" href="{{ url_for('board.notice_list') }}">목록으로</a>
+  </div>
+</div>
+{% endblock %}

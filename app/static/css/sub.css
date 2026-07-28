@@ -1,0 +1,133 @@
+/* ============================================================
+   sub.css — 서브 페이지 공통 컴포넌트
+   ============================================================ */
+
+/* ---------- 브랜드 소개 ---------- */
+.brand-visual{aspect-ratio:21/9;margin-bottom:60px}
+.brand-blocks{display:flex;flex-direction:column;gap:70px}
+.bblock{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.bblock:nth-child(even) .bb-img{order:2}
+.bblock .bb-img{aspect-ratio:4/3}
+.bblock h3{font-family:var(--disp);font-size:clamp(24px,2.6vw,36px);line-height:1.3}
+.bblock h3 span{color:var(--red)}
+.bblock p{margin-top:18px;line-height:1.9;color:#555;font-size:15.5px}
+@media(max-width:1024px){.bblock{grid-template-columns:1fr}.bblock:nth-child(even) .bb-img{order:0}}
+
+/* ---------- 연혁 타임라인 (좌우 교차) ---------- */
+.timeline{position:relative;max-width:860px;margin:0 auto;padding:20px 0}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:#d5d1c8}
+.tl-item{position:relative;width:50%;padding:0 40px 48px}
+.tl-item:nth-child(odd){left:0;text-align:right}
+.tl-item:nth-child(even){left:50%;text-align:left}
+.tl-item::before{content:'';position:absolute;top:6px;width:14px;height:14px;border-radius:50%;background:var(--red)}
+.tl-item:nth-child(odd)::before{right:-7px}
+.tl-item:nth-child(even)::before{left:-7px}
+.tl-item .yr{font-family:var(--disp);font-weight:700;font-size:26px;color:var(--red)}
+.tl-item .mo{font-size:13px;color:#98938a;font-weight:700;margin:4px 0}
+.tl-item p{font-size:15px;font-weight:600;line-height:1.6}
+@media(max-width:768px){
+  .timeline::before{left:8px}
+  .tl-item{width:100%;left:0!important;text-align:left!important;padding:0 0 40px 36px}
+  .tl-item::before{left:1px!important;right:auto!important}
+}
+
+/* ---------- 메뉴 ---------- */
+.cat-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px}
+.cat-tabs a{padding:11px 22px;border:2px solid var(--black);font-weight:800;font-size:14px;transition:.2s}
+.cat-tabs a.on,.cat-tabs a:hover{background:var(--black);color:#fff}
+.menu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.menu-grid .mc{background:#fff;border:1px solid #DDD8CE;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.menu-grid .mc:hover{transform:translateY(-8px);box-shadow:0 22px 40px -18px rgba(0,0,0,.3)}
+.menu-grid .mth{aspect-ratio:1/1;position:relative;overflow:hidden}
+.menu-grid .bd{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;font-size:10.5px;font-weight:800;padding:4px 9px;z-index:1}
+.menu-grid .nm{padding:14px 16px 16px}
+.menu-grid .nm h4{font-size:15.5px;font-weight:800}
+.menu-grid .nm span{font-family:var(--disp);font-weight:700;font-size:14px;color:#333;display:block;margin-top:6px}
+.cat-sec{margin-bottom:54px}
+.cat-sec>h3{font-family:var(--disp);font-size:24px;margin-bottom:20px;padding-left:14px;border-left:5px solid var(--red)}
+.empty-msg{padding:60px 0;text-align:center;color:#98938a;font-weight:600}
+@media(max-width:1024px){.menu-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- 인테리어 masonry + 라이트박스 ---------- */
+.masonry{columns:3;column-gap:18px}
+.masonry .ms{break-inside:avoid;margin-bottom:18px;cursor:pointer;position:relative;background:#fff;border:1px solid #DDD8CE}
+.masonry .ms .ph{aspect-ratio:8/5}
+.masonry .ms:nth-child(3n) .ph{aspect-ratio:3/4}
+.masonry .ms figcaption{padding:12px 14px;font-size:13.5px;font-weight:700}
+@media(max-width:1024px){.masonry{columns:2}}
+@media(max-width:640px){.masonry{columns:1}}
+.lightbox-img{aspect-ratio:8/5}
+
+/* ---------- 매장찾기 ---------- */
+.store-map{aspect-ratio:3/1;margin-bottom:36px}
+.store-filter{display:flex;gap:10px;margin-bottom:26px}
+.store-filter select{height:48px;border:2px solid var(--black);background:#fff;font-size:15px;font-weight:700;padding:0 16px;font-family:var(--body)}
+.store-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.store-card{background:#fff;border:1px solid #DDD8CE;padding:26px}
+.store-card .rg{display:inline-block;background:var(--black);color:#fff;font-size:11.5px;font-weight:800;padding:4px 10px}
+.store-card h4{font-family:var(--disp);font-size:20px;margin:12px 0 8px}
+.store-card p{font-size:14px;color:#555;line-height:1.7}
+.store-card a{display:inline-block;margin-top:10px;color:var(--red);font-weight:800;font-size:14px}
+@media(max-width:1024px){.store-grid{grid-template-columns:1fr}.store-map{aspect-ratio:3/2}}
+
+/* ---------- 개설절차 세로 스텝 ---------- */
+.step-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.step-card{display:flex;align-items:center;gap:26px;background:#fff;border:1px solid #DDD8CE;padding:26px 30px;position:relative}
+.step-card b{font-family:var(--disp);font-weight:700;font-size:15px;color:var(--red);letter-spacing:.12em;flex-shrink:0;width:86px}
+.step-card h4{font-size:19px;font-weight:800}
+.step-card p{margin-top:5px;color:#777;font-size:14px}
+.step-card::after{content:'▼';position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);color:#c9c4b9;font-size:11px;z-index:1}
+.step-card:last-child::after{display:none}
+
+/* ---------- 창업비용 (서브) ---------- */
+.cost-cta{text-align:center;margin-top:46px}
+.cost-cta p{font-weight:700;font-size:18px;margin-bottom:18px}
+body.sub .tabs{display:flex;justify-content:center;gap:8px;margin:28px 0 24px}
+body.sub .tabs button{font-family:var(--disp);font-weight:700;font-size:15px;padding:12px 30px;border:2px solid var(--black);background:transparent;color:var(--black);transition:.2s;cursor:pointer}
+body.sub .tabs button.on{background:var(--black);color:#fff}
+body.sub .ctab{max-width:820px;margin:0 auto;background:#fff;border:1px solid #DDD8CE;display:none}
+body.sub .ctab.on{display:block}
+body.sub .ctab table{width:100%;border-collapse:collapse}
+body.sub .ctab th{background:var(--black);color:#fff;font-size:13.5px;padding:14px 18px;text-align:left}
+body.sub .ctab th:last-child{text-align:right;color:var(--yellow)}
+body.sub .ctab td{padding:13px 18px;border-top:1px solid #EFEBE2;font-size:14px}
+body.sub .ctab td:last-child{text-align:right;font-family:var(--disp);font-weight:700;font-size:15px}
+body.sub .ctab td small{display:block;color:#98938a;font-size:11.5px;margin-top:3px}
+body.sub .ctab tr.tt td{background:var(--red);color:#fff;font-weight:800}
+body.sub .ctab tr.tt td:last-child{font-size:22px}
+.cost-note{text-align:center;color:#98938a;font-size:12px;margin-top:16px}
+
+/* ---------- 창업문의 (확장 폼) ---------- */
+.inq-page-form{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.inq-page-form label{font-weight:800;font-size:14px;margin-top:8px}
+.inq-page-form label em{color:var(--red);font-style:normal}
+.inq-page-form input,.inq-page-form select,.inq-page-form textarea{height:52px;border:1px solid #cfcabf;background:#fff;padding:0 16px;font-size:15px;font-family:var(--body);outline:none}
+.inq-page-form textarea{height:150px;padding:14px 16px;resize:vertical}
+.inq-page-form input:focus,.inq-page-form select:focus,.inq-page-form textarea:focus{border-color:var(--red)}
+.inq-page-form .agree2{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;margin-top:6px}
+.inq-page-form .agree2 input{width:auto;height:auto;accent-color:var(--red)}
+.inq-page-form .btn-red{margin-top:14px;border:none;cursor:pointer}
+.inq-page-form .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.form-error{background:#fdecea;border:1px solid #f5c6c2;color:#c0392b;padding:14px 18px;font-size:14px;font-weight:600}
+.inq-done{text-align:center;padding:70px 0}
+.inq-done .big{font-family:var(--disp);font-size:clamp(26px,3.4vw,42px);line-height:1.4}
+.inq-done .big span{color:var(--red)}
+.inq-done p{margin:18px 0 30px;color:#555}
+
+/* ---------- 게시판 ---------- */
+.board-list{border-top:2px solid var(--black)}
+.board-list li{border-bottom:1px solid #d5d1c8}
+.board-list a{display:flex;align-items:center;gap:18px;padding:20px 10px;transition:background .2s}
+.board-list a:hover{background:#fff}
+.board-list .no{width:46px;color:#98938a;font-size:13px;text-align:center;flex-shrink:0}
+.board-list .tt2{flex:1;font-weight:700;font-size:15.5px}
+.board-list .dt{color:#98938a;font-size:13px;flex-shrink:0}
+.board-view{background:#fff;border:1px solid #DDD8CE}
+.board-view .bv-head{padding:26px 30px;border-bottom:1px solid #EFEBE2}
+.board-view h3{font-size:22px;font-weight:800}
+.board-view .bv-meta{margin-top:10px;color:#98938a;font-size:13px}
+.board-view .bv-body{padding:30px;line-height:1.9;font-size:15px;min-height:200px}
+.board-view-back{margin-top:26px;text-align:center}
+
+/* ---------- 약관 문서 ---------- */
+.doc-body{background:#fff;border:1px solid #DDD8CE;padding:36px;line-height:1.9;font-size:14.5px;white-space:pre-line}

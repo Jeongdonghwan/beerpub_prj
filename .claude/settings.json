@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe \"C:\\\\Users\\\\jdhwa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--side-Prj-beerpub-prj\\\\2bd40690-ace3-4797-bb80-c0228e62424c\\\\scratchpad\\\\verify_upload.py\")",
+      "PowerShell(Get-NetTCPConnection -State Listen | Where-Object { $_.LocalPort -in 5000,5100,8010,8090,5170 } | Select-Object LocalPort, OwningProcess | Sort-Object LocalPort -Unique)",
+      "PowerShell($ok = $false; for \\($i = 0; $i -lt 10; $i++\\) { try { $r = Invoke-WebRequest -Uri http://127.0.0.1:8010/ -UseBasicParsing -TimeoutSec 3; Write-Output \\(\"HTTP \" + $r.StatusCode\\); $ok = $true; break } catch { Start-Sleep -Milliseconds 700 } }; if \\(-not $ok\\) { Write-Output \"서버 응답 없음\" })"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{% from "_macros.html" import ph, badge_label with context %}
+<div class="menu-popup">
+  <div class="mp-th">{{ ph(item.detail_image or item.image, '메뉴 사진', '800x800', alt=brand.name ~ ' ' ~ item.name, tone='light') }}</div>
+  {% if item.badge %}<span class="mp-badge">{{ badge_label(item.badge) }}</span>{% endif %}
+  <h3>{{ item.name }}{% if item.name_en %} <small>{{ item.name_en }}</small>{% endif %}</h3>
+  <p class="mp-price">{{ '{:,}'.format(item.price) }}원</p>
+  {% if item.description %}<p class="mp-desc">{{ item.description }}</p>{% endif %}
+</div>

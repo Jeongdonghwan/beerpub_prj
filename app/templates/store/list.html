@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% from "_macros.html" import ph, page_head with context %}
+{% block title %}매장찾기 — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head('매장찾기', '가까운 ' ~ brand.name ~ ' 매장을 찾아보세요') }}
+
+  {# 카카오맵 — API 키 수급 후 활성화 [확인필요: 카카오맵 API 키] #}
+  <div class="store-map" data-reveal>{{ ph('', '카카오맵 영역', '1200x400', tone='light') }}</div>
+
+  <form class="store-filter" method="get" data-reveal>
+    <select name="region" onchange="this.form.submit()">
+      <option value="">전체 지역</option>
+      {% for r in regions %}<option value="{{ r }}" {{ 'selected' if r == current_region }}>{{ r }}</option>{% endfor %}
+    </select>
+  </form>
+
+  {% if stores %}
+  <div class="store-grid">
+    {% for s in stores %}
+    <div class="store-card" data-reveal data-delay="{{ (loop.index0 % 3) * 0.08 }}">
+      <span class="rg">{{ s.region }}</span>
+      <h4>{{ s.name }}</h4>
+      <p>{{ s.address }}</p>
+      {% if s.phone %}<a href="tel:{{ s.phone | replace('-', '') }}">{{ s.phone }}</a>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="empty-msg">해당 지역에 등록된 매장이 없습니다.</p>
+  {% endif %}
+</div>
+
+<script type="application/ld+json">
+[{% for s in stores %}{"@context":"https://schema.org","@type":"LocalBusiness","name":"{{ brand.name }} {{ s.name }}","address":"{{ s.address }}","telephone":"{{ s.phone }}"}{{ "," if not loop.last }}{% endfor %}]
+</script>
+{% endblock %}

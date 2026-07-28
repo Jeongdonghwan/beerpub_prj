@@ -1,0 +1,13 @@
+{% from "_macros.html" import ph with context %}
+{# 해결 — A안(점주 마진 구조 공개). 다크 + 레드 네온 유지 #}
+<section class="fp s4" id="s4">
+  <div class="badge">{{ brand.name }}의 약속 <em>{{ brand.contrast_frame.solution_sub }}</em></div>
+  <div class="wrap">
+    <h2 data-rv>{{ brand.contrast_frame.solution_headline | safe }}</h2>
+    <div class="sol-imgs">
+      <div class="sol-img" data-rv="l">{{ ph('', '마진 구조 인포그래픽', '1200x800', tone='dark') }}</div>
+      <div class="sol-img" data-rv="r" style="transition-delay:.12s">{{ ph('', '매장 운영 사진', '1200x800', tone='dark') }}</div>
+    </div>
+    <p class="sub" data-rv>{{ brand.contrast_frame.disclaimer }}</p>
+  </div>
+</section>

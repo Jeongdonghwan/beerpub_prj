@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head with context %}
+{% block title %}{{ doc_title }} — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head(doc_title) }}
+  <div class="doc-body" data-reveal>{{ site_config.get(cfg_key, '') }}</div>
+</div>
+{% endblock %}

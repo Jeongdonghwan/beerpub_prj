@@ -1,0 +1,48 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}{{ cfg.title }} 편집{% endblock %}
+{% block body %}
+<h2>{{ cfg.title }} — {{ '수정' if item.id else '새로 등록' }}</h2>
+<form class="edit-form" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  {% for field in cfg.fields %}
+  {% set name, label, ftype = field[0], field[1], field[2] %}
+  {% set value = (item | attr(name)) if item.id else none %}
+  <div class="row">
+    <label>{{ label }}</label>
+    {% if ftype == 'text' %}
+      <input type="text" name="{{ name }}" value="{{ value if value is not none else '' }}">
+    {% elif ftype == 'number' %}
+      <input type="number" name="{{ name }}" value="{{ value if value is not none else 0 }}">
+    {% elif ftype == 'float' %}
+      <input type="text" name="{{ name }}" value="{{ value if value is not none else '' }}" placeholder="예: 37.5665">
+    {% elif ftype == 'textarea' %}
+      <textarea name="{{ name }}" rows="10">{{ value if value is not none else '' }}</textarea>
+    {% elif ftype == 'check' %}
+      <input type="checkbox" name="{{ name }}" {{ 'checked' if value is none or value }}>
+    {% elif ftype == 'date' %}
+      <input type="date" name="{{ name }}" value="{{ value.isoformat() if value else '' }}">
+    {% elif ftype == 'select' %}
+      <select name="{{ name }}">
+        {% for opt_val, opt_label in field[3]() %}
+        <option value="{{ opt_val }}" {{ 'selected' if value is not none and value|string == opt_val|string }}>{{ opt_label }}</option>
+        {% endfor %}
+      </select>
+    {% elif ftype.startswith('image:') %}
+      <div class="img-field">
+        {% if value %}
+        <img src="{{ value }}" alt="" class="cur-img">
+        <label class="clear"><input type="checkbox" name="{{ name }}__clear"> 이미지 삭제</label>
+        {% else %}
+        <span class="no-img">등록된 이미지 없음 — 프론트에는 플레이스홀더 박스로 표시됩니다</span>
+        {% endif %}
+        <input type="file" name="{{ name }}" accept="image/*">
+      </div>
+    {% endif %}
+  </div>
+  {% endfor %}
+  <div class="row btns">
+    <button type="submit" class="btn">저장</button>
+    <a class="btn ghost" href="{{ url_for('admin.board_list', board=board) }}">취소</a>
+  </div>
+</form>
+{% endblock %}

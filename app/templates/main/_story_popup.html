@@ -1,0 +1,7 @@
+{% from "_macros.html" import ph with context %}
+<div class="story-popup">
+  <div class="sp-th">{{ ph(item.thumb, '점주 사진', '800x600', alt=brand.name ~ ' ' ~ item.branch_name ~ ' 점주') }}</div>
+  <span class="sp-branch">{{ item.branch_name }}</span>
+  <h3>{{ item.title }}</h3>
+  <div class="sp-body">{{ item.content | replace('\n', '<br>') | safe }}</div>
+</div>

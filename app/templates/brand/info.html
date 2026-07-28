@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "_macros.html" import ph, page_head with context %}
+{% block title %}브랜드 소개 — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head('브랜드', brand.name ~ '이 만드는 완벽한 첫 잔') }}
+  <div class="brand-visual" data-reveal>{{ ph('', '브랜드 풀비주얼', '2560x1080', tone='light') }}</div>
+  <div class="brand-blocks">
+    <div class="bblock" data-reveal>
+      <div class="bb-img">{{ ph('', '브랜드 스토리 이미지', '1200x900', tone='light') }}</div>
+      <div>
+        <h3>탄생 배경 <span>[확인필요]</span></h3>
+        <p>{{ brand.slogan }} — {{ brand.sub_slogan }}<br>
+        브랜드 탄생 배경 스토리 원문은 자료 수급 후 교체합니다. [확인필요: 스토리 원문]</p>
+      </div>
+    </div>
+    <div class="bblock" data-reveal>
+      <div class="bb-img">{{ ph('', '맥주 철학 이미지', '1200x900', tone='light') }}</div>
+      <div>
+        <h3>맥주 철학 <span>[확인필요]</span></h3>
+        <p>매장별 관 세척과 온도 관리 시스템으로 첫 잔 품질을 지킵니다.
+        맥주 철학 원문은 자료 수급 후 교체합니다. [확인필요: 스토리 원문]</p>
+      </div>
+    </div>
+    <div class="bblock" data-reveal>
+      <div class="bb-img">{{ ph('', '가맹 철학 이미지', '1200x900', tone='light') }}</div>
+      <div>
+        <h3>가맹 철학 <span>[확인필요]</span></h3>
+        <p>{{ brand.contrast_frame.solution_headline | striptags }}.
+        가맹 철학 원문은 자료 수급 후 교체합니다. [확인필요: 스토리 원문]</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

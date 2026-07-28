@@ -1,0 +1,83 @@
+<header class="site-header">
+  <div class="hd">
+    <a class="logo" href="{{ url_for('main.index') }}">
+      <span class="lg1 disp">{{ brand.name }}</span>
+      {% if brand.sub_name %}<span class="lg2 disp">{{ brand.sub_name }}</span>{% endif %}
+    </a>
+
+    <nav class="gnb" aria-label="주 메뉴">
+      <ul>
+        <li>
+          <a href="{{ url_for('brand.info') }}">브랜드</a>
+          <ul class="dep2">
+            <li><a href="{{ url_for('brand.info') }}">브랜드</a></li>
+            <li><a href="{{ url_for('brand.history') }}">연혁</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="{{ url_for('menu.preview') }}">메뉴안내</a>
+          <ul class="dep2">
+            <li><a href="{{ url_for('menu.preview') }}">메뉴판 미리보기</a></li>
+            {% for c in gnb_categories %}
+            <li><a href="{{ url_for('menu.list_', ca_id=c.id) }}">{{ c.name }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+        <li><a href="{{ url_for('interior.list_') }}">매장 인테리어</a></li>
+        <li><a href="{{ url_for('store.list_') }}">매장찾기</a></li>
+        <li>
+          <a href="{{ url_for('startup.step') }}">창업안내</a>
+          <ul class="dep2">
+            <li><a href="{{ url_for('startup.step') }}">개설절차</a></li>
+            <li><a href="{{ url_for('startup.cost') }}">창업비용</a></li>
+            <li><a href="{{ url_for('inquiry.form') }}">창업문의</a></li>
+            <li><a href="{{ url_for('board.notice_list') }}">창업소식</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="{{ url_for('main.doc', slug='policy') }}">약관 및 정책</a>
+          <ul class="dep2">
+            <li><a href="{{ url_for('main.doc', slug='policy') }}">이용약관</a></li>
+            <li><a href="{{ url_for('main.doc', slug='private') }}">개인정보처리방침</a></li>
+            <li><a href="{{ url_for('main.doc', slug='antiemail') }}">이메일무단수집거부</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <a class="hd-call" href="tel:{{ brand.phone | replace('-', '') }}">
+      <span class="lbl">가맹문의</span>
+      <span class="num disp">{{ brand.phone }}</span>
+    </a>
+
+    <button class="ham" type="button" aria-label="메뉴 열기" aria-expanded="false">
+      <i></i><i></i><i></i>
+    </button>
+  </div>
+</header>
+
+{# 모바일 풀스크린 아코디언 메뉴 #}
+<nav class="mnav" aria-label="모바일 메뉴">
+  <details><summary>브랜드</summary>
+    <a href="{{ url_for('brand.info') }}">브랜드</a>
+    <a href="{{ url_for('brand.history') }}">연혁</a>
+  </details>
+  <details><summary>메뉴안내</summary>
+    <a href="{{ url_for('menu.preview') }}">메뉴판 미리보기</a>
+    {% for c in gnb_categories %}<a href="{{ url_for('menu.list_', ca_id=c.id) }}">{{ c.name }}</a>{% endfor %}
+  </details>
+  <a class="m1" href="{{ url_for('interior.list_') }}">매장 인테리어</a>
+  <a class="m1" href="{{ url_for('store.list_') }}">매장찾기</a>
+  <details><summary>창업안내</summary>
+    <a href="{{ url_for('startup.step') }}">개설절차</a>
+    <a href="{{ url_for('startup.cost') }}">창업비용</a>
+    <a href="{{ url_for('inquiry.form') }}">창업문의</a>
+    <a href="{{ url_for('board.notice_list') }}">창업소식</a>
+  </details>
+  <details><summary>약관 및 정책</summary>
+    <a href="{{ url_for('main.doc', slug='policy') }}">이용약관</a>
+    <a href="{{ url_for('main.doc', slug='private') }}">개인정보처리방침</a>
+    <a href="{{ url_for('main.doc', slug='antiemail') }}">이메일무단수집거부</a>
+  </details>
+  <a class="mnav-call" href="tel:{{ brand.phone | replace('-', '') }}">가맹문의 {{ brand.phone }}</a>
+</nav>

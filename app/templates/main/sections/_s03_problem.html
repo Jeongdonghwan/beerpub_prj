@@ -1,0 +1,14 @@
+{% from "_macros.html" import ph with context %}
+{# 문제제기 — A안(수익구조). 종이 배경 + 찢긴 엣지 유지 #}
+<section class="fp s3" id="s3">
+  <div class="wrap grid">
+    <div class="plan" data-rv="l">
+      <div class="tag">화려한 홍보 뒤 <em>숨은 수익 구조</em></div>
+      <div class="plan-ph">{{ ph('', '문제 상황 이미지', '800x600', tone='light') }}</div>
+    </div>
+    <div class="txt">
+      <h2 data-rv="r">{{ brand.contrast_frame.problem_headline | safe }}</h2>
+      <span class="strip" data-rv="r">{{ brand.contrast_frame.problem_sub }}</span>
+    </div>
+  </div>
+</section>

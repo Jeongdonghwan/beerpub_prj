@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head with context %}
+{% block title %}창업문의 — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head('창업문의', brand.name ~ ' 창업, 무엇이든 물어보세요') }}
+
+  <form class="inq-page-form" action="{{ url_for('inquiry.submit') }}" method="post">
+    <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+    <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    {% if error %}<p class="form-error">{{ error }}</p>{% endif %}
+
+    <label>성함 <em>*</em></label>
+    <input type="text" name="name" required value="{{ form_data.name if form_data else '' }}">
+
+    <label>연락처 <em>*</em></label>
+    <input type="tel" name="phone" required placeholder="010-1234-5678" value="{{ form_data.phone if form_data else '' }}">
+
+    <label>가맹희망지역</label>
+    <select name="region">
+      <option value="">선택</option>
+      {% for r in brand.regions %}<option value="{{ r }}" {{ 'selected' if form_data and form_data.region == r }}>{{ r }}</option>{% endfor %}
+    </select>
+
+    <label>유입경로</label>
+    <select name="channel">
+      <option value="">선택</option>
+      {% for c in brand.channels %}<option value="{{ c }}" {{ 'selected' if form_data and form_data.channel == c }}>{{ c }}</option>{% endfor %}
+    </select>
+
+    <label>문의내용</label>
+    <textarea name="message" placeholder="예산, 희망 시기, 궁금한 점을 자유롭게 적어주세요.">{{ form_data.message if form_data else '' }}</textarea>
+
+    <label class="agree2">
+      <input type="checkbox" name="agree_privacy" required>
+      <span><u data-modal-url="{{ url_for('main.doc', slug='private', embed=1) }}">개인정보처리방침</u>에 동의합니다 <em>*</em></span>
+    </label>
+
+    <button class="btn-red" type="submit">문의하기</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{# ============================================================
+   ph(image, label, size, ...) — 이미지 플레이스홀더 매크로
+   image 가 빈 값이면 회색+점선 박스에 [용도 사이즈] 텍스트만 표기.
+   실사진 경로가 들어오는 즉시 <img> 로 치환된다.
+   tone: dark(#2A2A2A) | light(#DDD)
+   ============================================================ #}
+{% macro ph(image, label, size, alt='', tone='dark', cls='') -%}
+{%- if image -%}
+<img src="{{ image }}" alt="{{ alt or (brand.name ~ ' ' ~ label) }}" class="ph-img {{ cls }}" loading="lazy">
+{%- else -%}
+<div class="ph ph--{{ tone }} {{ cls }}" role="img" aria-label="{{ brand.name }} {{ label }} 준비중"><span>[{{ label }} {{ size }}]</span></div>
+{%- endif -%}
+{%- endmacro %}
+
+{% macro badge_label(badge) -%}
+{%- if badge == 'new' %}NEW{% elif badge == 'best' %}BEST{% elif badge == 'signature' %}시그니처{% endif -%}
+{%- endmacro %}
+
+{% macro pagination(pg, endpoint) %}
+{% if pg.pages > 1 %}
+<nav class="pagination" aria-label="페이지">
+  {% for p in pg.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+    {% if p %}
+      {% if p == pg.page %}<span class="cur">{{ p }}</span>
+      {% else %}<a href="{{ url_for(endpoint, page=p, **kwargs) }}">{{ p }}</a>{% endif %}
+    {% else %}<span class="dots">…</span>{% endif %}
+  {% endfor %}
+</nav>
+{% endif %}
+{% endmacro %}
+
+{% macro page_head(title, sub='') %}
+<div class="page-head">
+  <div class="wrap">
+    <h2 class="disp">{{ title }}</h2>
+    {% if sub %}<p>{{ sub }}</p>{% endif %}
+  </div>
+</div>
+{% endmacro %}

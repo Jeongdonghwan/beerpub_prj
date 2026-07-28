@@ -1,0 +1,71 @@
+/* admin.css — 관리자 최소 스타일 */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Pretendard Variable',sans-serif;background:#F4F3F0;color:#222;font-size:14px}
+a{color:inherit;text-decoration:none}
+hr{border:none;border-top:1px solid #2c2c31;margin:10px 0}
+
+.adm{display:flex;min-height:100vh}
+.adm-side{width:220px;background:#17171A;color:#ddd;padding:22px 0;flex-shrink:0}
+.adm-logo{display:block;font-weight:800;font-size:16px;color:#fff;padding:0 20px 18px;border-bottom:1px solid #2c2c31}
+.adm-side nav{display:flex;flex-direction:column;padding:14px 0}
+.adm-side nav a{padding:10px 20px;font-size:13.5px;color:#bbb}
+.adm-side nav a:hover{background:#232327;color:#fff}
+.adm-main{flex:1;padding:34px 40px;min-width:0}
+.adm-main h2{font-size:22px;margin-bottom:22px}
+.adm-main h3{font-size:16px;margin:30px 0 12px}
+
+.head-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.head-row h2{margin:0}
+.btn{display:inline-block;background:#E8262B;color:#fff;font-weight:700;padding:10px 20px;border:none;border-radius:3px;cursor:pointer;font-size:13.5px}
+.btn.ghost{background:#888}
+.danger{color:#c0392b;background:none;border:none;cursor:pointer;font-size:13px}
+
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:10px}
+.stat{background:#fff;border:1px solid #e2ded6;padding:18px;text-align:center;border-radius:4px}
+.stat b{display:block;font-size:26px}
+.stat span{font-size:12.5px;color:#888}
+.stat.hot{border-color:#E8262B}
+.stat.hot b{color:#E8262B}
+
+.tbl{width:100%;background:#fff;border:1px solid #e2ded6;border-collapse:collapse}
+.tbl th{background:#222;color:#fff;padding:10px 12px;font-size:12.5px;text-align:left;white-space:nowrap}
+.tbl td{padding:10px 12px;border-top:1px solid #efece6;vertical-align:middle}
+.tbl .empty{text-align:center;color:#999;padding:30px}
+.tbl .msg{max-width:220px;color:#666;font-size:13px}
+.tbl .acts{white-space:nowrap}
+.tbl .acts a{color:#1a6bd8;margin-right:8px}
+.inline-form{display:inline-flex;gap:6px;align-items:center}
+.inline-form select,.inline-form input{padding:6px 8px;border:1px solid #ccc;border-radius:3px;font-size:13px}
+.inline-form button{padding:6px 12px;background:#222;color:#fff;border:none;border-radius:3px;cursor:pointer}
+
+.st{padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.st-new{background:#fdecea;color:#c0392b}
+.st-contacted{background:#fff5da;color:#9a7b00}
+.st-closed{background:#e8e8e8;color:#777}
+
+.filter{display:flex;gap:8px;margin-bottom:16px}
+.filter a{padding:8px 16px;background:#fff;border:1px solid #ddd;border-radius:3px;font-size:13px}
+.filter a.on{background:#222;color:#fff;border-color:#222}
+
+.edit-form{max-width:680px;background:#fff;border:1px solid #e2ded6;padding:26px;border-radius:4px}
+.edit-form .row{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.edit-form label{font-weight:700;font-size:13px}
+.edit-form input[type=text],.edit-form input[type=number],.edit-form input[type=date],
+.edit-form select,.edit-form textarea{padding:10px 12px;border:1px solid #ccc;border-radius:3px;font-size:14px;font-family:inherit}
+.edit-form textarea{resize:vertical}
+.edit-form .btns{flex-direction:row;margin-top:22px}
+.img-field{display:flex;flex-direction:column;gap:8px}
+.img-field .cur-img{max-width:220px;border:1px solid #ddd}
+.img-field .no-img{color:#999;font-size:12.5px}
+.img-field .clear{font-size:12.5px;color:#c0392b;display:flex;gap:5px;align-items:center;font-weight:400}
+
+.adm-paging{display:flex;gap:6px;margin-top:18px}
+.adm-paging a,.adm-paging .cur{padding:6px 12px;background:#fff;border:1px solid #ddd;border-radius:3px}
+.adm-paging .cur{background:#222;color:#fff;border-color:#222}
+
+.login-body{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#17171A}
+.login-box{background:#fff;padding:40px;border-radius:6px;width:min(360px,90%);display:flex;flex-direction:column;gap:12px}
+.login-box h1{font-size:20px;text-align:center;margin-bottom:10px}
+.login-box input{padding:12px 14px;border:1px solid #ccc;border-radius:3px;font-size:14px}
+.login-box button{padding:13px;background:#E8262B;color:#fff;font-weight:800;border:none;border-radius:3px;cursor:pointer;font-size:15px}
+.login-box .err{color:#c0392b;font-size:13px;text-align:center}

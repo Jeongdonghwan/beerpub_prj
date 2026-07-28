@@ -1,0 +1,14 @@
+{% from "_macros.html" import ph with context %}
+<section class="fp s9" id="s9">
+  <h2 class="sr-only">언제 어디서나 한 잔, {{ brand.name }}은 어느 상권에나 어울립니다</h2>
+  <div class="cols">
+    {% for d in brand.district_types %}
+    <div class="c">
+      <div class="c-bg">{{ ph(d.image, '상권 배경 이미지', '1200x1600', alt=brand.name ~ ' ' ~ d.label) }}</div>
+      <b class="disp">{{ '%02d' | format(loop.index) }}</b>
+      <h3 class="disp" data-rv>{{ d.copy }}</h3>
+      <p data-rv>{{ d.label }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>

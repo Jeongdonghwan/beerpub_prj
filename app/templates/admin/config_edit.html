@@ -1,0 +1,19 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}사이트 설정{% endblock %}
+{% block body %}
+<h2>사이트 설정</h2>
+<form class="edit-form" method="post">
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  {% for key, label in config_keys.items() %}
+  <div class="row">
+    <label>{{ label }}</label>
+    {% if key == 'meta_description' %}
+    <textarea name="{{ key }}" rows="3">{{ values.get(key, '') }}</textarea>
+    {% else %}
+    <input type="text" name="{{ key }}" value="{{ values.get(key, '') }}">
+    {% endif %}
+  </div>
+  {% endfor %}
+  <div class="row btns"><button type="submit" class="btn">저장</button></div>
+</form>
+{% endblock %}

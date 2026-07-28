@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body_class %}main{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock %}
+{% block footer %}{% endblock %}{# 메인은 S13 클로징에 사업자 정보 인라인 #}
+
+{% block content %}
+<nav class="fp-nav" id="fpnav" aria-label="섹션 이동"></nav>
+
+{% include "main/sections/_s01_hero.html" %}
+{% include "main/sections/_s02_reasons.html" %}
+{% include "main/sections/_s03_problem.html" %}
+{% include "main/sections/_s04_solution.html" %}
+{% include "main/sections/_s05_carousel.html" %}
+{% include "main/sections/_s06_strengths.html" %}
+{% include "main/sections/_s07_menu.html" %}
+{% include "main/sections/_s08_interior.html" %}
+{% include "main/sections/_s09_district.html" %}
+{% include "main/sections/_s10_story.html" %}
+{% include "main/sections/_s11_steps.html" %}
+{% include "main/sections/_s12_cost.html" %}
+{% include "main/sections/_s13_closing.html" %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+{% endblock %}

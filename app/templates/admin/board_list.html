@@ -1,0 +1,31 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}{{ cfg.title }}{% endblock %}
+{% block body %}
+<div class="head-row">
+  <h2>{{ cfg.title }}</h2>
+  <a class="btn" href="{{ url_for('admin.board_edit', board=board) }}">+ 새로 등록</a>
+</div>
+<table class="tbl">
+  <thead><tr>{% for col in cfg.cols %}<th>{{ col }}</th>{% endfor %}<th>관리</th></tr></thead>
+  <tbody>
+    {% for item in items %}
+    <tr>
+      {% for col in cfg.cols %}
+      {% set v = item | attr(col) %}
+      <td>{% if v is sameas true %}✔{% elif v is sameas false %}—{% else %}{{ v if v is not none else '' }}{% endif %}</td>
+      {% endfor %}
+      <td class="acts">
+        <a href="{{ url_for('admin.board_edit', board=board, item_id=item.id) }}">수정</a>
+        <form method="post" action="{{ url_for('admin.board_delete', board=board, item_id=item.id) }}"
+              onsubmit="return confirm('삭제하시겠습니까?')" class="inline-form">
+          <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+          <button type="submit" class="danger">삭제</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="{{ cfg.cols | length + 1 }}" class="empty">데이터가 없습니다.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

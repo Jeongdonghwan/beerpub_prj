@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>{% block title %}관리자{% endblock %} — {{ brand.name }}</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+<div class="adm">
+  <aside class="adm-side">
+    <a class="adm-logo" href="{{ url_for('admin.dashboard') }}">{{ brand.name }} 관리자</a>
+    <nav>
+      <a href="{{ url_for('admin.dashboard') }}">대시보드</a>
+      <a href="{{ url_for('admin.inquiry_list') }}">가맹문의</a>
+      <hr>
+      <a href="{{ url_for('admin.board_list', board='category') }}">메뉴 카테고리</a>
+      <a href="{{ url_for('admin.board_list', board='menu') }}">메뉴</a>
+      <a href="{{ url_for('admin.board_list', board='interior') }}">인테리어</a>
+      <a href="{{ url_for('admin.board_list', board='story') }}">성공 스토리</a>
+      <a href="{{ url_for('admin.board_list', board='store') }}">매장</a>
+      <a href="{{ url_for('admin.board_list', board='history') }}">연혁</a>
+      <a href="{{ url_for('admin.board_list', board='banner') }}">배너</a>
+      <a href="{{ url_for('admin.board_list', board='popup') }}">레이어 팝업</a>
+      <a href="{{ url_for('admin.board_list', board='notice') }}">창업소식</a>
+      <hr>
+      <a href="{{ url_for('admin.doc_edit') }}">약관 관리</a>
+      <a href="{{ url_for('admin.config_edit') }}">사이트 설정</a>
+      <hr>
+      <a href="{{ url_for('main.index') }}" target="_blank">사이트 보기 ↗</a>
+      <a href="{{ url_for('admin.logout') }}">로그아웃</a>
+    </nav>
+  </aside>
+  <main class="adm-main">
+    {% block body %}{% endblock %}
+  </main>
+</div>
+</body>
+</html>

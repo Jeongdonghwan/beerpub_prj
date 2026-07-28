@@ -1,0 +1,13 @@
+{# 레이어 팝업 — admin 등록 이미지 최대 3개, "오늘하루 닫기" 쿠키 24h #}
+{% from "_macros.html" import ph with context %}
+{% for p in layer_popups %}
+<div class="layer-popup" data-popup-id="{{ p.id }}" style="--i:{{ loop.index0 }}" hidden>
+  {% if p.link %}<a href="{{ p.link }}">{% endif %}
+  {{ ph(p.image, '팝업 이미지', '500x600', alt=p.title, tone='dark', cls='lp-img') }}
+  {% if p.link %}</a>{% endif %}
+  <div class="lp-btns">
+    <button type="button" class="lp-today">오늘하루 닫기</button>
+    <button type="button" class="lp-close">닫기</button>
+  </div>
+</div>
+{% endfor %}

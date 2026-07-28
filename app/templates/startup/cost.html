@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head with context %}
+{% block title %}창업비용 — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap">
+  {{ page_head('창업비용', '거품 없는 창업비용, 항목별로 투명하게 공개합니다') }}
+
+  <div class="tabs" data-reveal>
+    {% for size in brand.cost_table.sizes %}
+    <button type="button" data-size="{{ loop.index0 }}" class="disp {% if loop.first %}on{% endif %}">{{ size }}</button>
+    {% endfor %}
+  </div>
+  {% for size in brand.cost_table.sizes %}
+  {% set i = loop.index0 %}
+  <div class="ctab {% if loop.first %}on{% endif %}" data-size="{{ i }}">
+    <table>
+      <thead><tr><th>구분</th><th>{{ size }} 기준 (만원)</th></tr></thead>
+      <tbody>
+        {% set ns = namespace(total=0) %}
+        {% for r in brand.cost_table.rows %}
+        {% set ns.total = ns.total + r.cost[i] %}
+        <tr><td><b>{{ r.item }}</b><small>{{ r.desc }}</small></td><td class="disp">{{ '{:,}'.format(r.cost[i]) }}</td></tr>
+        {% endfor %}
+        <tr class="tt"><td>합계</td><td>{{ '{:,}'.format(ns.total) }}</td></tr>
+      </tbody>
+    </table>
+  </div>
+  {% endfor %}
+  <p class="cost-note">{{ brand.cost_table.footnote }} <span style="color:#c0392b">[확인필요: 전 수치 더미]</span></p>
+
+  <div class="cost-cta" data-reveal>
+    <p>내 예산에 맞는 견적이 궁금하신가요?</p>
+    <a class="btn-red" href="{{ url_for('inquiry.form') }}">1:1 창업 상담 신청</a>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+{% endblock %}

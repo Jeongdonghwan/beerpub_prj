@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ site_config.get('meta_title') or brand.meta.title }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ site_config.get('meta_description') or brand.meta.description }}{% endblock %}">
+{% if site_config.get('naver_verification') %}<meta name="naver-site-verification" content="{{ site_config.get('naver_verification') }}">{% endif %}
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ self.title() }}">
+<meta property="og:description" content="{{ self.description() }}">
+<meta property="og:url" content="{{ request.url }}">
+<meta property="og:image" content="{{ brand.meta.og_image }}">
+<meta property="og:site_name" content="{{ brand.name }}">
+{# Pretendard 는 @font-face 보다 먼저 link 로 로드 (프로토타입 @import 순서 버그 수정) #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+<style>
+@font-face{font-family:'GmarketSans';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');font-weight:700;font-display:swap}
+@font-face{font-family:'GmarketSans';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');font-weight:500;font-display:swap}
+:root{
+  --red:{{ brand.colors.red }}; --black:{{ brand.colors.black }};
+  --dark:{{ brand.colors.dark }}; --paper:{{ brand.colors.paper }}; --yellow:{{ brand.colors.yellow }};
+  --hd-h:96px; --form-h:96px; --container:1240px;
+  --disp:'GmarketSans','Pretendard Variable',sans-serif;
+  --body:'Pretendard Variable',sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+{% block styles %}<link rel="stylesheet" href="{{ url_for('static', filename='css/sub.css') }}">{% endblock %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"{{ brand.name }}","url":"{{ request.url_root }}","telephone":"{{ brand.phone }}"}
+</script>
+</head>
+<body class="{% block body_class %}sub{% endblock %}">
+<h1 class="sr-only">{% block h1 %}{{ brand.name }} — {{ brand.seo_keyword }}{% endblock %}</h1>
+
+{% include "partials/header.html" %}
+
+<main id="content">
+{% block content %}{% endblock %}
+</main>
+
+{% block footer %}{% include "partials/footer.html" %}{% endblock %}
+{% include "partials/inquiry_bar.html" %}
+{% include "partials/layer_popup.html" %}
+{% include "partials/modal.html" %}
+
+<button class="go-top" type="button" aria-label="맨 위로">↑</button>
+
+<script src="{{ url_for('static', filename='js/common.js') }}" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

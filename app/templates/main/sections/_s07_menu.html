@@ -1,0 +1,24 @@
+{% from "_macros.html" import ph, badge_label with context %}
+<section class="fp s7" id="s7">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <h2 data-rv><span class="r">안주가 맛있는</span> {{ brand.name }}의 메뉴</h2>
+        <p data-rv>가격 보고 한 번, 맛 보고 또 한 번 놀라실 겁니다</p>
+      </div>
+      <a class="btn-line" href="{{ url_for('menu.preview') }}" data-rv>메뉴전체보기</a>
+    </div>
+    <div class="mgrid">
+      {% for m in menus %}
+      <div class="mc" data-rv style="transition-delay:{{ (loop.index0 % 5) * 0.06 }}s"
+           data-modal-url="{{ url_for('menu.popup', menu_id=m.id) }}">
+        <div class="th mth">
+          {% if m.badge %}<span class="bd">{{ badge_label(m.badge) }}</span>{% endif %}
+          {{ ph(m.image, '메뉴 사진', '800x800', alt=brand.name ~ ' ' ~ m.name) }}
+        </div>
+        <div class="nm"><h4>{{ m.name }}</h4><span class="disp">{{ '{:,}'.format(m.price) }}원</span></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{{ code }} — {{ brand.name }}{% endblock %}
+{% block content %}
+<div class="wrap error-page">
+  <p class="disp code">{{ code }}</p>
+  <p>{{ msg }}</p>
+  <a class="btn-line" href="{{ url_for('main.index') }}">메인으로</a>
+</div>
+{% endblock %}
