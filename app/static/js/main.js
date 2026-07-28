@@ -31,6 +31,24 @@
     secs.forEach(function (s) { secIO.observe(s); });
   }
 
+  /* ---------- PC 풀페이지: 휠 한 번 = 한 섹션 전환 ----------
+     CSS scroll-snap 만으로는 일반 스크롤처럼 흘러가므로 휠을 가로채
+     다음/이전 섹션으로만 이동. 모바일(≤1024px)·모달 열림 상태는 제외. */
+  var mqDesktop = window.matchMedia('(min-width:1025px)');
+  var wheelLock = false;
+  window.addEventListener('wheel', function (e) {
+    if (!mqDesktop.matches || !secs.length) return;
+    if (document.body.classList.contains('modal-open')) return; /* 모달 내부 스크롤 허용 */
+    e.preventDefault();
+    if (wheelLock || Math.abs(e.deltaY) < 4) return;
+    var idx = Math.round(window.scrollY / window.innerHeight);
+    var next = Math.min(Math.max(idx + (e.deltaY > 0 ? 1 : -1), 0), secs.length - 1);
+    if (next === idx) return;
+    wheelLock = true;
+    secs[next].scrollIntoView({ behavior: 'smooth' });
+    setTimeout(function () { wheelLock = false; }, 850);
+  }, { passive: false });
+
   /* ---------- 시그니처 주류 센터포커스 캐러셀 (슬라이드는 서버 렌더 DOM) ---------- */
   var car = document.getElementById('car');
   if (car) {
