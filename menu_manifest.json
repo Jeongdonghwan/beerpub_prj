@@ -1,0 +1,450 @@
+[
+ {
+  "cat_no": 1,
+  "cat_name": "치킨",
+  "menu_no": 1,
+  "name": "후라이드치킨",
+  "image": "/static/images/menu/c01_m01.webp",
+  "detail_image": "/static/images/menu/c01_m01_d.webp"
+ },
+ {
+  "cat_no": 1,
+  "cat_name": "치킨",
+  "menu_no": 2,
+  "name": "가마솥깨통닭치킨",
+  "image": "/static/images/menu/c01_m02.webp",
+  "detail_image": "/static/images/menu/c01_m02_d.webp"
+ },
+ {
+  "cat_no": 1,
+  "cat_name": "치킨",
+  "menu_no": 3,
+  "name": "크리스피 치킨",
+  "image": "/static/images/menu/c01_m03.webp",
+  "detail_image": "/static/images/menu/c01_m03_d.webp"
+ },
+ {
+  "cat_no": 1,
+  "cat_name": "치킨",
+  "menu_no": 4,
+  "name": "윙봉치킨",
+  "image": "/static/images/menu/c01_m04.webp",
+  "detail_image": "/static/images/menu/c01_m04_d.webp"
+ },
+ {
+  "cat_no": 1,
+  "cat_name": "치킨",
+  "menu_no": 5,
+  "name": "반반치킨",
+  "image": "/static/images/menu/c01_m05.webp",
+  "detail_image": "/static/images/menu/c01_m05_d.webp"
+ },
+ {
+  "cat_no": 1,
+  "cat_name": "치킨",
+  "menu_no": 6,
+  "name": "양념치킨",
+  "image": "/static/images/menu/c01_m06.webp",
+  "detail_image": "/static/images/menu/c01_m06_d.webp"
+ },
+ {
+  "cat_no": 1,
+  "cat_name": "치킨",
+  "menu_no": 7,
+  "name": "마늘간장치킨",
+  "image": "/static/images/menu/c01_m07.webp",
+  "detail_image": "/static/images/menu/c01_m07_d.webp"
+ },
+ {
+  "cat_no": 1,
+  "cat_name": "치킨",
+  "menu_no": 8,
+  "name": "뿌링치즈치킨",
+  "image": "/static/images/menu/c01_m08.webp",
+  "detail_image": "/static/images/menu/c01_m08_d.webp"
+ },
+ {
+  "cat_no": 1,
+  "cat_name": "치킨",
+  "menu_no": 9,
+  "name": "어니언치킨",
+  "image": "/static/images/menu/c01_m09.webp",
+  "detail_image": "/static/images/menu/c01_m09_d.webp"
+ },
+ {
+  "cat_no": 1,
+  "cat_name": "치킨",
+  "menu_no": 10,
+  "name": "맵닭치킨",
+  "image": "/static/images/menu/c01_m10.webp",
+  "detail_image": "/static/images/menu/c01_m10_d.webp"
+ },
+ {
+  "cat_no": 1,
+  "cat_name": "치킨",
+  "menu_no": 11,
+  "name": "파닭치킨",
+  "image": "/static/images/menu/c01_m11.webp",
+  "detail_image": "/static/images/menu/c01_m11_d.webp"
+ },
+ {
+  "cat_no": 2,
+  "cat_name": "튀김안주",
+  "menu_no": 1,
+  "name": "치즈볼",
+  "image": "/static/images/menu/c02_m01.webp",
+  "detail_image": "/static/images/menu/c02_m01_d.webp"
+ },
+ {
+  "cat_no": 2,
+  "cat_name": "튀김안주",
+  "menu_no": 2,
+  "name": "수제감자튀김",
+  "image": "/static/images/menu/c02_m02.webp",
+  "detail_image": "/static/images/menu/c02_m02_d.webp"
+ },
+ {
+  "cat_no": 2,
+  "cat_name": "튀김안주",
+  "menu_no": 3,
+  "name": "갈릭감자튀김",
+  "image": "/static/images/menu/c02_m03.webp",
+  "detail_image": "/static/images/menu/c02_m03_d.webp"
+ },
+ {
+  "cat_no": 2,
+  "cat_name": "튀김안주",
+  "menu_no": 4,
+  "name": "닭껍질튀김 엔 감자",
+  "image": "/static/images/menu/c02_m04.webp",
+  "detail_image": "/static/images/menu/c02_m04_d.webp"
+ },
+ {
+  "cat_no": 2,
+  "cat_name": "튀김안주",
+  "menu_no": 5,
+  "name": "닭똥집튀김 엔 감자",
+  "image": "/static/images/menu/c02_m05.webp",
+  "detail_image": "/static/images/menu/c02_m05_d.webp"
+ },
+ {
+  "cat_no": 2,
+  "cat_name": "튀김안주",
+  "menu_no": 6,
+  "name": "모듬감자튀김",
+  "image": "/static/images/menu/c02_m06.webp",
+  "detail_image": "/static/images/menu/c02_m06_d.webp"
+ },
+ {
+  "cat_no": 2,
+  "cat_name": "튀김안주",
+  "menu_no": 7,
+  "name": "왕등심 돈까스",
+  "image": "/static/images/menu/c02_m07.webp",
+  "detail_image": "/static/images/menu/c02_m07_d.webp"
+ },
+ {
+  "cat_no": 2,
+  "cat_name": "튀김안주",
+  "menu_no": 8,
+  "name": "새우튀김",
+  "image": "/static/images/menu/c02_m08.webp",
+  "detail_image": "/static/images/menu/c02_m08_d.webp"
+ },
+ {
+  "cat_no": 2,
+  "cat_name": "튀김안주",
+  "menu_no": 9,
+  "name": "닭발튀김",
+  "image": "/static/images/menu/c02_m09.webp",
+  "detail_image": "/static/images/menu/c02_m09_d.webp"
+ },
+ {
+  "cat_no": 2,
+  "cat_name": "튀김안주",
+  "menu_no": 10,
+  "name": "모듬튀김",
+  "image": "/static/images/menu/c02_m10.webp",
+  "detail_image": "/static/images/menu/c02_m10_d.webp"
+ },
+ {
+  "cat_no": 3,
+  "cat_name": "치떡세트",
+  "menu_no": 1,
+  "name": "후라이드+떡볶이 치떡세트",
+  "image": "/static/images/menu/c03_m01.webp",
+  "detail_image": "/static/images/menu/c03_m01_d.webp"
+ },
+ {
+  "cat_no": 3,
+  "cat_name": "치떡세트",
+  "menu_no": 2,
+  "name": "가마솥깨통닭치킨+떡볶이",
+  "image": "/static/images/menu/c03_m02.webp",
+  "detail_image": "/static/images/menu/c03_m02_d.webp"
+ },
+ {
+  "cat_no": 3,
+  "cat_name": "치떡세트",
+  "menu_no": 3,
+  "name": "크리스피+떡볶이",
+  "image": "/static/images/menu/c03_m03.webp",
+  "detail_image": "/static/images/menu/c03_m03_d.webp"
+ },
+ {
+  "cat_no": 3,
+  "cat_name": "치떡세트",
+  "menu_no": 4,
+  "name": "윙봉치킨+떡볶이",
+  "image": "/static/images/menu/c03_m04.webp",
+  "detail_image": "/static/images/menu/c03_m04_d.webp"
+ },
+ {
+  "cat_no": 3,
+  "cat_name": "치떡세트",
+  "menu_no": 5,
+  "name": "반반치킨+떡볶이",
+  "image": "/static/images/menu/c03_m05.webp",
+  "detail_image": "/static/images/menu/c03_m05_d.webp"
+ },
+ {
+  "cat_no": 3,
+  "cat_name": "치떡세트",
+  "menu_no": 6,
+  "name": "양념치킨+떡볶이",
+  "image": "/static/images/menu/c03_m06.webp",
+  "detail_image": "/static/images/menu/c03_m06_d.webp"
+ },
+ {
+  "cat_no": 3,
+  "cat_name": "치떡세트",
+  "menu_no": 7,
+  "name": "마늘간장+떡볶이",
+  "image": "/static/images/menu/c03_m07.webp",
+  "detail_image": "/static/images/menu/c03_m07_d.webp"
+ },
+ {
+  "cat_no": 3,
+  "cat_name": "치떡세트",
+  "menu_no": 8,
+  "name": "뿌링치즈치킨+떡볶이",
+  "image": "/static/images/menu/c03_m08.webp",
+  "detail_image": "/static/images/menu/c03_m08_d.webp"
+ },
+ {
+  "cat_no": 3,
+  "cat_name": "치떡세트",
+  "menu_no": 9,
+  "name": "어니언치킨+떡볶이",
+  "image": "/static/images/menu/c03_m09.webp",
+  "detail_image": "/static/images/menu/c03_m09_d.webp"
+ },
+ {
+  "cat_no": 3,
+  "cat_name": "치떡세트",
+  "menu_no": 10,
+  "name": "맵닭+떡볶이",
+  "image": "/static/images/menu/c03_m10.webp",
+  "detail_image": "/static/images/menu/c03_m10_d.webp"
+ },
+ {
+  "cat_no": 4,
+  "cat_name": "분식 앤 파스타",
+  "menu_no": 1,
+  "name": "크림파스타",
+  "image": "/static/images/menu/c04_m01.webp",
+  "detail_image": "/static/images/menu/c04_m01_d.webp"
+ },
+ {
+  "cat_no": 4,
+  "cat_name": "분식 앤 파스타",
+  "menu_no": 2,
+  "name": "토마토파스타",
+  "image": "/static/images/menu/c04_m02.webp",
+  "detail_image": "/static/images/menu/c04_m02_d.webp"
+ },
+ {
+  "cat_no": 4,
+  "cat_name": "분식 앤 파스타",
+  "menu_no": 3,
+  "name": "치즈국물떡볶이",
+  "image": "/static/images/menu/c04_m03.webp",
+  "detail_image": "/static/images/menu/c04_m03_d.webp"
+ },
+ {
+  "cat_no": 4,
+  "cat_name": "분식 앤 파스타",
+  "menu_no": 4,
+  "name": "불고기페스츄리피자",
+  "image": "/static/images/menu/c04_m04.webp",
+  "detail_image": "/static/images/menu/c04_m04_d.webp"
+ },
+ {
+  "cat_no": 4,
+  "cat_name": "분식 앤 파스타",
+  "menu_no": 5,
+  "name": "페페로니 페스츄리피자",
+  "image": "/static/images/menu/c04_m05.webp",
+  "detail_image": "/static/images/menu/c04_m05_d.webp"
+ },
+ {
+  "cat_no": 4,
+  "cat_name": "분식 앤 파스타",
+  "menu_no": 6,
+  "name": "떡볶이",
+  "image": "/static/images/menu/c04_m06.webp",
+  "detail_image": "/static/images/menu/c04_m06_d.webp"
+ },
+ {
+  "cat_no": 5,
+  "cat_name": "국물요리",
+  "menu_no": 1,
+  "name": "가마보꼬",
+  "image": "/static/images/menu/c05_m01.webp",
+  "detail_image": "/static/images/menu/c05_m01_d.webp"
+ },
+ {
+  "cat_no": 5,
+  "cat_name": "국물요리",
+  "menu_no": 2,
+  "name": "꼬불이",
+  "image": "/static/images/menu/c05_m02.webp",
+  "detail_image": "/static/images/menu/c05_m02_d.webp"
+ },
+ {
+  "cat_no": 5,
+  "cat_name": "국물요리",
+  "menu_no": 3,
+  "name": "알탕",
+  "image": "/static/images/menu/c05_m03.webp",
+  "detail_image": "/static/images/menu/c05_m03_d.webp"
+ },
+ {
+  "cat_no": 5,
+  "cat_name": "국물요리",
+  "menu_no": 4,
+  "name": "옛날짬뽕탕",
+  "image": "/static/images/menu/c05_m04.webp",
+  "detail_image": "/static/images/menu/c05_m04_d.webp"
+ },
+ {
+  "cat_no": 5,
+  "cat_name": "국물요리",
+  "menu_no": 5,
+  "name": "나가사끼 짬뽕탕",
+  "image": "/static/images/menu/c05_m05.webp",
+  "detail_image": "/static/images/menu/c05_m05_d.webp"
+ },
+ {
+  "cat_no": 5,
+  "cat_name": "국물요리",
+  "menu_no": 6,
+  "name": "닭한마리 칼국수",
+  "image": "/static/images/menu/c05_m06.webp",
+  "detail_image": "/static/images/menu/c05_m06_d.webp"
+ },
+ {
+  "cat_no": 5,
+  "cat_name": "국물요리",
+  "menu_no": 7,
+  "name": "한마리 닭볶음탕",
+  "image": "/static/images/menu/c05_m07.webp",
+  "detail_image": "/static/images/menu/c05_m07_d.webp"
+ },
+ {
+  "cat_no": 6,
+  "cat_name": "일품안주",
+  "menu_no": 1,
+  "name": "모듬 소세지",
+  "image": "/static/images/menu/c06_m01.webp",
+  "detail_image": "/static/images/menu/c06_m01_d.webp"
+ },
+ {
+  "cat_no": 6,
+  "cat_name": "일품안주",
+  "menu_no": 2,
+  "name": "매운튤립닭발",
+  "image": "/static/images/menu/c06_m02.webp",
+  "detail_image": "/static/images/menu/c06_m02_d.webp"
+ },
+ {
+  "cat_no": 6,
+  "cat_name": "일품안주",
+  "menu_no": 3,
+  "name": "매운무뼈닭발",
+  "image": "/static/images/menu/c06_m03.webp",
+  "detail_image": "/static/images/menu/c06_m03_d.webp"
+ },
+ {
+  "cat_no": 6,
+  "cat_name": "일품안주",
+  "menu_no": 4,
+  "name": "두부김치",
+  "image": "/static/images/menu/c06_m04.webp",
+  "detail_image": "/static/images/menu/c06_m04_d.webp"
+ },
+ {
+  "cat_no": 6,
+  "cat_name": "일품안주",
+  "menu_no": 5,
+  "name": "골뱅이소면",
+  "image": "/static/images/menu/c06_m05.webp",
+  "detail_image": "/static/images/menu/c06_m05_d.webp"
+ },
+ {
+  "cat_no": 6,
+  "cat_name": "일품안주",
+  "menu_no": 6,
+  "name": "국물닭발",
+  "image": "/static/images/menu/c06_m06.webp",
+  "detail_image": "/static/images/menu/c06_m06_d.webp"
+ },
+ {
+  "cat_no": 7,
+  "cat_name": "마른안주",
+  "menu_no": 1,
+  "name": "노가리새끼",
+  "image": "/static/images/menu/c07_m01.webp",
+  "detail_image": "/static/images/menu/c07_m01_d.webp"
+ },
+ {
+  "cat_no": 7,
+  "cat_name": "마른안주",
+  "menu_no": 2,
+  "name": "버터구이오다리",
+  "image": "/static/images/menu/c07_m02.webp",
+  "detail_image": "/static/images/menu/c07_m02_d.webp"
+ },
+ {
+  "cat_no": 7,
+  "cat_name": "마른안주",
+  "menu_no": 3,
+  "name": "한치랑 쥐포랑",
+  "image": "/static/images/menu/c07_m03.webp",
+  "detail_image": "/static/images/menu/c07_m03_d.webp"
+ },
+ {
+  "cat_no": 7,
+  "cat_name": "마른안주",
+  "menu_no": 4,
+  "name": "아귀포",
+  "image": "/static/images/menu/c07_m04.webp",
+  "detail_image": "/static/images/menu/c07_m04_d.webp"
+ },
+ {
+  "cat_no": 7,
+  "cat_name": "마른안주",
+  "menu_no": 5,
+  "name": "먹태",
+  "image": "/static/images/menu/c07_m05.webp",
+  "detail_image": "/static/images/menu/c07_m05_d.webp"
+ },
+ {
+  "cat_no": 7,
+  "cat_name": "마른안주",
+  "menu_no": 6,
+  "name": "촉촉오징어",
+  "image": "/static/images/menu/c07_m06.webp",
+  "detail_image": "/static/images/menu/c07_m06_d.webp"
+ }
+]
