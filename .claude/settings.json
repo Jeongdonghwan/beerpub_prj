@@ -3,7 +3,22 @@
     "allow": [
       "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe \"C:\\\\Users\\\\jdhwa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--side-Prj-beerpub-prj\\\\2bd40690-ace3-4797-bb80-c0228e62424c\\\\scratchpad\\\\verify_upload.py\")",
       "PowerShell(Get-NetTCPConnection -State Listen | Where-Object { $_.LocalPort -in 5000,5100,8010,8090,5170 } | Select-Object LocalPort, OwningProcess | Sort-Object LocalPort -Unique)",
-      "PowerShell($ok = $false; for \\($i = 0; $i -lt 10; $i++\\) { try { $r = Invoke-WebRequest -Uri http://127.0.0.1:8010/ -UseBasicParsing -TimeoutSec 3; Write-Output \\(\"HTTP \" + $r.StatusCode\\); $ok = $true; break } catch { Start-Sleep -Milliseconds 700 } }; if \\(-not $ok\\) { Write-Output \"서버 응답 없음\" })"
+      "PowerShell($ok = $false; for \\($i = 0; $i -lt 10; $i++\\) { try { $r = Invoke-WebRequest -Uri http://127.0.0.1:8010/ -UseBasicParsing -TimeoutSec 3; Write-Output \\(\"HTTP \" + $r.StatusCode\\); $ok = $true; break } catch { Start-Sleep -Milliseconds 700 } }; if \\(-not $ok\\) { Write-Output \"서버 응답 없음\" })",
+      "PowerShell(New-Item -ItemType Directory -Force c:\\\\side_Prj\\\\beerpub_prj\\\\app\\\\static\\\\video, c:\\\\side_Prj\\\\beerpub_prj\\\\app\\\\static\\\\images | Out-Null; Set-Location c:\\\\side_Prj\\\\beerpub_prj; ffmpeg -y -i \"맥주엔딹 ver 1.2.mp4\" -vf \"scale=-2:720\" -c:v libx264 -preset slow -crf 28 -profile:v main -pix_fmt yuv420p -movflags +faststart -an -loglevel error app\\\\static\\\\video\\\\hero.mp4; Write-Output \"인코딩 완료\"; Get-Item app\\\\static\\\\video\\\\hero.mp4 | Select-Object @{n='MB';e={[math]::Round\\($_.Length/1MB,1\\)}})",
+      "PowerShell(Set-Location c:\\\\side_Prj\\\\beerpub_prj; ffmpeg -y -ss 0.5 -i app\\\\static\\\\video\\\\hero.mp4 -frames:v 1 -q:v 3 -loglevel error app\\\\static\\\\images\\\\hero_poster.jpg; Get-Item app\\\\static\\\\images\\\\hero_poster.jpg | Select-Object Name, @{n='KB';e={[math]::Round\\($_.Length/1KB\\)}})",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe import_menus.py)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe import_menus.py 2>&1 | Select-Object -Last 3; Write-Output \"---\"; \\(Get-ChildItem app\\\\static\\\\images\\\\menu | Measure-Object Length -Sum\\) | ForEach-Object { \"webp {0}개, 총 {1:N1}MB\" -f $_.Count, \\($_.Sum/1MB\\) })",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe \"C:\\\\Users\\\\jdhwa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--side-Prj-beerpub-prj\\\\2bd40690-ace3-4797-bb80-c0228e62424c\\\\scratchpad\\\\verify_renewal.py\")",
+      "PowerShell(git add .gitignore)",
+      "PowerShell(git commit -F \"C:\\\\Users\\\\jdhwa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--side-Prj-beerpub-prj\\\\2bd40690-ace3-4797-bb80-c0228e62424c\\\\scratchpad\\\\commit_msg.txt\" 2>&1)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe import_menus.py 2>&1)",
+      "PowerShell(Rename-Item \"c:\\\\side_Prj\\\\beerpub_prj\\\\�޴��̹���\\(����\\)\" \"�޴��̹���\\(����\\)_tmp\")",
+      "PowerShell(Rename-Item \"c:\\\\side_Prj\\\\beerpub_prj\\\\�޴��̹���\\(����\\)_tmp\" \"�޴��̹���\\(����\\)\")",
+      "PowerShell(git add import_menus.py menu_manifest.json)",
+      "PowerShell(Get-ChildItem \"c:\\\\side_Prj\\\\beerpub_prj\\\\이미지\" | Select-Object Name, @{n='KB';e={[math]::Round\\($_.Length/1KB\\)}} | Format-Table -AutoSize | Out-String -Width 200)",
+      "PowerShell(Get-ChildItem \"c:\\\\side_Prj\\\\beerpub_prj\\\\이미지 폴더\" | Select-Object Name, @{n='KB';e={[math]::Round\\($_.Length/1KB\\)}} | Format-Table -AutoSize | Out-String -Width 200)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe \"C:\\\\Users\\\\jdhwa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--side-Prj-beerpub-prj\\\\2bd40690-ace3-4797-bb80-c0228e62424c\\\\scratchpad\\\\optimize_site_images.py\")",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe \"C:\\\\Users\\\\jdhwa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--side-Prj-beerpub-prj\\\\2bd40690-ace3-4797-bb80-c0228e62424c\\\\scratchpad\\\\verify_media.py\")"
     ]
   }
 }

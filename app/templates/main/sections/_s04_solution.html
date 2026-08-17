@@ -1,13 +1,16 @@
-{% from "_macros.html" import ph with context %}
-{# 해결 — 23년의 외식 경험 (투사랑 · 광수비어) #}
+{# 해결 — 23년의 외식 경험. 배경 실사 + 센터 카피 + pill 뱃지 + 누끼 음식 3종 #}
 <section class="fp s4" id="s4">
-  <div class="badge">{{ brand.name }} <em>{{ brand.contrast_frame.solution_sub }}</em></div>
-  <div class="wrap">
+  <div class="s4-bg"><img src="{{ brand.section_images.solution_bg }}" alt="" aria-hidden="true"></div>
+  <div class="s4-dim"></div>
+  <div class="wrap s4-in">
     <h2 data-rv>{{ brand.contrast_frame.solution_headline | safe }}</h2>
-    <div class="sol-imgs">
-      <div class="sol-img" data-rv="l">{{ ph('', '투사랑 매장 사진', '1200x800', tone='dark') }}</div>
-      <div class="sol-img" data-rv="r" style="transition-delay:.12s">{{ ph('', '광수비어 매장 사진', '1200x800', tone='dark') }}</div>
+    <div class="pills" data-rv style="transition-delay:.1s">
+      {% for p in brand.success_points['items'] %}<span>{{ p.title }}</span>{% endfor %}
     </div>
-    <p class="sub" data-rv>{{ brand.contrast_frame.disclaimer }}</p>
+    <div class="dishes">
+      {% for d in brand.solution_dishes %}
+      <img src="{{ d }}" alt="{{ brand.name }} 대표 메뉴" data-rv style="transition-delay:{{ 0.15 + loop.index0 * 0.12 }}s" loading="lazy">
+      {% endfor %}
+    </div>
   </div>
 </section>

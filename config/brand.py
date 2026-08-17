@@ -66,6 +66,23 @@ BRAND = {
         ],
     },
 
+    # ---------- 섹션 이미지 (영상 캡처본 — 교체 시 경로만 수정) ----------
+    "section_images": {
+        "problem":      "/static/images/site/cheers.jpg",     # S3 종이 프레임 안
+        "solution_bg":  "/static/images/site/beer_pour.jpg",  # S4 배경
+        "menu_bg":      "/static/images/site/store_full.jpg", # S7 메뉴 섹션 배경
+        "brand_visual": "/static/images/site/store_full.jpg", # 브랜드 페이지 풀비주얼
+        "brand_blocks": [                                     # 브랜드 페이지 블록 사진
+            "/static/images/site/cheers.jpg",
+            "/static/images/site/beer_pour.jpg",
+        ],
+    },
+    "solution_dishes": [                  # S4 하단 누끼 음식 3종
+        "/static/images/menu/c04_m03.webp",   # 치즈국물떡볶이
+        "/static/images/menu/c05_m07.webp",   # 한마리 닭볶음탕
+        "/static/images/menu/c02_m10.webp",   # 모듬튀김
+    ],
+
     # ---------- S7 메뉴 / S10 입소문 ----------
     "menu_headline": "빠져드는 맥주엔딹 <em>메뉴</em>",
     "wom": {

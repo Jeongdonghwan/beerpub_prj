@@ -1,24 +1,21 @@
-{% from "_macros.html" import ph, badge_label with context %}
+{% from "_macros.html" import ph with context %}
+{# 메뉴 — 매장 실사 딤 배경 + 센터 카피 + 누끼 메뉴 마퀴 (리얼펍 레퍼런스) #}
 <section class="fp s7" id="s7">
-  <div class="wrap">
-    <div class="head">
-      <div>
-        <h2 data-rv>{{ brand.menu_headline | safe }}</h2>
-        <p data-rv>가격 보고 한 번, 맛 보고 또 한 번 놀라실 겁니다</p>
-      </div>
-      <a class="btn-line" href="{{ url_for('menu.preview') }}" data-rv>메뉴전체보기</a>
-    </div>
-    <div class="mgrid">
-      {% for m in menus %}
-      <div class="mc" data-rv style="transition-delay:{{ (loop.index0 % 5) * 0.06 }}s"
-           data-modal-url="{{ url_for('menu.popup', menu_id=m.id) }}">
-        <div class="th mth">
-          {% if m.badge %}<span class="bd">{{ badge_label(m.badge) }}</span>{% endif %}
+  <div class="s7-bg"><img src="{{ brand.section_images.menu_bg }}" alt="" aria-hidden="true"></div>
+  <div class="s7-dim"></div>
+  <div class="s7-in">
+    <h2 data-rv>{{ brand.menu_headline | safe }}</h2>
+    <p class="s7-sub" data-rv style="transition-delay:.08s">가격 보고 한 번, 맛 보고 또 한 번 놀라실 겁니다</p>
+    <a class="btn-red pill-btn" href="{{ url_for('menu.preview') }}" data-rv style="transition-delay:.16s">메뉴전체보기</a>
+    <div class="mq" data-rv style="transition-delay:.24s">
+      <div class="mq-track" style="--dur:56s"><div class="set">
+        {% for m in menus %}
+        <div class="mmi" data-modal-url="{{ url_for('menu.popup', menu_id=m.id) }}">
           {{ ph(m.image, '메뉴 사진', '800x800', alt=brand.name ~ ' ' ~ m.name) }}
+          <span class="disp">{{ m.name }}</span>
         </div>
-        <div class="nm"><h4>{{ m.name }}</h4>{% if m.price %}<span class="disp">{{ '{:,}'.format(m.price) }}원</span>{% endif %}</div>
-      </div>
-      {% endfor %}
+        {% endfor %}
+      </div></div>
     </div>
   </div>
 </section>

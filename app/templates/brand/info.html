@@ -4,12 +4,14 @@
 {% block content %}
 <div class="wrap">
   {{ page_head(brand.name, brand.brand_page.title) }}
-  <div class="brand-visual" data-reveal>{{ ph('', '브랜드 풀비주얼', '2560x1080', tone='light') }}</div>
+  <div class="brand-visual" data-reveal>{{ ph(brand.section_images.brand_visual, '브랜드 풀비주얼', '2560x1080', tone='light') }}</div>
   <div class="brand-blocks">
+    {% set ns = namespace(img=0) %}
     {% for b in brand.brand_page.blocks %}
     {% if b.type == 'block' %}
     <div class="bblock" data-reveal>
-      <div class="bb-img">{{ ph('', '브랜드 스토리 사진', '1200x900', tone='light') }}</div>
+      <div class="bb-img">{{ ph(brand.section_images.brand_blocks[ns.img] if ns.img < brand.section_images.brand_blocks|length else '', '브랜드 스토리 사진', '1200x900', tone='light') }}</div>
+      {% set ns.img = ns.img + 1 %}
       <div>
         <h3>{{ b.title | safe }}</h3>
         <p>{{ b.body }}</p>

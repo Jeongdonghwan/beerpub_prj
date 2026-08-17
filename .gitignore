@@ -5,6 +5,7 @@ __pycache__/
 *.mp4
 !app/static/video/hero.mp4
 메뉴이미지(누끼)/
+이미지 폴더/
 app/static/uploads/*
 !app/static/uploads/**/.gitkeep
 instance/
