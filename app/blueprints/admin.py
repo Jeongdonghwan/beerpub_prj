@@ -170,6 +170,9 @@ def inquiry_update(inquiry_id):
 
 
 # ---------------------------------------------------------------- 제네릭 CRUD
+SORTABLE = {"category", "menu", "interior", "story", "banner"}
+
+
 def _get_board(board):
     if board not in BOARDS:
         abort(404)
@@ -209,8 +212,29 @@ def _apply_form(cfg, item, board):
 @bp.route("/<board>")
 def board_list(board):
     cfg = _get_board(board)
-    items = cfg["model"].query.order_by(cfg["model"].id.desc()).all()
-    return render_template("admin/board_list.html", board=board, cfg=cfg, items=items)
+    model = cfg["model"]
+    if board in SORTABLE:
+        items = model.query.order_by(model.sort, model.id).all()
+    else:
+        items = model.query.order_by(model.id.desc()).all()
+    return render_template(
+        "admin/board_list.html", board=board, cfg=cfg, items=items,
+        sortable=board in SORTABLE,
+    )
+
+
+@bp.route("/<board>/reorder", methods=["POST"])
+def board_reorder(board):
+    cfg = _get_board(board)
+    if board not in SORTABLE:
+        abort(400)
+    ids = (request.get_json(silent=True) or {}).get("ids", [])
+    items = {m.id: m for m in cfg["model"].query.filter(cfg["model"].id.in_(ids)).all()}
+    for i, mid in enumerate(ids):
+        if mid in items:
+            items[mid].sort = i
+    db.session.commit()
+    return {"ok": True}
 
 
 @bp.route("/<board>/new", methods=["GET", "POST"])

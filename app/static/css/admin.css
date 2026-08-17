@@ -14,6 +14,11 @@ hr{border:none;border-top:1px solid #2c2c31;margin:10px 0}
 .adm-main h2{font-size:22px;margin-bottom:22px}
 .adm-main h3{font-size:16px;margin:30px 0 12px}
 
+.hint{margin:-10px 0 14px;color:#888;font-size:12.5px}
+.drag-th{width:34px}
+.drag-handle{cursor:grab;color:#aaa;text-align:center;user-select:none;font-size:15px}
+tr.dragging{opacity:.4}
+tr.saved td{background:#eaf7ea;transition:background .6s}
 .head-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
 .head-row h2{margin:0}
 .btn{display:inline-block;background:#E8262B;color:#fff;font-weight:700;padding:10px 20px;border:none;border-radius:3px;cursor:pointer;font-size:13.5px}

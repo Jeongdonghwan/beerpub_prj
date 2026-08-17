@@ -15,7 +15,8 @@ def get_csrf_token():
 
 
 def check_csrf():
-    return request.form.get("_csrf", "") == session.get("_csrf", "-")
+    token = request.form.get("_csrf", "") or request.headers.get("X-CSRF-Token", "")
+    return token == session.get("_csrf", "-")
 
 
 def is_honeypot_filled(form):
