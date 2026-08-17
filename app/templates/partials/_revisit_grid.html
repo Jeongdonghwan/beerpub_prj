@@ -1,0 +1,11 @@
+{# 다시 찾는 이유 4가지 — 메인 S2(네온)와 브랜드 페이지(라이트) 공용.
+   사용처에서 rv_tone='neon'|'light', rv_reveal='rv'|'reveal' 지정 #}
+{% set attr = 'data-rv' if rv_reveal != 'reveal' else 'data-reveal' %}
+<div class="rbox-grid cols2 {{ 'rv-light' if rv_tone == 'light' }}">
+  {% for it in brand.revisit['items'] %}
+  <div class="rbox" {{ attr }} style="transition-delay:{{ loop.index0 * 0.08 }}s">
+    <b>{{ loop.index }}</b>
+    <p><span class="rt">{{ it.title }}</span><small>{{ it.desc }}</small></p>
+  </div>
+  {% endfor %}
+</div>

@@ -1,22 +1,32 @@
 {% extends "base.html" %}
-{% from "_macros.html" import ph, page_head, badge_label with context %}
+{% from "_macros.html" import ph, badge_label with context %}
 {% block title %}메뉴판 미리보기 — {{ brand.name }}{% endblock %}
 {% block content %}
 <div class="wrap">
-  {{ page_head('메뉴판 미리보기', '안주가 맛있는 ' ~ brand.name ~ '의 전체 메뉴') }}
+  <div class="menu-head" data-reveal>
+    <h2 class="disp">{{ brand.menu_headline | safe }}</h2>
+  </div>
+
+  <div class="cat-tabs" data-reveal>
+    <a class="on" href="{{ url_for('menu.preview') }}">메뉴판 미리보기</a>
+    {% for c in categories %}
+    <a href="{{ url_for('menu.list_', ca_id=c.id) }}">{{ c.name }}</a>
+    {% endfor %}
+  </div>
+
   {% for c in categories %}
   {% set items = c.menus | selectattr('is_active') | list %}
   {% if items %}
   <div class="cat-sec" data-reveal>
     <h3>{{ c.name }}</h3>
     <div class="menu-grid">
-      {% for m in items %}
+      {% for m in items | sort(attribute='sort') %}
       <div class="mc" data-modal-url="{{ url_for('menu.popup', menu_id=m.id) }}">
         <div class="mth">
           {% if m.badge %}<span class="bd">{{ badge_label(m.badge) }}</span>{% endif %}
           {{ ph(m.image, '메뉴 사진', '800x800', alt=brand.name ~ ' ' ~ m.name, tone='light') }}
         </div>
-        <div class="nm"><h4>{{ m.name }}</h4><span>{{ '{:,}'.format(m.price) }}원</span></div>
+        <div class="nm"><h4>{{ m.name }}</h4>{% if m.price %}<span>{{ '{:,}'.format(m.price) }}원</span>{% endif %}</div>
       </div>
       {% endfor %}
     </div>

@@ -1,7 +1,12 @@
 {% from "_macros.html" import ph with context %}
 <section class="fp s1" id="s1">
   <div class="vwrap">
-    {% if brand.hero_youtube_id %}
+    {% if brand.hero_video %}
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata"
+           poster="{{ brand.hero_poster }}" aria-hidden="true" tabindex="-1">
+      <source src="{{ brand.hero_video }}" type="video/mp4">
+    </video>
+    {% elif brand.hero_youtube_id %}
     <iframe class="hero-video"
       src="https://www.youtube.com/embed/{{ brand.hero_youtube_id }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ brand.hero_youtube_id }}&playsinline=1"
       title="{{ brand.name }} 브랜드 영상" frameborder="0" allow="autoplay" tabindex="-1"></iframe>

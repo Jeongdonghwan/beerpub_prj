@@ -103,16 +103,26 @@
       }, 140);
     }, { passive: true });
 
-    /* 도트·스크롤 유도 화살표 등 페이지 내 #앵커 클릭도 같은 easing 으로 */
+    /* 도트·스크롤 화살표·GNB(/#s6 형태 포함) 등 같은 페이지 #앵커는 easing 으로.
+       다른 페이지에서 온 /#sN 링크는 브라우저 기본 이동. */
     document.addEventListener('click', function (e) {
-      var a = e.target.closest('a[href^="#"]');
+      var a = e.target.closest('a[href*="#"]');
       if (!a || !mqDesktop.matches) return;
-      var target = document.querySelector(a.getAttribute('href'));
+      if (a.pathname !== location.pathname || !a.hash) return;
+      var target = document.querySelector(a.hash);
       if (target && target.classList.contains('fp')) {
         e.preventDefault();
         goTo(secs.indexOf(target));
       }
     });
+
+    /* 다른 페이지에서 /#sN 으로 진입한 경우 해당 섹션으로 즉시 정렬 */
+    if (location.hash) {
+      var landing = document.querySelector(location.hash);
+      if (landing && landing.classList.contains('fp')) {
+        window.scrollTo(0, landing.offsetTop);
+      }
+    }
   }
 
   /* ---------- 시그니처 주류 센터포커스 캐러셀 (슬라이드는 서버 렌더 DOM) ---------- */

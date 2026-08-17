@@ -3,33 +3,29 @@
 {% block title %}브랜드 소개 — {{ brand.name }}{% endblock %}
 {% block content %}
 <div class="wrap">
-  {{ page_head('브랜드', brand.name ~ '이 만드는 완벽한 첫 잔') }}
+  {{ page_head(brand.name, brand.brand_page.title) }}
   <div class="brand-visual" data-reveal>{{ ph('', '브랜드 풀비주얼', '2560x1080', tone='light') }}</div>
   <div class="brand-blocks">
+    {% for b in brand.brand_page.blocks %}
+    {% if b.type == 'block' %}
     <div class="bblock" data-reveal>
-      <div class="bb-img">{{ ph('', '브랜드 스토리 이미지', '1200x900', tone='light') }}</div>
+      <div class="bb-img">{{ ph('', '브랜드 스토리 사진', '1200x900', tone='light') }}</div>
       <div>
-        <h3>탄생 배경 <span>[확인필요]</span></h3>
-        <p>{{ brand.slogan }} — {{ brand.sub_slogan }}<br>
-        브랜드 탄생 배경 스토리 원문은 자료 수급 후 교체합니다. [확인필요: 스토리 원문]</p>
+        <h3>{{ b.title | safe }}</h3>
+        <p>{{ b.body }}</p>
       </div>
     </div>
-    <div class="bblock" data-reveal>
-      <div class="bb-img">{{ ph('', '맥주 철학 이미지', '1200x900', tone='light') }}</div>
-      <div>
-        <h3>맥주 철학 <span>[확인필요]</span></h3>
-        <p>매장별 관 세척과 온도 관리 시스템으로 첫 잔 품질을 지킵니다.
-        맥주 철학 원문은 자료 수급 후 교체합니다. [확인필요: 스토리 원문]</p>
-      </div>
-    </div>
-    <div class="bblock" data-reveal>
-      <div class="bb-img">{{ ph('', '가맹 철학 이미지', '1200x900', tone='light') }}</div>
-      <div>
-        <h3>가맹 철학 <span>[확인필요]</span></h3>
-        <p>{{ brand.contrast_frame.solution_headline | striptags }}.
-        가맹 철학 원문은 자료 수급 후 교체합니다. [확인필요: 스토리 원문]</p>
-      </div>
-    </div>
+    {% else %}
+    <p class="bstatement disp" data-reveal>{{ b.text | safe }}</p>
+    {% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="brand-revisit" data-reveal>
+    <h3 class="disp">{{ brand.revisit.headline | safe }}</h3>
+    <p class="brv-sub">{{ brand.revisit.sub }}</p>
+    {% with rv_tone='light', rv_reveal='reveal' %}{% include "partials/_revisit_grid.html" %}{% endwith %}
+    <p class="brv-closing disp">{{ brand.revisit.closing | safe }}</p>
   </div>
 </div>
 {% endblock %}

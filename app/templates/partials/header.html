@@ -23,7 +23,9 @@
             {% endfor %}
           </ul>
         </li>
-        <li><a href="{{ url_for('interior.list_') }}">매장 인테리어</a></li>
+        <li><a href="{{ url_for('interior.list_') }}">인테리어</a></li>
+        <li><a href="{{ url_for('main.index') }}#s6">성공포인트</a></li>
+        <li><a href="{{ url_for('main.index') }}#s10">입소문</a></li>
         <li><a href="{{ url_for('store.list_') }}">매장찾기</a></li>
         <li>
           <a href="{{ url_for('startup.step') }}">창업안내</a>
@@ -32,14 +34,6 @@
             <li><a href="{{ url_for('startup.cost') }}">창업비용</a></li>
             <li><a href="{{ url_for('inquiry.form') }}">창업문의</a></li>
             <li><a href="{{ url_for('board.notice_list') }}">창업소식</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="{{ url_for('main.doc', slug='policy') }}">약관 및 정책</a>
-          <ul class="dep2">
-            <li><a href="{{ url_for('main.doc', slug='policy') }}">이용약관</a></li>
-            <li><a href="{{ url_for('main.doc', slug='private') }}">개인정보처리방침</a></li>
-            <li><a href="{{ url_for('main.doc', slug='antiemail') }}">이메일무단수집거부</a></li>
           </ul>
         </li>
       </ul>
@@ -66,18 +60,15 @@
     <a href="{{ url_for('menu.preview') }}">메뉴판 미리보기</a>
     {% for c in gnb_categories %}<a href="{{ url_for('menu.list_', ca_id=c.id) }}">{{ c.name }}</a>{% endfor %}
   </details>
-  <a class="m1" href="{{ url_for('interior.list_') }}">매장 인테리어</a>
+  <a class="m1" href="{{ url_for('interior.list_') }}">인테리어</a>
+  <a class="m1" href="{{ url_for('main.index') }}#s6">성공포인트</a>
+  <a class="m1" href="{{ url_for('main.index') }}#s10">입소문</a>
   <a class="m1" href="{{ url_for('store.list_') }}">매장찾기</a>
   <details><summary>창업안내</summary>
     <a href="{{ url_for('startup.step') }}">개설절차</a>
     <a href="{{ url_for('startup.cost') }}">창업비용</a>
     <a href="{{ url_for('inquiry.form') }}">창업문의</a>
     <a href="{{ url_for('board.notice_list') }}">창업소식</a>
-  </details>
-  <details><summary>약관 및 정책</summary>
-    <a href="{{ url_for('main.doc', slug='policy') }}">이용약관</a>
-    <a href="{{ url_for('main.doc', slug='private') }}">개인정보처리방침</a>
-    <a href="{{ url_for('main.doc', slug='antiemail') }}">이메일무단수집거부</a>
   </details>
   <a class="mnav-call" href="tel:{{ brand.phone | replace('-', '') }}">가맹문의 {{ brand.phone }}</a>
 </nav>

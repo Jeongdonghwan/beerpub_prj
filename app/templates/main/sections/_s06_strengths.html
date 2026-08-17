@@ -1,16 +1,15 @@
-{# 운영 강점 3가지 — 레드 스트립 섹션 (CLAUDE.md S5, 신규 추가) #}
+{# 성공포인트 — Easy / Taste / Profit (레드 스트립) #}
 <section class="fp s6" id="s6">
   <div class="wrap">
-    <h2 data-rv>{{ brand.strengths_headline | safe }}</h2>
-    <p class="sub" data-rv style="transition-delay:.1s">요리 경험 없어도 괜찮습니다. 시스템이 맛을 만듭니다.</p>
-    <div class="str-grid">
-      {% for s in brand.strengths %}
-      <div class="str" data-rv style="transition-delay:{{ loop.index0 * 0.12 }}s">
-        <b class="disp">{{ '%02d' | format(loop.index) }}</b>
-        <p>{{ s }}</p>
+    <h2 data-rv>{{ brand.success_points.headline | safe }}</h2>
+    <div class="sp-grid">
+      {% for p in brand.success_points['items'] %}
+      <div class="sp" data-rv style="transition-delay:{{ loop.index0 * 0.12 }}s">
+        <b class="disp en">{{ p.en }}</b>
+        <h4>{{ p.title }}</h4>
+        <p>{{ p.desc }}</p>
       </div>
       {% endfor %}
     </div>
-    <p class="foot" data-rv>[확인필요: 교육일수/조리시간 실측치]</p>
   </div>
 </section>

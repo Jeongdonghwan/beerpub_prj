@@ -13,6 +13,23 @@
 .bblock p{margin-top:18px;line-height:1.9;color:#555;font-size:15.5px}
 @media(max-width:1024px){.bblock{grid-template-columns:1fr}.bblock:nth-child(even) .bb-img{order:0}}
 
+/* ---------- 브랜드: 스테이트먼트 + 다시 찾는 이유(라이트) ---------- */
+.bstatement{text-align:center;font-size:clamp(24px,3vw,40px);line-height:1.45;padding:26px 0}
+.bstatement em{font-style:normal;color:var(--red)}
+.brand-revisit{margin-top:80px;text-align:center}
+.brand-revisit>h3{font-size:clamp(22px,2.6vw,34px);line-height:1.35}
+.brand-revisit>h3 em{font-style:normal;color:var(--red)}
+.brv-sub{margin:14px 0 34px;color:#6b675f;font-weight:600}
+.brv-closing{margin-top:30px;font-size:clamp(17px,1.8vw,24px)}
+.brv-closing em{font-style:normal;color:var(--red)}
+.rbox-grid.cols2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;text-align:left}
+.rv-light .rbox{border:2px solid var(--black);border-radius:0;position:relative;padding:30px 22px 24px;box-shadow:none;display:flex;flex-direction:column;align-items:center;text-align:center}
+.rv-light .rbox b{position:absolute;top:-16px;font-family:var(--disp);font-size:24px;color:#fff;background:var(--red);padding:2px 12px}
+.rv-light .rbox p{font-weight:700;line-height:1.45}
+.rv-light .rbox p .rt{display:block;font-family:var(--disp);font-size:clamp(16px,1.5vw,20px);color:var(--red)}
+.rv-light .rbox p small{display:block;margin-top:10px;font-size:14px;font-weight:500;color:#6b675f}
+@media(max-width:768px){.rbox-grid.cols2{grid-template-columns:1fr}}
+
 /* ---------- 연혁 타임라인 (좌우 교차) ---------- */
 .timeline{position:relative;max-width:860px;margin:0 auto;padding:20px 0}
 .timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:#d5d1c8}
@@ -31,22 +48,26 @@
   .tl-item::before{left:1px!important;right:auto!important}
 }
 
-/* ---------- 메뉴 ---------- */
-.cat-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px}
-.cat-tabs a{padding:11px 22px;border:2px solid var(--black);font-weight:800;font-size:14px;transition:.2s}
-.cat-tabs a.on,.cat-tabs a:hover{background:var(--black);color:#fff}
+/* ---------- 메뉴 (리얼펍 레퍼런스: 센터 타이틀 + 박스 탭 + 블랙 바 카드) ---------- */
+.menu-head{text-align:center;margin-bottom:34px}
+.menu-head h2{font-size:clamp(30px,3.8vw,48px);line-height:1.25}
+.menu-head h2 em{font-style:normal;color:var(--red)}
+.cat-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:44px}
+.cat-tabs a{padding:12px 26px;border:1px solid #c9c4b9;background:#fff;font-weight:800;font-size:14.5px;transition:.2s}
+.cat-tabs a.on,.cat-tabs a:hover{background:var(--red);border-color:var(--red);color:#fff}
 .menu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.menu-grid .mc{background:#fff;border:1px solid #DDD8CE;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.menu-grid .mc{background:#fff;cursor:pointer;transition:transform .3s,box-shadow .3s}
 .menu-grid .mc:hover{transform:translateY(-8px);box-shadow:0 22px 40px -18px rgba(0,0,0,.3)}
-.menu-grid .mth{aspect-ratio:1/1;position:relative;overflow:hidden}
+.menu-grid .mth{aspect-ratio:1/1;position:relative;overflow:hidden;background:#F7F5F1;display:flex;align-items:center;justify-content:center}
+.menu-grid .mth .ph-img{object-fit:contain;padding:14px}
 .menu-grid .bd{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;font-size:10.5px;font-weight:800;padding:4px 9px;z-index:1}
-.menu-grid .nm{padding:14px 16px 16px}
+.menu-grid .nm{background:var(--black);color:#fff;text-align:center;padding:13px 10px}
 .menu-grid .nm h4{font-size:15.5px;font-weight:800}
-.menu-grid .nm span{font-family:var(--disp);font-weight:700;font-size:14px;color:#333;display:block;margin-top:6px}
+.menu-grid .nm span{font-family:var(--disp);font-weight:700;font-size:13.5px;color:var(--yellow);display:block;margin-top:5px}
 .cat-sec{margin-bottom:54px}
 .cat-sec>h3{font-family:var(--disp);font-size:24px;margin-bottom:20px;padding-left:14px;border-left:5px solid var(--red)}
 .empty-msg{padding:60px 0;text-align:center;color:#98938a;font-weight:600}
-@media(max-width:1024px){.menu-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1024px){.menu-grid{grid-template-columns:repeat(2,1fr)}.cat-tabs a{padding:10px 16px;font-size:13px}}
 
 /* ---------- 인테리어 masonry + 라이트박스 ---------- */
 .masonry{columns:3;column-gap:18px}

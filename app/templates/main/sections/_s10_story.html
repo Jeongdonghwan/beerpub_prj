@@ -1,7 +1,7 @@
 {% from "_macros.html" import ph with context %}
 <section class="fp s10" id="s10">
   <div class="wrap">
-    <h2 class="disp" data-rv>성공창업 스토리<br><span class="s-sub">먼저 시작한 점주님들의 진짜 이야기</span></h2>
+    <h2 class="disp" data-rv>{{ brand.wom.title }}<br><span class="s-sub">{{ brand.wom.sub }}</span></h2>
     <div class="sgrid">
       {% for s in stories %}
       <div class="sc" data-rv style="transition-delay:{{ loop.index0 * 0.08 }}s"
