@@ -24,8 +24,12 @@ body.main main{padding:0}
 .fp-nav a.on{height:28px;background:var(--red)}
 @media(max-width:1024px){.fp-nav{display:none}}
 
-/* ---------- S1 히어로 (유튜브 배경영상 / 폴백 ph + Ken Burns) ---------- */
+/* ---------- S1 히어로 (배경영상 / 폴백 ph + Ken Burns) ---------- */
 .s1{background:#000}
+/* 모바일: 다른 섹션은 높이 auto 지만 히어로는 풀스크린 유지 (영상 배경이 잘리지 않게) */
+@media(max-width:1024px){
+  .s1{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:80px 0 110px}
+}
 .s1 .vwrap{position:absolute;inset:0;overflow:hidden}
 .hero-video{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:max(100vw,177.78vh);height:max(100vh,56.25vw);pointer-events:none;object-fit:cover}
 .hero-fallback{position:absolute;inset:0}
