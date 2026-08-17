@@ -77,10 +77,10 @@ BRAND = {
             "/static/images/site/beer_pour.jpg",
         ],
     },
-    "solution_dishes": [                  # S4 하단 누끼 음식 3종
-        "/static/images/menu/c04_m03.webp",   # 치즈국물떡볶이
-        "/static/images/menu/c05_m07.webp",   # 한마리 닭볶음탕
-        "/static/images/menu/c02_m10.webp",   # 모듬튀김
+    "solution_dishes": [                  # S4 하단 누끼 음식 3종 (투명 여백 크롭본)
+        "/static/images/site/dish_tteok.webp",   # 치즈국물떡볶이
+        "/static/images/site/dish_dak.webp",     # 한마리 닭볶음탕
+        "/static/images/site/dish_twigim.webp",  # 모듬튀김
     ],
 
     # ---------- S7 메뉴 / S10 입소문 ----------
