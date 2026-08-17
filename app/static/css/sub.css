@@ -114,6 +114,7 @@ body.sub .ctab th:last-child{text-align:right;color:var(--yellow)}
 body.sub .ctab td{padding:13px 18px;border-top:1px solid #EFEBE2;font-size:14px}
 body.sub .ctab td:last-child{text-align:right;font-family:var(--disp);font-weight:700;font-size:15px}
 body.sub .ctab td small{display:block;color:#98938a;font-size:11.5px;margin-top:3px}
+body.sub .ctab td .rnote{color:var(--red);font-weight:700}
 body.sub .ctab tr.tt td{background:var(--red);color:#fff;font-weight:800}
 body.sub .ctab tr.tt td:last-child{font-size:22px}
 .cost-note{text-align:center;color:#98938a;font-size:12px;margin-top:16px}

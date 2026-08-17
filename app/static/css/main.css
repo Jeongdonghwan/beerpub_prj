@@ -83,15 +83,16 @@ body.main main{padding:0}
 .s4{background:#0B0908}
 .s4-bg{position:absolute;inset:0}
 .s4-bg img{width:100%;height:100%;object-fit:cover}
-.s4-dim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.5) 45%,rgba(0,0,0,.78) 100%)}
+.s4-dim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.74) 0%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.85) 100%)}
 .s4 .s4-in{position:relative;z-index:1;text-align:center}
 .s4 h2{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4vw,58px);line-height:1.35;text-shadow:0 4px 26px rgba(0,0,0,.6)}
 .s4 h2 em{font-style:normal;color:#FF3C3C;text-shadow:0 0 12px rgba(255,60,60,.95),0 0 42px rgba(255,40,40,.6)}
 .s4 .pills{display:flex;gap:14px;justify-content:center;margin-top:28px;flex-wrap:wrap}
 .s4 .pills span{background:#fff;color:var(--black);font-weight:800;font-size:clamp(13px,1.3vw,15.5px);padding:11px 28px;border-radius:999px;box-shadow:0 8px 24px -8px rgba(0,0,0,.5)}
-.s4 .dishes{display:flex;justify-content:center;align-items:flex-end;gap:2%;margin-top:30px}
-.s4 .dishes img{width:min(30%,330px);height:auto;filter:drop-shadow(0 26px 44px rgba(0,0,0,.55))}
-@media(max-width:1024px){.s4 .dishes img{width:31%}}
+.s4 .dishes{display:flex;justify-content:center;align-items:flex-end;margin-top:14px}
+.s4 .dishes img{width:min(34%,470px);height:auto;margin:0 -2%;filter:drop-shadow(0 26px 44px rgba(0,0,0,.6))}
+.s4 .dishes img:nth-child(2){width:min(38%,520px);position:relative;z-index:1}
+@media(max-width:1024px){.s4 .dishes img{width:36%}.s4 .dishes img:nth-child(2){width:42%}}
 
 /* ---------- S5 시그니처 주류 센터포커스 캐러셀 ---------- */
 .s5{background:radial-gradient(700px 360px at 15% 12%,rgba(120,150,180,.15),transparent 60%),radial-gradient(700px 360px at 85% 18%,rgba(120,150,180,.12),transparent 60%),#0A0B0E;text-align:center}
@@ -194,6 +195,7 @@ body.main main{padding:0}
 .ctab td{padding:13px 18px;border-top:1px solid #EFEBE2;font-size:14px}
 .ctab td:last-child{text-align:right;font-size:15px}
 .ctab td small{display:block;color:#98938a;font-size:11.5px;margin-top:3px;font-family:var(--body);font-weight:400}
+.ctab td .rnote{color:var(--red);font-weight:700}
 .ctab tr.tt td{background:var(--red);color:#fff;font-weight:800}
 .ctab tr.tt td:last-child{font-size:22px}
 .s12 .note{text-align:center;color:#98938a;font-size:12px;margin-top:16px}
