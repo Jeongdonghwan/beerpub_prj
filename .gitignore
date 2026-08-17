@@ -2,6 +2,9 @@ __pycache__/
 *.pyc
 .venv/
 .env
+*.mp4
+!app/static/video/hero.mp4
+메뉴이미지(누끼)/
 app/static/uploads/*
 !app/static/uploads/**/.gitkeep
 instance/
