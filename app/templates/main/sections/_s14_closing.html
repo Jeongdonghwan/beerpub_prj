@@ -1,16 +1,35 @@
-{% from "_macros.html" import ph with context %}
+{# 클로징 — 로고 + 카피 + 인라인 상담신청 폼 #}
 <section class="fp s14" id="s14">
   <div class="wrap">
     <img class="cl-logo" src="{{ brand.logo }}" alt="{{ brand.name }} 로고" data-rv>
     <h2 data-rv style="transition-delay:.08s">당신의 성공창업<br><span class="r">{{ brand.name }}</span>이 함께합니다</h2>
     <p data-rv style="transition-delay:.16s">지금 문의하시면 상권 분석 리포트를 무료로 보내드립니다</p>
-    <div class="strip">
-      <div class="mq"><div class="mq-track" style="--dur:30s"><div class="set">
-        {% for b in banners %}
-        <div class="bn">{% if b.link %}<a href="{{ b.link }}" target="_blank" rel="noopener">{% endif %}{{ ph(b.image, '배너', '360x120', alt=b.title) }}{% if b.link %}</a>{% endif %}</div>
-        {% endfor %}
-      </div></div></div>
-    </div>
+
+    <form class="cl-form inq-page-form" action="{{ url_for('inquiry.submit') }}" method="post" data-rv style="transition-delay:.24s">
+      <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="cl-row">
+        <input type="text" name="name" placeholder="성함" required>
+        <input type="tel" name="phone" placeholder="연락처" required>
+      </div>
+      <div class="cl-row">
+        <select name="region" required>
+          <option value="">가맹희망지역</option>
+          {% for r in brand.regions %}<option value="{{ r }}">{{ r }}</option>{% endfor %}
+        </select>
+        <select name="channel" required>
+          <option value="">유입경로</option>
+          {% for c in brand.channels %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+        </select>
+      </div>
+      <textarea name="message" placeholder="문의내용 (예산, 희망 시기 등)"></textarea>
+      <label class="cl-agree">
+        <input type="checkbox" name="agree_privacy" required>
+        <span><u data-modal-url="{{ url_for('main.doc', slug='private', embed=1) }}">개인정보처리방침</u>에 동의합니다</span>
+      </label>
+      <button class="btn-red" type="submit">창업 상담 신청하기</button>
+    </form>
+
     <div class="ft">
       {{ brand.company or "회사명 [확인필요]" }} · 주소 {{ brand.footer.address or "[확인필요]" }} · 대표 {{ brand.footer.ceo or "[확인필요]" }} · 사업자등록번호 {{ brand.footer.biz_no or "[확인필요]" }} · 이메일 {{ brand.footer.email or "[확인필요]" }}
       <span class="ft-links">

@@ -152,12 +152,14 @@
     }
 
     function render() {
+      /* 잔 간격: 뷰포트 비례 (PC 최대 300px) — 양옆 잔이 살짝 겹치며 하단을 채움 */
+      var gap = Math.min(window.innerWidth * 0.19, 300);
       slides.forEach(function (el, i) {
         var off = i - cur;
         if (off > n / 2) off -= n;
         if (off < -n / 2) off += n;
         var big = off === 0;
-        el.style.transform = 'translateX(' + off * 180 + 'px) scale(' + (big ? 1 : 0.78) + ')';
+        el.style.transform = 'translateX(' + off * gap + 'px) scale(' + (big ? 1 : 0.82) + ')';
         el.style.zIndex = 10 - Math.abs(off);
         el.style.opacity = Math.abs(off) >= 2 ? 0.5 : 1;
         el.style.filter = big ? 'none' : 'brightness(.6)';
@@ -171,7 +173,32 @@
       }
     }
     render();
+    window.addEventListener('resize', render);
     setInterval(function () { cur = (cur + 1) % n; render(); }, 3500);
+  }
+
+  /* ---------- 개설절차 슬라이더 — 진행바 + 화살표 ---------- */
+  var track = document.getElementById('stepsTrack');
+  if (track) {
+    var steps = track.children.length;
+    var prev = document.getElementById('stepsPrev');
+    var next = document.getElementById('stepsNext');
+    var bar = document.getElementById('stepsBar');
+    var idx = 0;
+    function visible() { return window.matchMedia('(min-width:1025px)').matches ? 5 : 2; }
+    function draw() {
+      var v = visible();
+      var max = Math.max(steps - v, 0);
+      idx = Math.min(Math.max(idx, 0), max);
+      track.style.transform = 'translateX(' + (-idx * (100 / v)) + '%)';
+      bar.style.width = Math.min((idx + v) / steps * 100, 100) + '%';
+      prev.disabled = idx === 0;
+      next.disabled = idx === max;
+    }
+    prev.addEventListener('click', function () { idx--; draw(); });
+    next.addEventListener('click', function () { idx++; draw(); });
+    window.addEventListener('resize', draw);
+    draw();
   }
 
   /* ---------- 비용 테이블 — Jinja 가 3평형 전부 렌더, JS 는 탭 show/hide 만 ---------- */

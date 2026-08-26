@@ -105,14 +105,21 @@ body.main main{padding:0}
 .s5 h2{font-family:var(--disp);font-weight:700;font-size:clamp(34px,4.4vw,64px);line-height:1.25}
 .s5 h2 .glow{display:block;margin-top:10px;color:#fff;text-shadow:0 0 14px rgba(255,80,80,.9),0 0 44px rgba(255,60,60,.5);font-size:clamp(28px,3.6vw,52px)}
 .s5 h2 .glow small{font-size:.4em;opacity:.5;text-shadow:none}
-.carousel{margin-top:40px;position:relative;height:min(42vh,400px);display:flex;align-items:flex-end;justify-content:center}
+/* 잔이 하단을 꽉 채우는 대형 센터포커스 (리얼펍 레퍼런스). 간격은 main.js 가 뷰포트 비례로 계산 */
+.s5 .wrap{position:relative}
+.carousel{margin-top:10px;position:relative;height:min(58vh,560px);display:flex;align-items:flex-end;justify-content:center}
 .dr{position:absolute;bottom:0;transition:transform .6s var(--ease),opacity .6s,filter .6s;cursor:pointer}
-.dr .dr-ph{width:150px;height:240px}
-.dr.center .dr-ph{width:190px;height:300px}
-.dr .dr-ph{transition:width .6s var(--ease),height .6s var(--ease)}
-.dr .dr-ph .ph-img{object-fit:contain;filter:drop-shadow(0 18px 30px rgba(0,0,0,.6))}
-.pill{display:inline-block;background:#1B1B1E;border:1px solid #333;color:#fff;font-size:18px;padding:13px 34px;border-radius:999px;margin-top:26px}
-.dots{display:flex;gap:12px;justify-content:center;margin-top:22px}
+.dr .dr-ph{width:min(20vw,260px);height:min(44vh,420px);transition:width .6s var(--ease),height .6s var(--ease)}
+.dr.center .dr-ph{width:min(28vw,380px);height:min(58vh,560px)}
+.dr .dr-ph .ph-img,.dr .dr-ph .ph{object-fit:contain;object-position:bottom;filter:drop-shadow(0 28px 40px rgba(0,0,0,.7))}
+.s5 .carousel::before{content:'';position:absolute;inset:auto 0 0;height:36%;background:linear-gradient(180deg,transparent,rgba(160,200,230,.12));pointer-events:none}
+.pill{position:relative;z-index:20;display:inline-block;background:#1B1B1E;border:1px solid #333;color:#fff;font-size:18px;padding:13px 34px;border-radius:999px;margin-top:-26px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.dots{position:relative;z-index:20;display:flex;gap:12px;justify-content:center;margin-top:18px}
+@media(max-width:1024px){
+  .carousel{height:min(44vh,380px)}
+  .dr .dr-ph{width:30vw;height:min(32vh,260px)}
+  .dr.center .dr-ph{width:44vw;height:min(44vh,380px)}
+}
 .dots i{width:10px;height:10px;border-radius:99px;background:#3A3A3E;cursor:pointer;transition:.3s}
 .dots i.on{width:30px;background:var(--red)}
 
@@ -154,19 +161,6 @@ body.main main{padding:0}
 .s8 .rows{display:flex;flex-direction:column;gap:20px}
 .s8 .btn-line{margin-top:36px;align-self:center}
 
-/* ---------- S9 상권 3분할 ---------- */
-.s9{padding:0!important}
-.s9 .cols{display:grid;grid-template-columns:repeat(3,1fr);height:100%;min-height:inherit}
-.s9 .c{position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:0 40px calc(var(--form-h) + 60px);overflow:hidden}
-.s9 .c-bg{position:absolute;inset:0}
-.s9 .c-bg .ph,.s9 .c-bg .ph-img{height:100%}
-.s9 .c::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25) 30%,rgba(0,0,0,.75));pointer-events:none}
-.s9 .c>b,.s9 .c>h3,.s9 .c>p{position:relative;z-index:1}
-.s9 .c b{font-size:44px;color:rgba(255,255,255,.3)}
-.s9 .c h3{font-size:clamp(24px,2.4vw,36px);margin-top:10px}
-.s9 .c p{color:rgba(255,255,255,.65);font-weight:600;margin-top:8px;font-size:15px}
-@media(max-width:1024px){.s9 .cols{grid-template-columns:1fr}.s9 .c{padding:52px 24px;min-height:280px}}
-
 /* ---------- S10 입소문 — 영수증리뷰 캡처 2줄 마퀴 ---------- */
 .s10{background:var(--paper);color:var(--black);text-align:center}
 .s10 h2{font-size:clamp(30px,3.6vw,50px);margin-bottom:36px;line-height:1.3}
@@ -179,13 +173,26 @@ body.main main{padding:0}
 .rv span{display:block;margin-top:8px;font-size:13px;font-weight:700;color:#555}
 @media(max-width:1024px){.rv{width:150px}}
 
-/* ---------- S11 개설절차 8단계 마퀴 ---------- */
-.s11{background:#0B0B0D}
-.s11 h2{font-size:clamp(28px,3.2vw,46px);text-align:center;margin-bottom:36px;line-height:1.3}
-.stp{width:190px;background:#151518;border:1px solid #26262A;padding:24px 20px;flex-shrink:0}
-.stp b{font-size:13px;color:var(--red);letter-spacing:.15em}
-.stp h4{font-size:17px;font-weight:800;margin-top:10px}
-.stp p{color:rgba(255,255,255,.4);font-size:12.5px;margin-top:6px;line-height:1.55}
+/* ---------- S11 개설절차 — 원형 카드 지그재그 슬라이더 ---------- */
+.s11{background:#F3F1EC;color:var(--black);text-align:center}
+.s11 .kicker{font-family:var(--disp);font-weight:700;font-size:clamp(14px,1.4vw,18px);color:#444}
+.s11 h2{font-size:clamp(28px,3.6vw,50px);line-height:1.25;margin-top:6px}
+.steps-viewport{overflow:hidden;margin-top:36px;padding:14px 0 6px}
+.steps-track{display:flex;transition:transform .7s var(--ease);will-change:transform}
+.step{flex:0 0 20%;display:flex;justify-content:center;align-items:flex-start;padding:0 8px}
+.step.down{padding-top:84px}
+.circle{position:relative;width:min(100%,210px);aspect-ratio:1;border-radius:50%;background:#fff;box-shadow:0 18px 40px -22px rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 18px;text-align:center}
+.circle .badge{position:absolute;top:-4px;right:-4px;width:62px;height:62px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;line-height:1.1;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 18px -8px rgba(232,38,43,.8)}
+.circle .badge span{font-size:15px;margin-top:1px}
+.circle h4{font-size:clamp(15px,1.4vw,18px);font-weight:800;margin-top:8px}
+.circle p{margin-top:8px;font-size:12.5px;color:#777;line-height:1.55}
+.steps-ctrl{display:flex;align-items:center;gap:14px;max-width:760px;margin:34px auto 0}
+.steps-ctrl .bar{flex:1;height:5px;background:#D9D5CD;position:relative;overflow:hidden}
+.steps-ctrl .bar i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--red);transition:width .6s var(--ease)}
+.steps-ctrl button{width:30px;height:30px;color:#777;font-size:24px;line-height:1;border:none;background:none;cursor:pointer}
+.steps-ctrl button:hover{color:var(--black)}
+.steps-ctrl button:disabled{opacity:.3;cursor:default}
+@media(max-width:1024px){.step{flex-basis:50%}.step.down{padding-top:40px}.circle{width:min(100%,190px)}}
 
 /* ---------- S12 창업비용 ---------- */
 .s12{background:var(--paper);color:var(--black)}
@@ -235,9 +242,19 @@ body.main main{padding:0}
 .s14 .cl-logo{width:min(260px,50vw);height:auto;margin:0 auto 22px;filter:drop-shadow(0 8px 24px rgba(0,0,0,.6))}
 .s14 h2{font-family:var(--disp);font-weight:700;font-size:clamp(34px,4.4vw,64px);line-height:1.3}
 .s14>.wrap>p{color:rgba(255,255,255,.5);margin-top:18px;font-weight:600}
-.s14 .strip{margin-top:44px;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:22px 0}
-.s14 .bn{width:240px;height:80px;flex-shrink:0;opacity:.75}
-.s14 .bn .ph span{font-size:11.5px}
+/* 인라인 상담신청 폼 */
+.cl-form{max-width:680px;margin:34px auto 0;display:flex;flex-direction:column;gap:10px;text-align:left}
+.cl-form .cl-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cl-form input,.cl-form select,.cl-form textarea{height:50px;background:#1E1E1E;border:1px solid #333;color:#fff;font-size:14.5px;padding:0 16px;border-radius:2px;outline:none;font-family:var(--body);width:100%}
+.cl-form textarea{height:90px;padding:12px 16px;resize:vertical}
+.cl-form input::placeholder,.cl-form textarea::placeholder{color:#888}
+.cl-form input:focus,.cl-form select:focus,.cl-form textarea:focus{border-color:var(--red)}
+.cl-form .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.cl-agree{display:flex;align-items:center;gap:8px;font-size:13.5px;color:#ccc;cursor:pointer}
+.cl-agree input{width:auto;height:auto;accent-color:var(--red)}
+.cl-agree u{cursor:pointer}
+.cl-form .btn-red{border:none;cursor:pointer;height:56px;font-size:17px;margin-top:4px}
+@media(max-width:1024px){.cl-form .cl-row{grid-template-columns:1fr}}
 .s14 .ft{margin-top:30px;color:rgba(255,255,255,.35);font-size:12.5px;line-height:2}
 .s14 .ft-links{display:block;margin-top:6px}
 .s14 .ft-links a:hover{color:#fff}

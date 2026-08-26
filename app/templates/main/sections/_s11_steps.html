@@ -1,8 +1,27 @@
+{# 개설절차 — 라이트 배경, 원형 카드 지그재그, STEP 뱃지, 진행바 + 화살표 슬라이더 #}
 <section class="fp s11" id="s11">
-  <h2 class="disp" data-rv>상담부터 오픈까지, 빠르고 투명하게<br><span class="s-sub">성공창업의 빠른 길로 이끌어 드립니다</span></h2>
-  <div class="mq" data-rv><div class="mq-track" style="--dur:40s"><div class="set">
-    {% for s in brand.startup_steps %}
-    <div class="stp"><b class="disp">STEP {{ '%02d' | format(loop.index) }}</b><h4>{{ s.name }}</h4><p>{{ s.desc }}</p></div>
-    {% endfor %}
-  </div></div></div>
+  <div class="wrap">
+    <p class="kicker" data-rv>상담부터 오픈까지, 빠르고 투명하게</p>
+    <h2 class="disp" data-rv style="transition-delay:.08s">성공창업의 <span class="r">빠른 길</span>로 이끌어 드립니다.</h2>
+
+    <div class="steps-viewport" data-rv style="transition-delay:.16s">
+      <div class="steps-track" id="stepsTrack">
+        {% for s in brand.startup_steps %}
+        <div class="step {{ 'down' if loop.index0 % 2 }}">
+          <div class="circle">
+            <b class="badge disp">STEP<span>{{ '%02d' | format(loop.index) }}</span></b>
+            <h4>{{ s.name }}</h4>
+            <p>{{ s.desc }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="steps-ctrl" data-rv style="transition-delay:.24s">
+      <div class="bar"><i id="stepsBar"></i></div>
+      <button type="button" id="stepsPrev" aria-label="이전">‹</button>
+      <button type="button" id="stepsNext" aria-label="다음">›</button>
+    </div>
+  </div>
 </section>
