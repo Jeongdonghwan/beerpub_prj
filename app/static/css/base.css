@@ -41,9 +41,13 @@ ul,ol{list-style:none}
 .site-header{position:fixed;inset:0 0 auto;height:var(--hd-h);background:#fff;z-index:100;display:flex;align-items:center;transition:box-shadow .3s}
 .site-header.scrolled{box-shadow:0 4px 24px -12px rgba(0,0,0,.25)}
 .hd{width:min(1560px,96%);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.logo{color:var(--black);line-height:1;flex-shrink:0}
+.logo{color:var(--black);line-height:1;flex-shrink:0;display:flex;align-items:center}
+.logo img{height:66px;width:auto}
 .logo .lg1{display:block;font-size:30px;letter-spacing:-.02em}
 .logo .lg2{display:block;font-size:15px;margin-top:3px}
+.inq-logo img{height:46px;width:auto}
+.site-footer .f-logo{height:40px;width:auto;margin-bottom:16px;opacity:.9}
+@media(max-width:1024px){.logo img{height:52px}}
 nav.gnb>ul{display:flex;gap:52px}
 nav.gnb>ul>li{position:relative}
 nav.gnb>ul>li>a{color:var(--black);font-size:17px;font-weight:600;padding:34px 0;display:block}

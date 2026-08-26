@@ -1,8 +1,12 @@
 <header class="site-header">
   <div class="hd">
     <a class="logo" href="{{ url_for('main.index') }}">
+      {% if brand.logo %}
+      <img src="{{ brand.logo }}" alt="{{ brand.name }}">
+      {% else %}
       <span class="lg1 disp">{{ brand.name }}</span>
       {% if brand.sub_name %}<span class="lg2 disp">{{ brand.sub_name }}</span>{% endif %}
+      {% endif %}
     </a>
 
     <nav class="gnb" aria-label="주 메뉴">

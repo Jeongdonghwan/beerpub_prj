@@ -2,8 +2,12 @@
 <div class="inq-bar">
   <div class="inq-in">
     <div class="inq-logo">
+      {% if brand.logo %}
+      <img src="{{ brand.logo }}" alt="{{ brand.name }}">
+      {% else %}
       <span class="lg1 disp">{{ brand.name }}</span>
       {% if brand.sub_name %}<span class="lg2 disp">{{ brand.sub_name }}</span>{% endif %}
+      {% endif %}
     </div>
     <a class="inq-call" href="tel:{{ brand.phone | replace('-', '') }}">
       <span class="lbl">가맹문의</span>

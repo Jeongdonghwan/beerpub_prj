@@ -20,6 +20,11 @@
   <div class="wrap hero-copy">
     <p class="h-main disp" data-rv>{{ brand.slogan }}</p>
     <p class="h-sub" data-rv style="transition-delay:.15s">{{ brand.sub_slogan }}</p>
+    {% if brand.logo %}
+    <img class="h-logo" src="{{ brand.logo }}" alt="{{ brand.name }}" data-rv style="transition-delay:.3s">
+    {% else %}
+    <p class="h-name disp" data-rv style="transition-delay:.3s">{{ brand.name }}</p>
+    {% endif %}
   </div>
   <a class="scroll-down" href="#s2" aria-label="아래로 스크롤"><i></i></a>
 </section>

@@ -1,5 +1,6 @@
 <footer class="site-footer">
   <div class="wrap">
+    {% if brand.logo %}<img class="f-logo" src="{{ brand.logo }}" alt="{{ brand.name }}">{% endif %}
     <p class="f-info">
       {{ brand.company or "회사명 [확인필요]" }} ·
       주소 {{ brand.footer.address or "[확인필요]" }} ·
