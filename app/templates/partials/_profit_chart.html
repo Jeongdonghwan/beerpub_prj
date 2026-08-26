@@ -1,50 +1,41 @@
-{# 수익분석 — CSS conic-gradient 도넛 + 항목표. pf_tone='dark'|'light'
-   색: 영업이익=레드 강조, 지출=황금 계열 단일 색상 명도 램프(단조 감소) + 직접 라벨/표로 보조 인코딩 #}
+{# 수익분석 — 좌 영수증 카드 + 우 파이(조각 라벨, 차오르는 애니메이션, 카운트업). pf_tone='dark'|'light'
+   색: 영업이익=레드 강조, 지출=황금 계열 명도 램프(단조 감소). 애니메이션/라벨은 common.js #}
 {% set pf = brand.profit %}
-{% set ns = namespace(spent=0, deg=0) %}
+{% set ns = namespace(spent=0) %}
 {% for it in pf['items'] %}{% set ns.spent = ns.spent + it.amount %}{% endfor %}
 {% set profit_amt = pf.monthly_sales - ns.spent %}
 {% set ramp = ['#FFD34D', '#F0B53A', '#D9962B', '#B8781F', '#8F5B18', '#6A4212'] %}
-
-{# conic-gradient 세그먼트 (2px 간격은 흰 링 오버레이로 표현) #}
-{% set segs = [] %}
-{% set ns.deg = 0 %}
-{% set p_deg = pf.profit_pct * 3.6 %}
-{% set _ = segs.append("var(--red) 0deg " ~ p_deg ~ "deg") %}
-{% set ns.deg = p_deg %}
-{% for it in pf['items'] %}
-  {% set d = it.pct * 3.6 %}
-  {% set _ = segs.append(ramp[loop.index0] ~ " " ~ ns.deg ~ "deg " ~ (ns.deg + d) ~ "deg") %}
-  {% set ns.deg = ns.deg + d %}
-{% endfor %}
+{% set segs = [{"label": "영업이익", "pct": pf.profit_pct, "color": "#E8262B", "accent": true}] %}
+{% for it in pf['items'] %}{% set _ = segs.append({"label": it.label, "pct": it.pct, "color": ramp[loop.index0]}) %}{% endfor %}
 
 <div class="pf pf--{{ pf_tone }}">
-  <div class="pf-chart">
-    <div class="donut" style="background:conic-gradient({{ segs | join(', ') }})" role="img"
-         aria-label="월매출 {{ '{:,}'.format(pf.monthly_sales) }}만원 중 영업이익 {{ pf.profit_pct }}%">
-      <div class="donut-hole">
-        <small>월매출액</small>
-        <b class="disp">{{ '{:,}'.format(pf.monthly_sales) }}<i>만원</i></b>
-      </div>
-    </div>
-    <div class="pf-legend">
-      <span class="lg profit"><i></i>영업이익 {{ pf.profit_pct }}%</span>
-      {% for it in pf['items'] %}
-      <span class="lg"><i style="background:{{ ramp[loop.index0] }}"></i>{{ it.label }} {{ it.pct }}%</span>
-      {% endfor %}
-    </div>
-  </div>
-
-  <div class="pf-table">
+  <div class="pf-card">
+    <h3 class="disp">{{ brand.name }} 수익분석</h3>
+    <p class="pf-basis">{{ pf.basis }}</p>
+    <p class="pf-unit">단위 : 만원</p>
     <table>
-      <thead><tr><th>항목</th><th>금액</th><th>비율</th></tr></thead>
+      <thead><tr><th>항목</th><th>금액</th><th>%</th></tr></thead>
       <tbody>
+        <tr class="sales"><td>월 매출액</td><td class="disp"><span data-count="{{ pf.monthly_sales }}">{{ '{:,}'.format(pf.monthly_sales) }}</span></td><td>100%</td></tr>
         {% for it in pf['items'] %}
-        <tr><td>{{ it.label }}</td><td class="disp">{{ '{:,}'.format(it.amount) }}</td><td>{{ it.pct }}%</td></tr>
+        <tr><td>{{ it.label }}</td><td class="disp"><span data-count="{{ it.amount }}">{{ '{:,}'.format(it.amount) }}</span></td><td>{{ it.pct }}%</td></tr>
         {% endfor %}
-        <tr class="pt"><td>영업이익</td><td class="disp">{{ '{:,}'.format(profit_amt) }}</td><td>{{ pf.profit_pct }}%</td></tr>
+        <tr class="pt"><td>영업이익</td><td class="disp"><span data-count="{{ profit_amt }}">{{ '{:,}'.format(profit_amt) }}</span></td><td>{{ pf.profit_pct }}%</td></tr>
       </tbody>
     </table>
     <p class="pf-note">※ {{ pf.note }}</p>
+    <i class="barcode" aria-hidden="true"></i>
+  </div>
+
+  <div class="pf-pie">
+    <div class="pie-bg"><img src="{{ brand.section_images.problem }}" alt="" aria-hidden="true"></div>
+    <div class="donut" data-segs='{{ segs | tojson }}' role="img"
+         aria-label="월매출 {{ '{:,}'.format(pf.monthly_sales) }}만원 중 영업이익 {{ pf.profit_pct }}%">
+      <div class="donut-labels"></div>
+      <div class="donut-hole">
+        <small>{{ brand.name }}<br>월매출액</small>
+        <b class="disp"><span data-count="{{ pf.monthly_sales }}">{{ '{:,}'.format(pf.monthly_sales) }}</span>만</b>
+      </div>
+    </div>
   </div>
 </div>

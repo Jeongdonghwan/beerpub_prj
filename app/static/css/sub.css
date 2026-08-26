@@ -124,25 +124,8 @@ body.sub .ctab tr.tt td:last-child{font-size:22px}
 .profit-sub{margin-top:70px;text-align:center}
 .profit-sub>h3{font-size:clamp(24px,2.8vw,36px)}
 .profit-sub>h3::after{content:'';display:block;width:44px;height:4px;background:var(--red);margin:14px auto 0}
-.pf{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center;text-align:left;margin-top:30px}
-.pf-chart{display:flex;flex-direction:column;align-items:center;gap:22px}
-.donut{width:min(320px,70vw);aspect-ratio:1;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;box-shadow:0 30px 60px -30px rgba(0,0,0,.35)}
-.donut-hole{width:58%;aspect-ratio:1;border-radius:50%;background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
-.donut-hole small{font-size:12.5px;color:#6b675f;font-weight:600;margin-bottom:6px}
-.donut-hole b{font-size:clamp(26px,2.8vw,36px);color:var(--black)}
-.donut-hole b i{font-style:normal;font-size:.5em;margin-left:2px;color:#6b675f}
-.pf-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;font-size:13px;font-weight:600;color:#555}
-.pf-legend .lg i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
-.pf-legend .lg.profit i{background:var(--red)}
-.pf-legend .lg.profit{color:var(--black);font-weight:800}
-.pf-table table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #DDD8CE}
-.pf-table th{background:var(--black);color:#fff;font-size:13px;padding:12px 16px;text-align:left}
-.pf-table th:not(:first-child),.pf-table td:not(:first-child){text-align:right}
-.pf-table td{padding:11px 16px;border-top:1px solid #EFEBE2;font-size:14px}
-.pf-table td.disp{font-size:15px}
-.pf-table tr.pt td{background:var(--red);color:#fff;font-weight:800;font-size:16px}
-.pf-note{margin-top:14px;font-size:12px;line-height:1.7;color:#98938a}
-@media(max-width:1024px){.pf{grid-template-columns:1fr;gap:30px}}
+.profit-sub .pf{margin-top:30px}
+.pf--light .dl.out{color:var(--black);text-shadow:none}
 
 /* ---------- 창업문의 (확장 폼) ---------- */
 .inq-page-form{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:14px}

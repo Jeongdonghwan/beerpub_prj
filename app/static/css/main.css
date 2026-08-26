@@ -96,9 +96,10 @@ body.main main{padding:0}
 .s4 .pills{display:flex;gap:14px;justify-content:center;margin-top:28px;flex-wrap:wrap}
 .s4 .pills span{background:#fff;color:var(--black);font-weight:800;font-size:clamp(13px,1.3vw,15.5px);padding:11px 28px;border-radius:999px;box-shadow:0 8px 24px -8px rgba(0,0,0,.5)}
 .s4 .dishes{display:flex;justify-content:center;align-items:flex-end;margin-top:14px}
-.s4 .dishes img{width:min(34%,470px);height:auto;margin:0 -2%;filter:drop-shadow(0 26px 44px rgba(0,0,0,.6))}
-.s4 .dishes img:nth-child(2){width:min(38%,520px);position:relative;z-index:1}
-@media(max-width:1024px){.s4 .dishes img{width:36%}.s4 .dishes img:nth-child(2){width:42%}}
+.s4 .dishes .dish{width:min(34%,470px);margin:0 -2%;display:block}
+.s4 .dishes .dish img{width:100%;height:auto;filter:drop-shadow(0 26px 44px rgba(0,0,0,.6))}
+.s4 .dishes .dish:nth-child(2){width:min(38%,520px);position:relative;z-index:1}
+@media(max-width:1024px){.s4 .dishes .dish{width:36%}.s4 .dishes .dish:nth-child(2){width:42%}}
 
 /* ---------- S5 시그니처 주류 센터포커스 캐러셀 ---------- */
 .s5{background:radial-gradient(700px 360px at 15% 12%,rgba(120,150,180,.15),transparent 60%),radial-gradient(700px 360px at 85% 18%,rgba(120,150,180,.12),transparent 60%),#0A0B0E;text-align:center}
@@ -214,28 +215,8 @@ body.main main{padding:0}
 .s12 .note{text-align:center;color:#98938a;font-size:12px;margin-top:16px}
 .cost-fn{list-style:none;text-align:center;line-height:1.8}
 
-/* ---------- S13 수익분석 (다크) ---------- */
-.s13{background:radial-gradient(800px 400px at 50% 0%,rgba(232,38,43,.18),transparent 70%),#0B0B0D}
-.s13 h2{font-size:clamp(26px,3.4vw,46px);text-align:center;margin-bottom:34px;line-height:1.3}
-.pf{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center}
-.pf-chart{display:flex;flex-direction:column;align-items:center;gap:22px}
-.donut{width:min(320px,70vw);aspect-ratio:1;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
-.donut-hole{width:58%;aspect-ratio:1;border-radius:50%;background:#0B0B0D;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
-.donut-hole small{font-size:12.5px;color:rgba(255,255,255,.55);font-weight:600;margin-bottom:6px}
-.donut-hole b{font-size:clamp(26px,2.8vw,36px);color:#fff}
-.donut-hole b i{font-style:normal;font-size:.5em;margin-left:2px;color:rgba(255,255,255,.7)}
-.pf-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,.8)}
-.pf-legend .lg i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
-.pf-legend .lg.profit i{background:var(--red)}
-.pf-legend .lg.profit{color:#fff;font-weight:800}
-.pf-table table{width:100%;border-collapse:collapse;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
-.pf-table th{background:#1C1C1F;color:#fff;font-size:13px;padding:12px 16px;text-align:left}
-.pf-table th:not(:first-child),.pf-table td:not(:first-child){text-align:right}
-.pf-table td{padding:11px 16px;border-top:1px solid rgba(255,255,255,.08);font-size:14px;color:rgba(255,255,255,.85)}
-.pf-table td.disp{font-size:15px}
-.pf-table tr.pt td{background:var(--red);color:#fff;font-weight:800;font-size:16px}
-.pf-note{margin-top:14px;font-size:12px;line-height:1.7;color:rgba(255,255,255,.45)}
-@media(max-width:1024px){.pf{grid-template-columns:1fr;gap:30px}}
+/* ---------- S13 수익분석 (다크) — 영수증 카드 + 파이 (공통 스타일은 base.css .pf) ---------- */
+.s13{background:radial-gradient(900px 500px at 70% 40%,rgba(232,38,43,.16),transparent 70%),#0B0B0D}
 
 /* ---------- S14 클로징 + 배너 롤링 ---------- */
 .s14{background:#0B0B0D;text-align:center}

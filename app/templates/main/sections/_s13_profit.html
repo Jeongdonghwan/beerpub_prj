@@ -1,8 +1,8 @@
-{# 수익분석 — 다크 섹션 #}
+{# 수익분석 — 다크 섹션 (영수증 카드 + 파이) #}
 <section class="fp s13" id="s13">
   <div class="wrap">
-    <h2 class="disp" data-rv>월매출 <span class="r">{{ '{:,}'.format(brand.profit.monthly_sales) }}만원</span>, 영업이익 <span class="r">{{ brand.profit.profit_pct }}%</span><br><span class="s-sub">{{ brand.name }} 수익분석 — {{ brand.profit.basis }}</span></h2>
-    <div data-rv style="transition-delay:.12s">
+    <h2 class="sr-only">{{ brand.name }} 수익분석</h2>
+    <div data-rv="zoom">
       {% with pf_tone='dark' %}{% include "partials/_profit_chart.html" %}{% endwith %}
     </div>
   </div>

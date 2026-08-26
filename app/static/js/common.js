@@ -109,6 +109,77 @@
     }, { passive: true });
   }
 
+  /* ---------- 수익분석 파이 — 차오르는 애니메이션 + 조각 라벨 ---------- */
+  document.querySelectorAll('.donut[data-segs]').forEach(function (d) {
+    var segs;
+    try { segs = JSON.parse(d.getAttribute('data-segs')); } catch (err) { return; }
+    var labels = d.querySelector('.donut-labels');
+    function paint(p) {
+      var acc = 0, parts = [];
+      segs.forEach(function (s) {
+        var deg = s.pct * 3.6 * p;
+        parts.push(s.color + ' ' + acc + 'deg ' + (acc + deg) + 'deg');
+        acc += deg;
+      });
+      if (acc < 360) parts.push('transparent ' + acc + 'deg 360deg');
+      d.style.background = 'conic-gradient(' + parts.join(',') + ')';
+    }
+    function placeLabels() {
+      if (!labels) return;
+      labels.innerHTML = '';
+      var acc = 0;
+      segs.forEach(function (s) {
+        var deg = s.pct * 3.6, mid = acc + deg / 2;
+        acc += deg;
+        if (s.pct < 2.4) return;                 /* 극소 조각은 표에서만 */
+        var out = s.pct < 6;                     /* 작은 조각은 링 바깥 */
+        var r = out ? 1.13 : (s.accent ? 0.74 : 0.76);
+        var a = (mid - 90) * Math.PI / 180;
+        var el = document.createElement('span');
+        el.className = 'dl' + (s.accent ? ' accent' : '') + (out ? ' out' : '');
+        el.style.left = (50 + Math.cos(a) * 50 * r) + '%';
+        el.style.top = (50 + Math.sin(a) * 50 * r) + '%';
+        el.innerHTML = s.label + '<b>' + s.pct + '%</b>';
+        labels.appendChild(el);
+      });
+    }
+    paint(0);
+    var played = false;
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting || played) return;
+        played = true;
+        var t0 = performance.now();
+        (function step(now) {
+          var p = Math.min((now - t0) / 1300, 1);
+          paint(1 - Math.pow(1 - p, 3));
+          if (p < 1) requestAnimationFrame(step); else placeLabels();
+        })(t0);
+      });
+    }, { threshold: 0.35 }).observe(d);
+  });
+
+  /* ---------- 숫자 카운트업 — [data-count] ---------- */
+  var counters = document.querySelectorAll('[data-count]');
+  if (counters.length) {
+    var cntIO = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var el = e.target, target = parseInt(el.getAttribute('data-count'), 10);
+        cntIO.unobserve(el);
+        if (isNaN(target)) return;
+        var t0 = performance.now();
+        (function step(now) {
+          var p = Math.min((now - t0) / 1200, 1);
+          var v = Math.round(target * (1 - Math.pow(1 - p, 3)));
+          el.textContent = v.toLocaleString();
+          if (p < 1) requestAnimationFrame(step);
+        })(t0);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(function (el) { cntIO.observe(el); });
+  }
+
   /* ---------- 햄버거 → 풀스크린 아코디언 (body scroll lock) ---------- */
   var ham = document.querySelector('.ham');
   if (ham) {

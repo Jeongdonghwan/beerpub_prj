@@ -9,7 +9,7 @@
     </div>
     <div class="dishes">
       {% for d in brand.solution_dishes %}
-      <img src="{{ d }}" alt="{{ brand.name }} 대표 메뉴" data-rv style="transition-delay:{{ 0.15 + loop.index0 * 0.12 }}s" loading="lazy">
+      <span class="dish" data-rv="zoom" style="transition-delay:{{ 0.15 + loop.index0 * 0.12 }}s"><img class="float" src="{{ d }}" alt="{{ brand.name }} 대표 메뉴" loading="lazy"></span>
       {% endfor %}
     </div>
   </div>
