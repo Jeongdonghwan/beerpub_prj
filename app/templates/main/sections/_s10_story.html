@@ -1,9 +1,20 @@
 {% from "_macros.html" import ph with context %}
-{# 입소문 — 네이버 영수증리뷰 캡처 한 줄 마퀴, 클릭 시 확대 #}
+{# 입소문 — 상단 타이포 블록("입소문만으로 끝!") + 하단 세로형 리뷰 캡처 카드 마퀴 #}
 <section class="fp s10" id="s10">
-  <h2 class="disp" data-rv>{{ brand.wom.title }}<br><span class="s-sub">{{ brand.wom.sub }}</span></h2>
-  <div class="rows" data-rv>
-    <div class="mq"><div class="mq-track" style="--dur:52s"><div class="set">
+  <h2 class="sr-only">{{ brand.wom.title }} — {{ brand.wom.sub }}</h2>
+  <div class="wom-head">
+    <div class="stars" data-rv aria-hidden="true">✦ ✦ ✦ ✦ ✦ ✦ ✦</div>
+    <p class="wom-big disp" data-rv style="transition-delay:.08s">{{ brand.wom.big }}</p>
+    <div class="wom-row">
+      <p class="wom-side disp" data-rv="l" style="transition-delay:.2s">{{ brand.wom.left | safe }}</p>
+      <p class="wom-punch disp" data-rv="zoom" style="transition-delay:.3s">{{ brand.wom.punch }}</p>
+      <p class="wom-side disp" data-rv="r" style="transition-delay:.2s">{{ brand.wom.right | safe }}</p>
+    </div>
+    <p class="wom-tags" data-rv style="transition-delay:.4s">{% for t in brand.wom.tags %}<span>{{ t }}</span>{% endfor %}</p>
+  </div>
+
+  <div class="wom-cards" data-rv style="transition-delay:.5s">
+    <div class="mq"><div class="mq-track" style="--dur:60s"><div class="set">
       {% for s in stories %}
       <div class="rv" data-modal-url="{{ url_for('main.story_popup', story_id=s.id) }}">
         <div class="rv-img">{{ ph(s.thumb, '리뷰 캡처', '720x1280', alt=brand.name ~ ' ' ~ s.branch_name ~ ' 리뷰', tone='light') }}</div>

@@ -1,18 +1,23 @@
 {% from "_macros.html" import ph with context %}
-{# 시그니처 주류 센터포커스 캐러셀 — DB '주류' 카테고리 메뉴 렌더 #}
+{# 시그니처 주류 센터포커스 캐러셀 — DB '주류' 카테고리. 얼음/서리/눈발 장식 + 네온 헤드라인 #}
 <section class="fp s5" id="s5">
+  <div class="ice-deco" aria-hidden="true">
+    <i class="cube c1"></i><i class="cube c2"></i><i class="cube c3"></i><i class="cube c4"></i><i class="cube c5"></i><i class="cube c6"></i>
+    <div class="snow"></div>
+    <div class="frost"></div>
+  </div>
   <div class="wrap">
-    <h2 data-rv>살얼음으로 <span class="r">시원하게</span><span class="glow">{{ brand.name }} {{ brand.signature_product }}</span></h2>
+    <h2 data-rv>살얼음으로 <span class="r">시원하게</span><span class="glow neon">{{ brand.name }} {{ brand.signature_product }}</span></h2>
     <div class="carousel" id="car"
          data-link="{{ url_for('menu.list_', ca_id=drink_cat.id) if drink_cat else url_for('menu.preview') }}">
       {% for d in drinks %}
-      <div class="dr" data-name="{{ d.name }}">
+      <div class="dr" data-name="{{ d.name.split(' - ')[-1] }}">
         <div class="dr-ph">{{ ph(d.image, '주류 상품컷', '800x1200 누끼', alt=brand.name ~ ' ' ~ d.name) }}</div>
       </div>
       {% endfor %}
     </div>
     {% if drinks %}
-    <div class="pill disp" id="carName">{{ drinks[0].name }}</div>
+    <div class="pill disp" id="carName">{{ drinks[0].name.split(' - ')[-1] }}</div>
     <div class="dots" id="carDots"></div>
     {% endif %}
   </div>

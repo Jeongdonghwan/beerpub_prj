@@ -106,21 +106,37 @@ body.main main{padding:0}
 .s5 h2{font-family:var(--disp);font-weight:700;font-size:clamp(34px,4.4vw,64px);line-height:1.25}
 .s5 h2 .glow{display:block;margin-top:10px;color:#fff;text-shadow:0 0 14px rgba(255,80,80,.9),0 0 44px rgba(255,60,60,.5);font-size:clamp(28px,3.6vw,52px)}
 .s5 h2 .glow small{font-size:.4em;opacity:.5;text-shadow:none}
-/* 잔이 하단을 꽉 채우는 대형 센터포커스 (리얼펍 레퍼런스). 간격은 main.js 가 뷰포트 비례로 계산 */
-.s5 .wrap{position:relative}
-.carousel{margin-top:10px;position:relative;height:min(58vh,560px);display:flex;align-items:flex-end;justify-content:center}
+/* 잔 크기는 높이 기준으로 통일(비율 달라도 같은 키) — 가운데 크게, 양옆 조금 작게, 바닥 정렬 */
+.s5{overflow:hidden}
+.s5 .wrap{position:relative;z-index:2}
+.s5 h2 .neon{animation:neon 3.2s ease-in-out infinite}
+@keyframes neon{0%,100%{text-shadow:0 0 14px rgba(255,80,80,.9),0 0 44px rgba(255,60,60,.5)}50%{text-shadow:0 0 6px rgba(255,80,80,.6),0 0 22px rgba(255,60,60,.3)}92%{text-shadow:0 0 18px rgba(255,80,80,1),0 0 60px rgba(255,60,60,.7)}}
+.carousel{margin-top:6px;position:relative;height:min(60vh,580px);display:flex;align-items:flex-end;justify-content:center}
 .dr{position:absolute;bottom:0;transition:transform .6s var(--ease),opacity .6s,filter .6s;cursor:pointer}
-.dr .dr-ph{width:min(20vw,260px);height:min(44vh,420px);transition:width .6s var(--ease),height .6s var(--ease)}
-.dr.center .dr-ph{width:min(28vw,380px);height:min(58vh,560px)}
-.dr .dr-ph .ph-img,.dr .dr-ph .ph{object-fit:contain;object-position:bottom;filter:drop-shadow(0 28px 40px rgba(0,0,0,.7))}
-.s5 .carousel::before{content:'';position:absolute;inset:auto 0 0;height:36%;background:linear-gradient(180deg,transparent,rgba(160,200,230,.12));pointer-events:none}
-.pill{position:relative;z-index:20;display:inline-block;background:#1B1B1E;border:1px solid #333;color:#fff;font-size:18px;padding:13px 34px;border-radius:999px;margin-top:-26px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.dr .dr-ph{height:min(46vh,440px);width:auto;transition:height .6s var(--ease)}
+.dr.center .dr-ph{height:min(60vh,580px)}
+.dr .dr-ph .ph-img{height:100%;width:auto;object-fit:contain;object-position:bottom;filter:drop-shadow(0 28px 40px rgba(0,0,0,.75))}
+.dr .dr-ph .ph{height:100%;width:180px}
+.pill{position:relative;z-index:20;display:inline-block;background:#1B1B1E;border:1px solid #333;color:#fff;font-size:18px;padding:13px 34px;border-radius:999px;margin-top:-30px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
 .dots{position:relative;z-index:20;display:flex;gap:12px;justify-content:center;margin-top:18px}
 @media(max-width:1024px){
-  .carousel{height:min(44vh,380px)}
-  .dr .dr-ph{width:30vw;height:min(32vh,260px)}
-  .dr.center .dr-ph{width:44vw;height:min(44vh,380px)}
+  .carousel{height:min(46vh,400px)}
+  .dr .dr-ph{height:min(34vh,280px)}
+  .dr.center .dr-ph{height:min(46vh,400px)}
 }
+/* 얼음 조각 · 눈발 · 서리 (CSS 전용) */
+.ice-deco{position:absolute;inset:0;pointer-events:none;z-index:1}
+.ice-deco .cube{position:absolute;width:70px;height:70px;border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(190,225,255,.12) 55%,rgba(255,255,255,.35));border:1px solid rgba(255,255,255,.55);box-shadow:inset 0 0 18px rgba(255,255,255,.45),0 10px 30px rgba(0,0,0,.4);backdrop-filter:blur(2px);transform:rotate(18deg);animation:cubeFloat 7s ease-in-out infinite;opacity:.85}
+.ice-deco .c1{top:14%;left:6%;width:110px;height:110px;transform:rotate(-14deg);animation-delay:0s}
+.ice-deco .c2{top:32%;left:22%;width:56px;height:56px;animation-delay:1.2s}
+.ice-deco .c3{top:18%;right:12%;width:90px;height:90px;transform:rotate(26deg);animation-delay:.6s}
+.ice-deco .c4{top:44%;right:5%;width:64px;height:64px;animation-delay:2s}
+.ice-deco .c5{top:8%;left:44%;width:44px;height:44px;transform:rotate(40deg);animation-delay:1.6s}
+.ice-deco .c6{top:40%;left:38%;width:36px;height:36px;animation-delay:2.6s;opacity:.6}
+@keyframes cubeFloat{0%,100%{translate:0 0}50%{translate:0 -18px}}
+.ice-deco .snow{position:absolute;inset:0;background:radial-gradient(2px 2px at 12% 22%,rgba(255,255,255,.9),transparent 60%),radial-gradient(1.5px 1.5px at 28% 62%,rgba(255,255,255,.8),transparent 60%),radial-gradient(2.5px 2.5px at 47% 12%,rgba(255,255,255,.9),transparent 60%),radial-gradient(1.5px 1.5px at 63% 48%,rgba(255,255,255,.7),transparent 60%),radial-gradient(2px 2px at 78% 26%,rgba(255,255,255,.9),transparent 60%),radial-gradient(1.5px 1.5px at 88% 70%,rgba(255,255,255,.8),transparent 60%),radial-gradient(2px 2px at 36% 84%,rgba(255,255,255,.8),transparent 60%),radial-gradient(1.5px 1.5px at 8% 76%,rgba(255,255,255,.7),transparent 60%),radial-gradient(2px 2px at 57% 90%,rgba(255,255,255,.8),transparent 60%),radial-gradient(1.5px 1.5px at 93% 40%,rgba(255,255,255,.7),transparent 60%);background-size:100% 100%;animation:snowDrift 18s linear infinite;opacity:.9}
+@keyframes snowDrift{from{background-position:0 0}to{background-position:0 100%}}
+.ice-deco .frost{position:absolute;inset:auto 0 0;height:34%;background:radial-gradient(60% 100% at 50% 100%,rgba(200,230,255,.42),transparent 70%),linear-gradient(180deg,transparent,rgba(190,220,245,.22));filter:blur(6px)}
 .dots i{width:10px;height:10px;border-radius:99px;background:#3A3A3E;cursor:pointer;transition:.3s}
 .dots i.on{width:30px;background:var(--red)}
 
@@ -162,38 +178,41 @@ body.main main{padding:0}
 .s8 .rows{display:flex;flex-direction:column;gap:20px}
 .s8 .btn-line{margin-top:36px;align-self:center}
 
-/* ---------- S10 입소문 — 영수증리뷰 캡처 2줄 마퀴 ---------- */
-.s10{background:var(--paper);color:var(--black);text-align:center}
-.s10 h2{font-size:clamp(30px,3.6vw,50px);margin-bottom:36px;line-height:1.3}
-.s10 h2 .s-sub{color:#6b675f}
-.s10 .rows{display:flex;flex-direction:column;gap:18px}
-.rv{width:200px;flex-shrink:0;cursor:pointer;transition:transform .3s}
-.rv:hover{transform:translateY(-6px)}
-.rv .rv-img{aspect-ratio:3/4;background:#fff;border:1px solid #DDD8CE;overflow:hidden;box-shadow:0 14px 30px -18px rgba(0,0,0,.35)}
+/* ---------- S10 입소문 — 타이포 블록 + 세로형 리뷰 캡처 카드 마퀴 ---------- */
+.s10{background:radial-gradient(700px 360px at 50% 20%,rgba(232,38,43,.22),transparent 70%),linear-gradient(180deg,#141416 0%,#0B0B0D 100%);text-align:center}
+.wom-head{position:relative;z-index:1}
+.wom-head .stars{color:var(--yellow);letter-spacing:.6em;font-size:14px;text-shadow:0 0 12px rgba(255,211,77,.8)}
+.wom-big{font-size:clamp(28px,3.6vw,52px);color:var(--yellow);margin-top:10px;letter-spacing:.04em;text-shadow:0 0 18px rgba(255,211,77,.45)}
+.wom-row{display:flex;align-items:center;justify-content:center;gap:clamp(18px,3vw,48px);margin-top:-6px}
+.wom-side{font-size:clamp(17px,2vw,30px);line-height:1.25;color:#fff}
+.wom-punch{font-size:clamp(90px,13vw,190px);line-height:.95;color:var(--red);text-shadow:0 0 30px rgba(232,38,43,.7),0 14px 40px rgba(0,0,0,.6)}
+.wom-tags{margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.14);display:inline-flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;font-weight:800;font-size:clamp(13px,1.3vw,17px);color:rgba(255,255,255,.85)}
+.wom-cards{margin-top:34px}
+.rv{width:230px;flex-shrink:0;cursor:pointer;transition:transform .3s}
+.rv:hover{transform:translateY(-8px)}
+.rv .rv-img{aspect-ratio:9/16;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 26px 50px -24px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
 .rv .rv-img .ph-img{object-fit:cover;object-position:top}
-.rv span{display:block;margin-top:8px;font-size:13px;font-weight:700;color:#555}
-@media(max-width:1024px){.rv{width:150px}}
+.rv .rv-img .ph{border-color:#bbb}
+.rv span{display:block;margin-top:8px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.7)}
+@media(max-width:1024px){.rv{width:170px}.wom-row{gap:14px}}
 
 /* ---------- S11 개설절차 — 원형 카드 지그재그 슬라이더 ---------- */
 .s11{background:#F3F1EC;color:var(--black);text-align:center}
 .s11 .kicker{font-family:var(--disp);font-weight:700;font-size:clamp(14px,1.4vw,18px);color:#444}
 .s11 h2{font-size:clamp(28px,3.6vw,50px);line-height:1.25;margin-top:6px}
-.steps-viewport{overflow:hidden;margin-top:36px;padding:14px 0 6px}
-.steps-track{display:flex;transition:transform .7s var(--ease);will-change:transform}
-.step{flex:0 0 20%;display:flex;justify-content:center;align-items:flex-start;padding:0 8px}
-.step.down{padding-top:84px}
-.circle{position:relative;width:min(100%,210px);aspect-ratio:1;border-radius:50%;background:#fff;box-shadow:0 18px 40px -22px rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px 18px;text-align:center}
-.circle .badge{position:absolute;top:-4px;right:-4px;width:62px;height:62px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;line-height:1.1;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 18px -8px rgba(232,38,43,.8)}
-.circle .badge span{font-size:15px;margin-top:1px}
-.circle h4{font-size:clamp(15px,1.4vw,18px);font-weight:800;margin-top:8px}
-.circle p{margin-top:8px;font-size:12.5px;color:#777;line-height:1.55}
-.steps-ctrl{display:flex;align-items:center;gap:14px;max-width:760px;margin:34px auto 0}
-.steps-ctrl .bar{flex:1;height:5px;background:#D9D5CD;position:relative;overflow:hidden}
-.steps-ctrl .bar i{position:absolute;left:0;top:0;height:100%;width:0;background:var(--red);transition:width .6s var(--ease)}
-.steps-ctrl button{width:30px;height:30px;color:#777;font-size:24px;line-height:1;border:none;background:none;cursor:pointer}
-.steps-ctrl button:hover{color:var(--black)}
-.steps-ctrl button:disabled{opacity:.3;cursor:default}
-@media(max-width:1024px){.step{flex-basis:50%}.step.down{padding-top:40px}.circle{width:min(100%,190px)}}
+.steps-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:40px;padding-top:12px}
+.step{display:flex;justify-content:center;align-items:flex-start}
+.step.down{padding-top:70px}
+.circle{position:relative;width:100%;max-width:170px;aspect-ratio:1;border-radius:50%;background:#fff;box-shadow:0 18px 40px -22px rgba(0,0,0,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 12px;text-align:center;transition:transform .3s,box-shadow .3s}
+.circle:hover{transform:translateY(-6px);box-shadow:0 26px 44px -22px rgba(232,38,43,.45)}
+.circle .badge{position:absolute;top:-6px;right:-2px;width:54px;height:54px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;line-height:1.1;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 18px -8px rgba(232,38,43,.8)}
+.circle .badge span{font-size:14px;margin-top:1px}
+.circle h4{font-size:clamp(13px,1.15vw,16px);font-weight:800;margin-top:6px}
+.circle p{margin-top:6px;font-size:11.5px;color:#777;line-height:1.5}
+.steps-line{max-width:760px;margin:30px auto 0;height:5px;background:#D9D5CD;overflow:hidden}
+.steps-line i{display:block;height:100%;width:0;background:var(--red);transition:width 1.4s var(--ease)}
+.fp.active .steps-line i{width:100%}
+@media(max-width:1024px){.steps-grid{grid-template-columns:repeat(4,1fr);gap:10px 6px}.step.down{padding-top:26px}.circle{max-width:150px;padding:18px 10px}}
 
 /* ---------- S12 창업비용 ---------- */
 .s12{background:var(--paper);color:var(--black)}
