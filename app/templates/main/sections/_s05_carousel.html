@@ -11,8 +11,9 @@
     <div class="carousel" id="car"
          data-link="{{ url_for('menu.list_', ca_id=drink_cat.id) if drink_cat else url_for('menu.preview') }}">
       {% for d in drinks %}
+      {# 캐러셀 전용 이미지(몸통 높이 통일 캔버스) 우선, 없으면 메뉴 이미지 #}
       <div class="dr" data-name="{{ d.name.split(' - ')[-1] }}">
-        <div class="dr-ph">{{ ph(d.image, '주류 상품컷', '800x1200 누끼', alt=brand.name ~ ' ' ~ d.name) }}</div>
+        <div class="dr-ph">{{ ph('/static/images/site/drink_%02d.webp' % loop.index if loop.index <= 5 else d.image, '주류 상품컷', '800x1200 누끼', alt=brand.name ~ ' ' ~ d.name) }}</div>
       </div>
       {% endfor %}
     </div>

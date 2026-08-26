@@ -111,12 +111,13 @@ body.main main{padding:0}
 .s5 .wrap{position:relative;z-index:2}
 .s5 h2 .neon{animation:neon 3.2s ease-in-out infinite}
 @keyframes neon{0%,100%{text-shadow:0 0 14px rgba(255,80,80,.9),0 0 44px rgba(255,60,60,.5)}50%{text-shadow:0 0 6px rgba(255,80,80,.6),0 0 22px rgba(255,60,60,.3)}92%{text-shadow:0 0 18px rgba(255,80,80,1),0 0 60px rgba(255,60,60,.7)}}
-.carousel{margin-top:6px;position:relative;height:min(60vh,580px);display:flex;align-items:flex-end;justify-content:center}
-.dr{position:absolute;bottom:0;transition:transform .6s var(--ease),opacity .6s,filter .6s;cursor:pointer}
-.dr .dr-ph{height:min(46vh,440px);width:auto;transition:height .6s var(--ease)}
-.dr.center .dr-ph{height:min(60vh,580px)}
-.dr .dr-ph .ph-img{height:100%;width:auto;object-fit:contain;object-position:bottom;filter:drop-shadow(0 28px 40px rgba(0,0,0,.75))}
-.dr .dr-ph .ph{height:100%;width:180px}
+.carousel{margin-top:0;position:relative;height:min(64vh,620px);display:flex;align-items:flex-end;justify-content:center}
+.dr{position:absolute;bottom:-4vh;transition:transform .6s var(--ease),opacity .6s,filter .6s;cursor:pointer}
+/* 전용 이미지는 1600x1400 캔버스에 몸통 1000px 로 통일 → 같은 높이면 모든 잔 몸통 크기가 같음 */
+.dr .dr-ph{height:min(58vh,560px);aspect-ratio:1600/1400;transition:height .6s var(--ease)}
+.dr.center .dr-ph{height:min(68vh,660px)}
+.dr .dr-ph .ph-img{height:100%;width:100%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 28px 40px rgba(0,0,0,.75))}
+.dr .dr-ph .ph{height:100%}
 .pill{position:relative;z-index:20;display:inline-block;background:#1B1B1E;border:1px solid #333;color:#fff;font-size:18px;padding:13px 34px;border-radius:999px;margin-top:-30px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
 .dots{position:relative;z-index:20;display:flex;gap:12px;justify-content:center;margin-top:18px}
 @media(max-width:1024px){
@@ -126,14 +127,19 @@ body.main main{padding:0}
 }
 /* 얼음 조각 · 눈발 · 서리 (CSS 전용) */
 .ice-deco{position:absolute;inset:0;pointer-events:none;z-index:1}
-.ice-deco .cube{position:absolute;width:70px;height:70px;border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(190,225,255,.12) 55%,rgba(255,255,255,.35));border:1px solid rgba(255,255,255,.55);box-shadow:inset 0 0 18px rgba(255,255,255,.45),0 10px 30px rgba(0,0,0,.4);backdrop-filter:blur(2px);transform:rotate(18deg);animation:cubeFloat 7s ease-in-out infinite;opacity:.85}
-.ice-deco .c1{top:14%;left:6%;width:110px;height:110px;transform:rotate(-14deg);animation-delay:0s}
-.ice-deco .c2{top:32%;left:22%;width:56px;height:56px;animation-delay:1.2s}
-.ice-deco .c3{top:18%;right:12%;width:90px;height:90px;transform:rotate(26deg);animation-delay:.6s}
-.ice-deco .c4{top:44%;right:5%;width:64px;height:64px;animation-delay:2s}
-.ice-deco .c5{top:8%;left:44%;width:44px;height:44px;transform:rotate(40deg);animation-delay:1.6s}
-.ice-deco .c6{top:40%;left:38%;width:36px;height:36px;animation-delay:2.6s;opacity:.6}
-@keyframes cubeFloat{0%,100%{translate:0 0}50%{translate:0 -18px}}
+/* 얼음 결정 — 투명 유리 느낌(흰 하이라이트 + 푸른 굴절), 회색 덩어리로 보이지 않게 배경 블러 제거 */
+.ice-deco .cube{position:absolute;width:70px;height:70px;border-radius:18% 30% 22% 36%;background:
+  linear-gradient(135deg,rgba(255,255,255,.72) 0%,rgba(215,240,255,.18) 30%,rgba(120,180,230,.10) 55%,rgba(255,255,255,.55) 100%);
+  border:1.5px solid rgba(255,255,255,.75);box-shadow:inset 6px 6px 14px rgba(255,255,255,.55),inset -8px -8px 18px rgba(90,150,210,.35),0 14px 30px rgba(0,0,0,.45);
+  transform:rotate(18deg);animation:cubeFloat 7s ease-in-out infinite;opacity:.8}
+.ice-deco .cube::after{content:'';position:absolute;left:16%;top:12%;width:28%;height:18%;border-radius:50%;background:rgba(255,255,255,.85);filter:blur(2px)}
+.ice-deco .c1{top:12%;left:5%;width:130px;height:120px;transform:rotate(-14deg);animation-delay:0s}
+.ice-deco .c2{top:34%;left:20%;width:60px;height:56px;animation-delay:1.2s}
+.ice-deco .c3{top:16%;right:10%;width:110px;height:100px;transform:rotate(26deg);animation-delay:.6s}
+.ice-deco .c4{top:46%;right:4%;width:70px;height:66px;animation-delay:2s}
+.ice-deco .c5{top:6%;left:46%;width:48px;height:46px;transform:rotate(40deg);animation-delay:1.6s}
+.ice-deco .c6{top:30%;left:66%;width:40px;height:38px;animation-delay:2.6s;opacity:.6}
+@keyframes cubeFloat{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -20px;rotate:6deg}}
 .ice-deco .snow{position:absolute;inset:0;background:radial-gradient(2px 2px at 12% 22%,rgba(255,255,255,.9),transparent 60%),radial-gradient(1.5px 1.5px at 28% 62%,rgba(255,255,255,.8),transparent 60%),radial-gradient(2.5px 2.5px at 47% 12%,rgba(255,255,255,.9),transparent 60%),radial-gradient(1.5px 1.5px at 63% 48%,rgba(255,255,255,.7),transparent 60%),radial-gradient(2px 2px at 78% 26%,rgba(255,255,255,.9),transparent 60%),radial-gradient(1.5px 1.5px at 88% 70%,rgba(255,255,255,.8),transparent 60%),radial-gradient(2px 2px at 36% 84%,rgba(255,255,255,.8),transparent 60%),radial-gradient(1.5px 1.5px at 8% 76%,rgba(255,255,255,.7),transparent 60%),radial-gradient(2px 2px at 57% 90%,rgba(255,255,255,.8),transparent 60%),radial-gradient(1.5px 1.5px at 93% 40%,rgba(255,255,255,.7),transparent 60%);background-size:100% 100%;animation:snowDrift 18s linear infinite;opacity:.9}
 @keyframes snowDrift{from{background-position:0 0}to{background-position:0 100%}}
 .ice-deco .frost{position:absolute;inset:auto 0 0;height:34%;background:radial-gradient(60% 100% at 50% 100%,rgba(200,230,255,.42),transparent 70%),linear-gradient(180deg,transparent,rgba(190,220,245,.22));filter:blur(6px)}

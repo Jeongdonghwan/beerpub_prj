@@ -153,7 +153,7 @@
 
     function render() {
       /* 잔 간격: 뷰포트 비례 (PC 최대 300px) — 양옆 잔이 살짝 겹치며 하단을 채움 */
-      var gap = Math.min(window.innerWidth * 0.17, 250);
+      var gap = Math.min(window.innerWidth * 0.185, 270);
       slides.forEach(function (el, i) {
         var off = i - cur;
         if (off > n / 2) off -= n;
