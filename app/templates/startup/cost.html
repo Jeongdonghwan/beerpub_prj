@@ -21,7 +21,15 @@
       </tbody>
     </table>
   </div>
-  <p class="cost-note">{{ brand.cost_table.footnote }}</p>
+  <ul class="cost-note cost-fn">
+    {% for f in brand.cost_table.footnotes %}<li>※ {{ f }}</li>{% endfor %}
+  </ul>
+
+  <div class="profit-sub" data-reveal>
+    <h3 class="disp">수익분석</h3>
+    <p class="brv-sub">{{ brand.profit.basis }}</p>
+    {% with pf_tone='light' %}{% include "partials/_profit_chart.html" %}{% endwith %}
+  </div>
 
   <div class="cost-cta" data-reveal>
     <p>내 예산에 맞는 견적이 궁금하신가요?</p>

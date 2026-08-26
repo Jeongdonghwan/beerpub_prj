@@ -40,6 +40,8 @@ body.main main{padding:0}
 .hero-copy{position:relative;text-align:center}
 .hero-copy .h-main{font-size:clamp(38px,4.8vw,72px);line-height:1.2;text-shadow:0 4px 30px rgba(0,0,0,.5)}
 .hero-copy .h-sub{margin-top:20px;font-size:clamp(15px,1.6vw,20px);font-weight:600;color:rgba(255,255,255,.85)}
+.hero-copy .h-logo{width:min(420px,60vw);height:auto;margin:34px auto 0;filter:drop-shadow(0 10px 30px rgba(0,0,0,.55))}
+.hero-copy .h-name{margin-top:30px;font-size:clamp(44px,6vw,90px);line-height:1.1}
 .scroll-down{position:absolute;bottom:calc(var(--form-h) + 26px);left:50%;transform:translateX(-50%)}
 .scroll-down i{display:block;width:22px;height:34px;border:2px solid rgba(255,255,255,.7);border-radius:12px;position:relative}
 .scroll-down i::after{content:'';position:absolute;top:6px;left:50%;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:#fff;animation:sdown 1.6s infinite}
@@ -108,6 +110,7 @@ body.main main{padding:0}
 .dr .dr-ph{width:150px;height:240px}
 .dr.center .dr-ph{width:190px;height:300px}
 .dr .dr-ph{transition:width .6s var(--ease),height .6s var(--ease)}
+.dr .dr-ph .ph-img{object-fit:contain;filter:drop-shadow(0 18px 30px rgba(0,0,0,.6))}
 .pill{display:inline-block;background:#1B1B1E;border:1px solid #333;color:#fff;font-size:18px;padding:13px 34px;border-radius:999px;margin-top:26px}
 .dots{display:flex;gap:12px;justify-content:center;margin-top:22px}
 .dots i{width:10px;height:10px;border-radius:99px;background:#3A3A3E;cursor:pointer;transition:.3s}
@@ -164,18 +167,17 @@ body.main main{padding:0}
 .s9 .c p{color:rgba(255,255,255,.65);font-weight:600;margin-top:8px;font-size:15px}
 @media(max-width:1024px){.s9 .cols{grid-template-columns:1fr}.s9 .c{padding:52px 24px;min-height:280px}}
 
-/* ---------- S10 성공창업 스토리 ---------- */
-.s10{background:var(--paper);color:var(--black)}
-.s10 h2{font-size:clamp(30px,3.6vw,50px);text-align:center;margin-bottom:40px;line-height:1.3}
+/* ---------- S10 입소문 — 영수증리뷰 캡처 2줄 마퀴 ---------- */
+.s10{background:var(--paper);color:var(--black);text-align:center}
+.s10 h2{font-size:clamp(30px,3.6vw,50px);margin-bottom:36px;line-height:1.3}
 .s10 h2 .s-sub{color:#6b675f}
-.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.sc{background:#fff;border:1px solid #DDD8CE;cursor:pointer;transition:transform .3s,box-shadow .3s}
-.sc:hover{transform:translateY(-8px);box-shadow:0 22px 40px -18px rgba(0,0,0,.3)}
-.sc .th{height:130px;position:relative;overflow:hidden}
-.sc .br{position:absolute;bottom:-13px;left:16px;background:var(--red);color:#fff;font-size:12px;font-weight:800;padding:6px 14px;z-index:1}
-.sc .bd{padding:26px 18px 20px}
-.sc .bd p{font-size:14.5px;font-weight:700;line-height:1.55}
-@media(max-width:1024px){.sgrid{grid-template-columns:repeat(2,1fr)}}
+.s10 .rows{display:flex;flex-direction:column;gap:18px}
+.rv{width:200px;flex-shrink:0;cursor:pointer;transition:transform .3s}
+.rv:hover{transform:translateY(-6px)}
+.rv .rv-img{aspect-ratio:3/4;background:#fff;border:1px solid #DDD8CE;overflow:hidden;box-shadow:0 14px 30px -18px rgba(0,0,0,.35)}
+.rv .rv-img .ph-img{object-fit:cover;object-position:top}
+.rv span{display:block;margin-top:8px;font-size:13px;font-weight:700;color:#555}
+@media(max-width:1024px){.rv{width:150px}}
 
 /* ---------- S11 개설절차 8단계 마퀴 ---------- */
 .s11{background:#0B0B0D}
@@ -203,21 +205,48 @@ body.main main{padding:0}
 .ctab tr.tt td{background:var(--red);color:#fff;font-weight:800}
 .ctab tr.tt td:last-child{font-size:22px}
 .s12 .note{text-align:center;color:#98938a;font-size:12px;margin-top:16px}
-.s12 .note span{color:#c0392b}
+.cost-fn{list-style:none;text-align:center;line-height:1.8}
 
-/* ---------- S13 클로징 + 배너 롤링 ---------- */
-.s13{background:#0B0B0D;text-align:center}
-.s13 h2{font-family:var(--disp);font-weight:700;font-size:clamp(36px,4.6vw,68px);line-height:1.3}
-.s13>.wrap>p{color:rgba(255,255,255,.5);margin-top:18px;font-weight:600}
-.s13 .strip{margin-top:52px;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:22px 0}
-.s13 .bn{width:240px;height:80px;flex-shrink:0;opacity:.75}
-.s13 .bn .ph span{font-size:11.5px}
-.s13 .ft{margin-top:36px;color:rgba(255,255,255,.35);font-size:12.5px;line-height:2}
-.s13 .ft-links{display:block;margin-top:6px}
-.s13 .ft-links a:hover{color:#fff}
+/* ---------- S13 수익분석 (다크) ---------- */
+.s13{background:radial-gradient(800px 400px at 50% 0%,rgba(232,38,43,.18),transparent 70%),#0B0B0D}
+.s13 h2{font-size:clamp(26px,3.4vw,46px);text-align:center;margin-bottom:34px;line-height:1.3}
+.pf{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center}
+.pf-chart{display:flex;flex-direction:column;align-items:center;gap:22px}
+.donut{width:min(320px,70vw);aspect-ratio:1;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
+.donut-hole{width:58%;aspect-ratio:1;border-radius:50%;background:#0B0B0D;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.donut-hole small{font-size:12.5px;color:rgba(255,255,255,.55);font-weight:600;margin-bottom:6px}
+.donut-hole b{font-size:clamp(26px,2.8vw,36px);color:#fff}
+.donut-hole b i{font-style:normal;font-size:.5em;margin-left:2px;color:rgba(255,255,255,.7)}
+.pf-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;font-size:13px;font-weight:600;color:rgba(255,255,255,.8)}
+.pf-legend .lg i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.pf-legend .lg.profit i{background:var(--red)}
+.pf-legend .lg.profit{color:#fff;font-weight:800}
+.pf-table table{width:100%;border-collapse:collapse;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+.pf-table th{background:#1C1C1F;color:#fff;font-size:13px;padding:12px 16px;text-align:left}
+.pf-table th:not(:first-child),.pf-table td:not(:first-child){text-align:right}
+.pf-table td{padding:11px 16px;border-top:1px solid rgba(255,255,255,.08);font-size:14px;color:rgba(255,255,255,.85)}
+.pf-table td.disp{font-size:15px}
+.pf-table tr.pt td{background:var(--red);color:#fff;font-weight:800;font-size:16px}
+.pf-note{margin-top:14px;font-size:12px;line-height:1.7;color:rgba(255,255,255,.45)}
+@media(max-width:1024px){.pf{grid-template-columns:1fr;gap:30px}}
 
-/* ---------- 스토리 모달 내용 ---------- */
+/* ---------- S14 클로징 + 배너 롤링 ---------- */
+.s14{background:#0B0B0D;text-align:center}
+.s14 .cl-logo{width:min(260px,50vw);height:auto;margin:0 auto 22px;filter:drop-shadow(0 8px 24px rgba(0,0,0,.6))}
+.s14 h2{font-family:var(--disp);font-weight:700;font-size:clamp(34px,4.4vw,64px);line-height:1.3}
+.s14>.wrap>p{color:rgba(255,255,255,.5);margin-top:18px;font-weight:600}
+.s14 .strip{margin-top:44px;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:22px 0}
+.s14 .bn{width:240px;height:80px;flex-shrink:0;opacity:.75}
+.s14 .bn .ph span{font-size:11.5px}
+.s14 .ft{margin-top:30px;color:rgba(255,255,255,.35);font-size:12.5px;line-height:2}
+.s14 .ft-links{display:block;margin-top:6px}
+.s14 .ft-links a:hover{color:#fff}
+
+/* ---------- 입소문(리뷰 캡처) 모달 내용 ---------- */
 .story-popup .sp-th{aspect-ratio:4/3;margin-bottom:18px}
+.story-popup .sp-capture{aspect-ratio:auto;max-height:70vh;overflow:auto}
+.story-popup .sp-capture .ph{aspect-ratio:3/4}
+.story-popup .sp-capture .ph-img{height:auto;object-fit:contain}
 .story-popup .sp-branch{display:inline-block;background:var(--red);color:#fff;font-size:12px;font-weight:800;padding:5px 12px}
 .story-popup h3{margin:12px 0 14px;font-size:20px;line-height:1.4}
 .story-popup .sp-body{font-size:14.5px;line-height:1.8;color:#444}

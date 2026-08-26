@@ -1,0 +1,50 @@
+{# 수익분석 — CSS conic-gradient 도넛 + 항목표. pf_tone='dark'|'light'
+   색: 영업이익=레드 강조, 지출=황금 계열 단일 색상 명도 램프(단조 감소) + 직접 라벨/표로 보조 인코딩 #}
+{% set pf = brand.profit %}
+{% set ns = namespace(spent=0, deg=0) %}
+{% for it in pf['items'] %}{% set ns.spent = ns.spent + it.amount %}{% endfor %}
+{% set profit_amt = pf.monthly_sales - ns.spent %}
+{% set ramp = ['#FFD34D', '#F0B53A', '#D9962B', '#B8781F', '#8F5B18', '#6A4212'] %}
+
+{# conic-gradient 세그먼트 (2px 간격은 흰 링 오버레이로 표현) #}
+{% set segs = [] %}
+{% set ns.deg = 0 %}
+{% set p_deg = pf.profit_pct * 3.6 %}
+{% set _ = segs.append("var(--red) 0deg " ~ p_deg ~ "deg") %}
+{% set ns.deg = p_deg %}
+{% for it in pf['items'] %}
+  {% set d = it.pct * 3.6 %}
+  {% set _ = segs.append(ramp[loop.index0] ~ " " ~ ns.deg ~ "deg " ~ (ns.deg + d) ~ "deg") %}
+  {% set ns.deg = ns.deg + d %}
+{% endfor %}
+
+<div class="pf pf--{{ pf_tone }}">
+  <div class="pf-chart">
+    <div class="donut" style="background:conic-gradient({{ segs | join(', ') }})" role="img"
+         aria-label="월매출 {{ '{:,}'.format(pf.monthly_sales) }}만원 중 영업이익 {{ pf.profit_pct }}%">
+      <div class="donut-hole">
+        <small>월매출액</small>
+        <b class="disp">{{ '{:,}'.format(pf.monthly_sales) }}<i>만원</i></b>
+      </div>
+    </div>
+    <div class="pf-legend">
+      <span class="lg profit"><i></i>영업이익 {{ pf.profit_pct }}%</span>
+      {% for it in pf['items'] %}
+      <span class="lg"><i style="background:{{ ramp[loop.index0] }}"></i>{{ it.label }} {{ it.pct }}%</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="pf-table">
+    <table>
+      <thead><tr><th>항목</th><th>금액</th><th>비율</th></tr></thead>
+      <tbody>
+        {% for it in pf['items'] %}
+        <tr><td>{{ it.label }}</td><td class="disp">{{ '{:,}'.format(it.amount) }}</td><td>{{ it.pct }}%</td></tr>
+        {% endfor %}
+        <tr class="pt"><td>영업이익</td><td class="disp">{{ '{:,}'.format(profit_amt) }}</td><td>{{ pf.profit_pct }}%</td></tr>
+      </tbody>
+    </table>
+    <p class="pf-note">※ {{ pf.note }}</p>
+  </div>
+</div>

@@ -3,7 +3,7 @@
 {% block styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 {% endblock %}
-{% block footer %}{% endblock %}{# 메인은 S13 클로징에 사업자 정보 인라인 #}
+{% block footer %}{% endblock %}{# 메인은 S14 클로징에 사업자 정보 인라인 #}
 
 {% block content %}
 <nav class="fp-nav" id="fpnav" aria-label="섹션 이동"></nav>
@@ -20,7 +20,8 @@
 {% include "main/sections/_s10_story.html" %}
 {% include "main/sections/_s11_steps.html" %}
 {% include "main/sections/_s12_cost.html" %}
-{% include "main/sections/_s13_closing.html" %}
+{% include "main/sections/_s13_profit.html" %}
+{% include "main/sections/_s14_closing.html" %}
 {% endblock %}
 
 {% block scripts %}
