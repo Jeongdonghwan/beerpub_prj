@@ -11,12 +11,15 @@
 """
 import json
 import re
+import sys
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent
-SRC_DIR = BASE / "메뉴이미지(누끼)"
+SRC_DIRS = [BASE / "메뉴이미지(누끼)", BASE / "주류"]   # 원본 폴더들 (로컬 전용)
+SRC_DIR = SRC_DIRS[0]
 OUT_DIR = BASE / "app" / "static" / "images" / "menu"
 MANIFEST = BASE / "menu_manifest.json"
+REBUILD = "--rebuild" in sys.argv   # 기존 WebP 무시하고 재생성 (크롭 규칙 변경 시)
 
 PAT = re.compile(r"^(\d+)\.\s*(.+?)\s+(\d+)\.\s*(.+?)(?:\s*-\s*(\d+))?\.png$", re.IGNORECASE)
 
@@ -28,12 +31,19 @@ DRINK_CATEGORY = "주류"  # 살얼음 캐러셀이 이름으로 참조 — 유�
 
 
 def optimize(src, out_path, max_px):
-    """RGBA 유지 WebP 저장. 이미 있으면 스킵. 파일 크기(KB) 반환."""
+    """투명 여백(알파 bbox) 크롭 + RGBA 유지 WebP 저장. 이미 있으면 스킵(--rebuild 시 재생성)."""
     from PIL import Image
 
-    if out_path.exists():
+    if out_path.exists() and not REBUILD:
         return out_path.stat().st_size // 1024
     img = Image.open(src).convert("RGBA")
+    bbox = img.getchannel("A").getbbox()
+    if bbox:
+        w, h = img.size
+        pad_x = int((bbox[2] - bbox[0]) * 0.04)
+        pad_y = int((bbox[3] - bbox[1]) * 0.04)
+        img = img.crop((max(0, bbox[0] - pad_x), max(0, bbox[1] - pad_y),
+                        min(w, bbox[2] + pad_x), min(h, bbox[3] + pad_y)))
     img.thumbnail((max_px, max_px))
     img.save(out_path, "WEBP", quality=80, method=6)
     if out_path.stat().st_size > MAX_KB * 1024:
@@ -45,7 +55,11 @@ def parse_files():
     """{(cat_no, cat_name): {menu_no: {"name":…, "files": {variant: path}}}}"""
     cats = {}
     skipped = []
-    for f in sorted(SRC_DIR.iterdir()):
+    files = []
+    for d in SRC_DIRS:
+        if d.exists():
+            files.extend(sorted(d.iterdir()))
+    for f in files:
         m = PAT.match(f.name)
         if not m:
             if f.is_file():
@@ -135,12 +149,20 @@ def run():
             db.session.flush()
             cat_ids[cat_name] = cat.id
         drink = MenuCategory.query.filter_by(name=DRINK_CATEGORY).first()
-        if drink:
-            drink.sort = max(no for (no, _) in cat_pairs) + 1
-        print(f"[2/3] 카테고리 upsert: {len(cat_ids)}종 + {DRINK_CATEGORY}{'(유지)' if drink else '(없음)'}")
+        if drink and DRINK_CATEGORY not in cat_ids:
+            drink.sort = max(no for (no, _) in cat_pairs) + 1   # 주류 원본 없을 때만 마지막 정렬
+        print(f"[2/3] 카테고리 upsert: {len(cat_ids)}종")
 
-        # 3) 메뉴 upsert
+        # 3) 메뉴 upsert + 임포트 대상 카테고리의 manifest 외 메뉴(더미) 정리
         n_new = n_upd = 0
+        keep = {(cat_ids[r["cat_name"]], r["name"]) for r in records}
+        n_del = 0
+        for m in Menu.query.filter(Menu.category_id.in_(list(cat_ids.values()))).all():
+            if (m.category_id, m.name) not in keep:
+                db.session.delete(m)
+                n_del += 1
+        if n_del:
+            print(f"  더미/구 메뉴 {n_del}건 삭제")
         for r in records:
             item = Menu.query.filter_by(category_id=cat_ids[r["cat_name"]], name=r["name"]).first()
             if item is None:

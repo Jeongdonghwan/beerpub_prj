@@ -19,7 +19,10 @@
       "PowerShell(Get-ChildItem \"c:\\\\side_Prj\\\\beerpub_prj\\\\이미지 폴더\" | Select-Object Name, @{n='KB';e={[math]::Round\\($_.Length/1KB\\)}} | Format-Table -AutoSize | Out-String -Width 200)",
       "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe \"C:\\\\Users\\\\jdhwa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--side-Prj-beerpub-prj\\\\2bd40690-ace3-4797-bb80-c0228e62424c\\\\scratchpad\\\\optimize_site_images.py\")",
       "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe \"C:\\\\Users\\\\jdhwa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--side-Prj-beerpub-prj\\\\2bd40690-ace3-4797-bb80-c0228e62424c\\\\scratchpad\\\\verify_media.py\")",
-      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe \"C:\\\\Users\\\\jdhwa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--side-Prj-beerpub-prj\\\\2bd40690-ace3-4797-bb80-c0228e62424c\\\\scratchpad\\\\verify_cost.py\")"
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe \"C:\\\\Users\\\\jdhwa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--side-Prj-beerpub-prj\\\\2bd40690-ace3-4797-bb80-c0228e62424c\\\\scratchpad\\\\verify_cost.py\")",
+      "PowerShell(git add app/static/css/main.css)",
+      "PowerShell(.\\\\.venv\\\\Scripts\\\\python.exe \"C:\\\\Users\\\\jdhwa\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--side-Prj-beerpub-prj\\\\2bd40690-ace3-4797-bb80-c0228e62424c\\\\scratchpad\\\\crop_dishes.py\")",
+      "PowerShell(git add config/brand.py app/static/images/site/)"
     ]
   }
 }

@@ -1,7 +1,6 @@
 {% from "_macros.html" import ph with context %}
 <div class="story-popup">
-  <div class="sp-th">{{ ph(item.thumb, '점주 사진', '800x600', alt=brand.name ~ ' ' ~ item.branch_name ~ ' 점주') }}</div>
+  <div class="sp-th sp-capture">{{ ph(item.thumb, '리뷰 캡처', '720x1280', alt=brand.name ~ ' ' ~ item.branch_name ~ ' 리뷰', tone='light') }}</div>
   <span class="sp-branch">{{ item.branch_name }}</span>
-  <h3>{{ item.title }}</h3>
-  <div class="sp-body">{{ item.content | replace('\n', '<br>') | safe }}</div>
+  {% if item.title %}<h3>{{ item.title }}</h3>{% endif %}
 </div>

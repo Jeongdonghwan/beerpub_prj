@@ -446,5 +446,45 @@
   "name": "촉촉오징어",
   "image": "/static/images/menu/c07_m06.webp",
   "detail_image": "/static/images/menu/c07_m06_d.webp"
+ },
+ {
+  "cat_no": 8,
+  "cat_name": "주류",
+  "menu_no": 1,
+  "name": "생맥 500ml",
+  "image": "/static/images/menu/c08_m01.webp",
+  "detail_image": "/static/images/menu/c08_m01_d.webp"
+ },
+ {
+  "cat_no": 8,
+  "cat_name": "주류",
+  "menu_no": 2,
+  "name": "과일 하이볼 - 산토리하이볼(청포도)",
+  "image": "/static/images/menu/c08_m02.webp",
+  "detail_image": "/static/images/menu/c08_m02_d.webp"
+ },
+ {
+  "cat_no": 8,
+  "cat_name": "주류",
+  "menu_no": 3,
+  "name": "과일 하이볼 - 산토리하이볼(자몽)",
+  "image": "/static/images/menu/c08_m03.webp",
+  "detail_image": "/static/images/menu/c08_m03_d.webp"
+ },
+ {
+  "cat_no": 8,
+  "cat_name": "주류",
+  "menu_no": 4,
+  "name": "과일 하이볼 - 산토리하이볼(레몬)",
+  "image": "/static/images/menu/c08_m04.webp",
+  "detail_image": "/static/images/menu/c08_m04_d.webp"
+ },
+ {
+  "cat_no": 8,
+  "cat_name": "주류",
+  "menu_no": 5,
+  "name": "과일 하이볼 - 하이볼",
+  "image": "/static/images/menu/c08_m05.webp",
+  "detail_image": "/static/images/menu/c08_m05_d.webp"
  }
 ]

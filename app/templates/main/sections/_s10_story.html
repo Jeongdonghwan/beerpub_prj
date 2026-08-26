@@ -1,18 +1,25 @@
 {% from "_macros.html" import ph with context %}
+{# 입소문 — 네이버 영수증리뷰 캡처 2줄 역방향 마퀴, 클릭 시 확대 #}
+{% set row1 = stories[:6] %}
+{% set row2 = stories[6:12] if stories | length > 6 else stories[:6] %}
 <section class="fp s10" id="s10">
-  <div class="wrap">
-    <h2 class="disp" data-rv>{{ brand.wom.title }}<br><span class="s-sub">{{ brand.wom.sub }}</span></h2>
-    <div class="sgrid">
-      {% for s in stories %}
-      <div class="sc" data-rv style="transition-delay:{{ loop.index0 * 0.08 }}s"
-           data-modal-url="{{ url_for('main.story_popup', story_id=s.id) }}">
-        <div class="th">
-          {{ ph(s.thumb, '점주 사진', '800x600', alt=brand.name ~ ' ' ~ s.branch_name ~ ' 점주') }}
-          <span class="br">{{ s.branch_name }}</span>
-        </div>
-        <div class="bd"><p>{{ s.summary }}</p></div>
+  <h2 class="disp" data-rv>{{ brand.wom.title }}<br><span class="s-sub">{{ brand.wom.sub }}</span></h2>
+  <div class="rows" data-rv>
+    <div class="mq"><div class="mq-track" style="--dur:48s"><div class="set">
+      {% for s in row1 %}
+      <div class="rv" data-modal-url="{{ url_for('main.story_popup', story_id=s.id) }}">
+        <div class="rv-img">{{ ph(s.thumb, '리뷰 캡처', '720x1280', alt=brand.name ~ ' ' ~ s.branch_name ~ ' 리뷰', tone='light') }}</div>
+        {% if s.thumb and s.title %}<span>{{ s.title }}</span>{% endif %}
       </div>
       {% endfor %}
-    </div>
+    </div></div></div>
+    <div class="mq rev"><div class="mq-track" style="--dur:54s"><div class="set">
+      {% for s in row2 %}
+      <div class="rv" data-modal-url="{{ url_for('main.story_popup', story_id=s.id) }}">
+        <div class="rv-img">{{ ph(s.thumb, '리뷰 캡처', '720x1280', alt=brand.name ~ ' ' ~ s.branch_name ~ ' 리뷰', tone='light') }}</div>
+        {% if s.thumb and s.title %}<span>{{ s.title }}</span>{% endif %}
+      </div>
+      {% endfor %}
+    </div></div></div>
   </div>
 </section>

@@ -1,6 +1,6 @@
 from flask import Blueprint, Response, abort, render_template, request, url_for
 
-from ..models import Banner, Interior, Menu, Notice, Story
+from ..models import Banner, Interior, Menu, MenuCategory, Notice, Story
 
 bp = Blueprint("main", __name__)
 
@@ -21,15 +21,23 @@ def index():
     )
     interiors = Interior.query.order_by(Interior.sort, Interior.id).limit(12).all()
     stories = (
-        Story.query.filter_by(is_active=True).order_by(Story.sort).limit(4).all()
+        Story.query.filter_by(is_active=True).order_by(Story.sort).limit(12).all()
     )
     banners = Banner.query.filter_by(is_active=True).order_by(Banner.sort).all()
+    drink_cat = MenuCategory.query.filter_by(name="주류").first()
+    drinks = (
+        Menu.query.filter_by(category_id=drink_cat.id, is_active=True)
+        .order_by(Menu.sort, Menu.id).all()
+        if drink_cat else []
+    )
     return render_template(
         "main/index.html",
         menus=menus,
         interiors=interiors,
         stories=stories,
         banners=banners,
+        drink_cat=drink_cat,
+        drinks=drinks,
     )
 
 
