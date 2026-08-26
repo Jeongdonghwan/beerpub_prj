@@ -136,7 +136,7 @@ body.main main{padding:0}
 .ice-deco .crystals{position:absolute;inset:-10%;background:url('/static/images/site/ice_crystals.webp') 0 0/1500px auto repeat;opacity:.55;animation:crystalDrift 60s linear infinite}
 @keyframes crystalDrift{from{background-position:0 0}to{background-position:-1500px 400px}}
 /* 얼음 큐브 — 생성 이미지(유리 질감) */
-.ice-deco .cube{position:absolute;width:70px;height:70px;background:url('/static/images/site/ice_cube.webp') center/contain no-repeat;filter:drop-shadow(0 14px 24px rgba(0,0,0,.5));transform:rotate(18deg);animation:cubeFloat 7s ease-in-out infinite;opacity:.9}
+.ice-deco .cube{position:absolute;width:70px;height:70px;background:url('/static/images/site/ice_cube.webp') center/contain no-repeat;filter:drop-shadow(0 0 14px rgba(180,225,255,.55)) drop-shadow(0 16px 24px rgba(0,0,0,.5));transform:rotate(18deg);animation:cubeFloat 7s ease-in-out infinite;opacity:.95}
 .ice-deco .c1{top:11%;left:4%;width:150px;height:150px;transform:rotate(-14deg);animation-delay:0s}
 .ice-deco .c2{top:36%;left:19%;width:64px;height:64px;animation-delay:1.2s}
 .ice-deco .c3{top:14%;right:8%;width:130px;height:130px;transform:rotate(26deg);animation-delay:.6s}
