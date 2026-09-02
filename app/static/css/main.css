@@ -42,8 +42,9 @@ body.main main{padding:0}
 .hero-dim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.12) 40%,rgba(0,0,0,.5));pointer-events:none}
 .hero-copy{position:relative;text-align:center}
 .hero-copy .h-main{font-size:clamp(34px,4.6vw,72px);line-height:1.22;letter-spacing:-.01em;text-shadow:0 4px 28px rgba(0,0,0,.8)}
-.hero-copy .h-main em{font-style:normal;color:var(--red);text-shadow:0 4px 28px rgba(0,0,0,.75),0 0 26px rgba(232,38,43,.5)}
-.hero-copy .h-main .bl{color:#6B96FF;text-shadow:0 4px 28px rgba(0,0,0,.75),0 0 24px rgba(90,140,255,.45)}
+/* 포인트 단어(한 번·성공·비결)는 본문보다 크게 */
+.hero-copy .h-main em{font-style:normal;color:var(--red);font-size:1.3em;line-height:1;vertical-align:-.06em;text-shadow:0 4px 28px rgba(0,0,0,.75),0 0 26px rgba(232,38,43,.5)}
+.hero-copy .h-main .bl{color:#6B96FF;font-size:1.3em;line-height:1;vertical-align:-.06em;text-shadow:0 4px 28px rgba(0,0,0,.75),0 0 24px rgba(90,140,255,.45)}
 .hero-copy .h-sub{margin-top:16px;font-size:clamp(15px,1.7vw,24px);font-weight:800;color:#fff;text-shadow:0 3px 18px rgba(0,0,0,.85)}
 .hero-copy .h-sub em{font-style:normal;color:var(--red)}
 .hero-copy .h-sub .or{color:#FF8A2A}
