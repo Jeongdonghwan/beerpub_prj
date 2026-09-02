@@ -176,7 +176,7 @@ body.main main{padding:0}
 /* ---------- S6 성공포인트 — 만석 매장 영상 배경 + 레드 오버레이 ---------- */
 .s6{background:#A31217;text-align:center}
 .s6-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.s6-dim{position:absolute;inset:0;background:linear-gradient(160deg,rgba(201,27,32,.88) 0%,rgba(232,38,43,.82) 55%,rgba(163,18,23,.9) 100%)}
+.s6-dim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.42) 50%,rgba(0,0,0,.6) 100%)}
 .s6 .s6-in{position:relative;z-index:1}
 .s6 h2{font-family:var(--disp);font-weight:700;font-size:clamp(26px,3.4vw,48px);line-height:1.3;text-shadow:0 4px 20px rgba(0,0,0,.35)}
 .s6 h2 em{font-style:normal;color:var(--yellow)}
