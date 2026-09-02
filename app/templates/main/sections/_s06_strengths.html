@@ -1,6 +1,11 @@
-{# 성공포인트 — Easy / Taste / Profit (레드 스트립) #}
+{# 성공포인트 — 만석 매장 영상 배경 + 레드 오버레이 + Easy / Taste / Cozy #}
 <section class="fp s6" id="s6">
-  <div class="wrap">
+  {% if brand.success_points.bg_video %}
+  <video class="s6-video" autoplay muted loop playsinline preload="metadata"
+         src="{{ brand.success_points.bg_video }}" aria-hidden="true" tabindex="-1"></video>
+  {% endif %}
+  <div class="s6-dim"></div>
+  <div class="wrap s6-in">
     <h2 data-rv>{{ brand.success_points.headline | safe }}</h2>
     <div class="sp-grid">
       {% for p in brand.success_points['items'] %}

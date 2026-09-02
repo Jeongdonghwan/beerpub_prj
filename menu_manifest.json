@@ -249,7 +249,7 @@
  },
  {
   "cat_no": 4,
-  "cat_name": "분식 앤 파스타",
+  "cat_name": "분식 & 파스타",
   "menu_no": 1,
   "name": "크림파스타",
   "image": "/static/images/menu/c04_m01.webp",
@@ -257,7 +257,7 @@
  },
  {
   "cat_no": 4,
-  "cat_name": "분식 앤 파스타",
+  "cat_name": "분식 & 파스타",
   "menu_no": 2,
   "name": "토마토파스타",
   "image": "/static/images/menu/c04_m02.webp",
@@ -265,7 +265,7 @@
  },
  {
   "cat_no": 4,
-  "cat_name": "분식 앤 파스타",
+  "cat_name": "분식 & 파스타",
   "menu_no": 3,
   "name": "치즈국물떡볶이",
   "image": "/static/images/menu/c04_m03.webp",
@@ -273,7 +273,7 @@
  },
  {
   "cat_no": 4,
-  "cat_name": "분식 앤 파스타",
+  "cat_name": "분식 & 파스타",
   "menu_no": 4,
   "name": "불고기페스츄리피자",
   "image": "/static/images/menu/c04_m04.webp",
@@ -281,19 +281,11 @@
  },
  {
   "cat_no": 4,
-  "cat_name": "분식 앤 파스타",
+  "cat_name": "분식 & 파스타",
   "menu_no": 5,
   "name": "페페로니 페스츄리피자",
   "image": "/static/images/menu/c04_m05.webp",
   "detail_image": "/static/images/menu/c04_m05_d.webp"
- },
- {
-  "cat_no": 4,
-  "cat_name": "분식 앤 파스타",
-  "menu_no": 6,
-  "name": "떡볶이",
-  "image": "/static/images/menu/c04_m06.webp",
-  "detail_image": "/static/images/menu/c04_m06_d.webp"
  },
  {
   "cat_no": 5,
@@ -451,40 +443,45 @@
   "cat_no": 8,
   "cat_name": "주류",
   "menu_no": 1,
-  "name": "생맥 500ml",
+  "name": "살얼음 맥주",
   "image": "/static/images/menu/c08_m01.webp",
-  "detail_image": "/static/images/menu/c08_m01_d.webp"
- },
- {
-  "cat_no": 8,
-  "cat_name": "주류",
-  "menu_no": 2,
-  "name": "과일 하이볼 - 산토리하이볼(청포도)",
-  "image": "/static/images/menu/c08_m02.webp",
-  "detail_image": "/static/images/menu/c08_m02_d.webp"
- },
- {
-  "cat_no": 8,
-  "cat_name": "주류",
-  "menu_no": 3,
-  "name": "과일 하이볼 - 산토리하이볼(자몽)",
-  "image": "/static/images/menu/c08_m03.webp",
-  "detail_image": "/static/images/menu/c08_m03_d.webp"
- },
- {
-  "cat_no": 8,
-  "cat_name": "주류",
-  "menu_no": 4,
-  "name": "과일 하이볼 - 산토리하이볼(레몬)",
-  "image": "/static/images/menu/c08_m04.webp",
-  "detail_image": "/static/images/menu/c08_m04_d.webp"
+  "detail_image": "/static/images/menu/c08_m01_d.webp",
+  "price": 4500
  },
  {
   "cat_no": 8,
   "cat_name": "주류",
   "menu_no": 5,
-  "name": "과일 하이볼 - 하이볼",
+  "name": "청포도 살얼음 하이볼",
+  "image": "/static/images/menu/c08_m02.webp",
+  "detail_image": "/static/images/menu/c08_m02_d.webp",
+  "price": 8000
+ },
+ {
+  "cat_no": 8,
+  "cat_name": "주류",
+  "menu_no": 4,
+  "name": "자몽 살얼음 하이볼",
+  "image": "/static/images/menu/c08_m03.webp",
+  "detail_image": "/static/images/menu/c08_m03_d.webp",
+  "price": 8000
+ },
+ {
+  "cat_no": 8,
+  "cat_name": "주류",
+  "menu_no": 3,
+  "name": "레몬 살얼음 하이볼",
+  "image": "/static/images/menu/c08_m04.webp",
+  "detail_image": "/static/images/menu/c08_m04_d.webp",
+  "price": 8000
+ },
+ {
+  "cat_no": 8,
+  "cat_name": "주류",
+  "menu_no": 2,
+  "name": "살얼음 하이볼",
   "image": "/static/images/menu/c08_m05.webp",
-  "detail_image": "/static/images/menu/c08_m05_d.webp"
+  "detail_image": "/static/images/menu/c08_m05_d.webp",
+  "price": 7000
  }
 ]

@@ -36,12 +36,29 @@ body.main main{padding:0}
 .hero-fallback .ph,.hero-fallback .ph-img{position:absolute;inset:0;height:100%}
 .kenburns .ph-img{animation:kenburns 18s ease-in-out infinite alternate}
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.12) translate(-1.5%,-1.5%)}}
-.hero-dim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25) 40%,rgba(0,0,0,.72));pointer-events:none}
+/* 딤을 옅게 — 영상 선명하게 (텍스트 가독은 그림자에 위임) */
+.hero-dim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.12) 40%,rgba(0,0,0,.5));pointer-events:none}
 .hero-copy{position:relative;text-align:center}
-.hero-copy .h-main{font-size:clamp(38px,4.8vw,72px);line-height:1.2;text-shadow:0 4px 30px rgba(0,0,0,.5)}
-.hero-copy .h-sub{margin-top:20px;font-size:clamp(15px,1.6vw,20px);font-weight:600;color:rgba(255,255,255,.85)}
-.hero-copy .h-logo{width:min(420px,60vw);height:auto;margin:34px auto 0;filter:drop-shadow(0 10px 30px rgba(0,0,0,.55))}
-.hero-copy .h-name{margin-top:30px;font-size:clamp(44px,6vw,90px);line-height:1.1}
+.hero-copy .h-main{font-size:clamp(32px,4.2vw,64px);line-height:1.25;text-shadow:0 4px 28px rgba(0,0,0,.75)}
+.hero-copy .h-main em{font-style:normal;color:var(--red);text-shadow:0 4px 28px rgba(0,0,0,.75),0 0 26px rgba(232,38,43,.55)}
+.hero-copy .h-sub{margin-top:18px;font-size:clamp(17px,2vw,28px);font-weight:700;color:#fff;text-shadow:0 3px 18px rgba(0,0,0,.8)}
+.hero-copy .h-sub b{color:var(--yellow)}
+.hero-copy .h-sub em{font-style:normal;color:var(--red);font-size:1.1em}
+.hero-copy .h-name{margin-top:26px;font-size:clamp(48px,6.5vw,100px);line-height:1.05;color:var(--red);text-shadow:0 6px 30px rgba(0,0,0,.7),0 0 40px rgba(232,38,43,.4)}
+.hero-copy .h-info{margin-top:18px;font-size:clamp(13.5px,1.4vw,17px);font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.04em;text-shadow:0 2px 12px rgba(0,0,0,.8)}
+.hero-copy .h-info b{color:var(--yellow);font-family:var(--disp)}
+/* 별 떨어지는 효과 */
+.star-fall{position:absolute;inset:-40px 0 0;pointer-events:none}
+.star-fall i{position:absolute;top:-30px;color:var(--yellow);font-style:normal;text-shadow:0 0 10px rgba(255,211,77,.8);animation:starFall 4.5s linear infinite;opacity:0}
+.star-fall i:nth-child(1){left:8%;font-size:13px;animation-delay:0s}
+.star-fall i:nth-child(2){left:22%;font-size:9px;animation-delay:1.4s}
+.star-fall i:nth-child(3){left:38%;font-size:15px;animation-delay:2.8s}
+.star-fall i:nth-child(4){left:55%;font-size:10px;animation-delay:.7s}
+.star-fall i:nth-child(5){left:70%;font-size:14px;animation-delay:2.1s}
+.star-fall i:nth-child(6){left:84%;font-size:9px;animation-delay:3.5s}
+.star-fall i:nth-child(7){left:94%;font-size:12px;animation-delay:1s}
+@keyframes starFall{0%{transform:translateY(0) rotate(0);opacity:0}8%{opacity:1}80%{opacity:.9}100%{transform:translateY(46vh) rotate(120deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.star-fall{display:none}}
 .scroll-down{position:absolute;bottom:calc(var(--form-h) + 26px);left:50%;transform:translateX(-50%)}
 .scroll-down i{display:block;width:22px;height:34px;border:2px solid rgba(255,255,255,.7);border-radius:12px;position:relative}
 .scroll-down i::after{content:'';position:absolute;top:6px;left:50%;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:#fff;animation:sdown 1.6s infinite}
@@ -152,9 +169,12 @@ body.main main{padding:0}
 .dots i{width:10px;height:10px;border-radius:99px;background:#3A3A3E;cursor:pointer;transition:.3s}
 .dots i.on{width:30px;background:var(--red)}
 
-/* ---------- S6 성공포인트 — Easy / Taste / Profit (레드 스트립) ---------- */
-.s6{background:linear-gradient(160deg,#C91B20 0%,var(--red) 55%,#A31217 100%);text-align:center}
-.s6 h2{font-family:var(--disp);font-weight:700;font-size:clamp(26px,3.4vw,48px);line-height:1.3}
+/* ---------- S6 성공포인트 — 만석 매장 영상 배경 + 레드 오버레이 ---------- */
+.s6{background:#A31217;text-align:center}
+.s6-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.s6-dim{position:absolute;inset:0;background:linear-gradient(160deg,rgba(201,27,32,.88) 0%,rgba(232,38,43,.82) 55%,rgba(163,18,23,.9) 100%)}
+.s6 .s6-in{position:relative;z-index:1}
+.s6 h2{font-family:var(--disp);font-weight:700;font-size:clamp(26px,3.4vw,48px);line-height:1.3;text-shadow:0 4px 20px rgba(0,0,0,.35)}
 .s6 h2 em{font-style:normal;color:var(--yellow)}
 .sp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px}
 .sp{border:2px solid rgba(255,255,255,.5);padding:44px 24px 38px;position:relative}

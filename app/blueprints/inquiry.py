@@ -13,7 +13,11 @@ bp = Blueprint("inquiry", __name__)
 
 @bp.route("/")
 def form():
-    return render_template("inquiry/form.html")
+    preset = None
+    if request.args.get("type") == "taste":
+        preset = {"name": "", "phone": "", "region": "", "channel": "",
+                  "message": "무료시식 신청합니다."}
+    return render_template("inquiry/form.html", form_data=preset)
 
 
 @bp.route("/done")

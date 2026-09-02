@@ -102,12 +102,22 @@ body.nav-open .mnav{transform:none}
 .agree u{cursor:pointer}
 .btn-sub{height:56px;background:var(--red);color:#fff;font-weight:800;font-size:17px;border:none;padding:0 44px;border-radius:2px;flex-shrink:0;transition:background .2s}
 .btn-sub:hover{background:#c91b20}
+/* 카카오톡 상담 / 무료시식 신청 버튼 */
+.inq-btns{display:flex;gap:12px;flex:1;justify-content:flex-end}
+.inq-btn{display:flex;flex-direction:column;justify-content:center;text-align:center;height:64px;padding:0 34px;border-radius:6px;transition:transform .2s,filter .2s}
+.inq-btn:hover{transform:translateY(-3px);filter:brightness(1.05)}
+.inq-btn b{font-size:17px;font-weight:800}
+.inq-btn span{font-size:11.5px;margin-top:3px;opacity:.75}
+.inq-btn.kakao{background:#FEE500;color:#191600}
+.inq-btn.taste{background:var(--red);color:#fff}
 @media(max-width:1024px){
   .inq-bar{height:auto;padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
   .inq-in{gap:8px}
-  .inq-logo,.inq-call,.inq-form .f-region,.inq-form .f-channel,.agree{display:none}
-  .btn-sub{height:48px;padding:0 22px;font-size:15px}
-  .inq-form input{height:48px}
+  .inq-logo,.inq-call{display:none}
+  .inq-btns{justify-content:stretch}
+  .inq-btn{flex:1;height:56px;padding:0 10px}
+  .inq-btn b{font-size:15px}
+  .inq-btn span{display:none}
 }
 
 /* ---------- 공통 버튼 ---------- */

@@ -29,6 +29,17 @@ MAX_KB = 300
 
 DRINK_CATEGORY = "주류"  # 살얼음 캐러셀이 이름으로 참조 — 유지, sort는 항상 마지막
 
+# 파일명 → 사이트 표기 보정 (클라이언트 확정)
+CATEGORY_RENAMES = {"분식 앤 파스타": "분식 & 파스타"}
+EXCLUDE_MENUS = {("분식 & 파스타", "떡볶이")}          # 사이드 떡볶이 제외
+NAME_OVERRIDES = {  # 파싱된 이름 → (표기명, 가격원, 정렬)
+    "생맥 500ml":                    ("살얼음 맥주", 4500, 1),
+    "과일 하이볼 - 하이볼":           ("살얼음 하이볼", 7000, 2),
+    "과일 하이볼 - 산토리하이볼(레몬)":  ("레몬 살얼음 하이볼", 8000, 3),
+    "과일 하이볼 - 산토리하이볼(자몽)":  ("자몽 살얼음 하이볼", 8000, 4),
+    "과일 하이볼 - 산토리하이볼(청포도)": ("청포도 살얼음 하이볼", 8000, 5),
+}
+
 
 def optimize(src, out_path, max_px):
     """투명 여백(알파 bbox) 크롭 + RGBA 유지 WebP 저장. 이미 있으면 스킵(--rebuild 시 재생성)."""
@@ -97,19 +108,29 @@ def build_records():
     cats = parse_files()
     records = []
     for (cat_no, cat_name), menus in sorted(cats.items()):
+        disp_cat = CATEGORY_RENAMES.get(cat_name, cat_name)
         for menu_no, entry in sorted(menus.items()):
+            name, price, sort = entry["name"], None, menu_no
+            if name in NAME_OVERRIDES:
+                name, price, sort = NAME_OVERRIDES[name]
+            if (disp_cat, name) in EXCLUDE_MENUS:
+                print(f"  [제외] {disp_cat} · {name}")
+                continue
             card_src = entry["files"].get(1) or next(iter(entry["files"].values()))
             detail_src = entry["files"].get(2, card_src)
             stem = f"c{cat_no:02d}_m{menu_no:02d}"
             card_kb = optimize(card_src, OUT_DIR / f"{stem}.webp", CARD_SIZE)
             detail_kb = optimize(detail_src, OUT_DIR / f"{stem}_d.webp", DETAIL_SIZE)
-            records.append({
-                "cat_no": cat_no, "cat_name": cat_name,
-                "menu_no": menu_no, "name": entry["name"],
+            rec = {
+                "cat_no": cat_no, "cat_name": disp_cat,
+                "menu_no": sort, "name": name,
                 "image": f"/static/images/menu/{stem}.webp",
                 "detail_image": f"/static/images/menu/{stem}_d.webp",
-            })
-            print(f"  {cat_name} #{menu_no:02d} {entry['name']} (카드 {card_kb}KB / 상세 {detail_kb}KB)")
+            }
+            if price is not None:
+                rec["price"] = price
+            records.append(rec)
+            print(f"  {disp_cat} #{sort:02d} {name} (카드 {card_kb}KB / 상세 {detail_kb}KB)")
     MANIFEST.write_text(json.dumps(records, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"[0/3] {MANIFEST.name} 저장 ({len(records)}건) — git 커밋 대상")
     return records
@@ -175,6 +196,8 @@ def run():
             item.detail_image = r["detail_image"]
             item.sort = r["menu_no"]
             item.is_active = True
+            if "price" in r:
+                item.price = r["price"]
 
         db.session.commit()
         total_c = MenuCategory.query.count()

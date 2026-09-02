@@ -4,6 +4,8 @@ __pycache__/
 .env
 *.mp4
 !app/static/video/hero.mp4
+!app/static/video/crowd.mp4
+맥주엔딹영상 (2)/
 메뉴이미지(누끼)/
 이미지 폴더/
 주류/

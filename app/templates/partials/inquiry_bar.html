@@ -1,4 +1,4 @@
-{# 하단 고정 가맹문의 인라인 폼 바 — 전 페이지 상시 노출 (모달 아님, 핵심 전환 장치) #}
+{# 하단 고정 바 — 카카오톡 상담 / 무료시식 신청 버튼 (경성맥주 스타일) #}
 <div class="inq-bar">
   <div class="inq-in">
     <div class="inq-logo">
@@ -6,31 +6,19 @@
       <img src="{{ brand.logo }}" alt="{{ brand.name }}">
       {% else %}
       <span class="lg1 disp">{{ brand.name }}</span>
-      {% if brand.sub_name %}<span class="lg2 disp">{{ brand.sub_name }}</span>{% endif %}
       {% endif %}
     </div>
     <a class="inq-call" href="tel:{{ brand.phone | replace('-', '') }}">
       <span class="lbl">가맹문의</span>
       <span class="num disp">{{ brand.phone }}</span>
     </a>
-    <form class="inq-form" action="{{ url_for('inquiry.submit') }}" method="post">
-      <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
-      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <input type="text" name="name" placeholder="성함" required>
-      <input type="tel" name="phone" placeholder="연락처" required>
-      <select class="f-region" name="region" required>
-        <option value="">가맹희망지역</option>
-        {% for r in brand.regions %}<option value="{{ r }}">{{ r }}</option>{% endfor %}
-      </select>
-      <select class="f-channel" name="channel" required>
-        <option value="">유입경로</option>
-        {% for c in brand.channels %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
-      </select>
-      <label class="agree">
-        <input type="checkbox" name="agree_privacy" required>
-        <span><u data-modal-url="{{ url_for('main.doc', slug='private', embed=1) }}">개인정보처리방침</u><br>동의하기</span>
-      </label>
-      <button class="btn-sub" type="submit">문의하기</button>
-    </form>
+    <div class="inq-btns">
+      <a class="inq-btn kakao" {% if brand.kakao_url %}href="{{ brand.kakao_url }}" target="_blank" rel="noopener"{% else %}href="tel:{{ brand.phone | replace('-', '') }}"{% endif %}>
+        <b>💬 카카오톡 상담</b><span>{% if brand.kakao_url %}채널로 바로 연결{% else %}채널 오픈 준비중 · 전화 연결{% endif %}</span>
+      </a>
+      <a class="inq-btn taste" href="{{ url_for('inquiry.form', type='taste') }}">
+        <b>🍗 무료시식 신청</b><span>본사 방문 시식 상담</span>
+      </a>
+    </div>
   </div>
 </div>
