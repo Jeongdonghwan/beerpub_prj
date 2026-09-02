@@ -29,6 +29,8 @@ body.main main{padding:0}
 /* 모바일: 다른 섹션은 높이 auto 지만 히어로는 풀스크린 유지 (영상 배경이 잘리지 않게) */
 @media(max-width:1024px){
   .s1{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:80px 0 110px}
+  .hero-dim{background:linear-gradient(180deg,rgba(0,0,0,.06) 40%,rgba(0,0,0,.4))}  /* 모바일 영상 더 선명하게 */
+  .hero-copy .h-name{margin-top:6vh}
 }
 .s1 .vwrap{position:absolute;inset:0;overflow:hidden}
 .hero-video{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:max(100vw,177.78vh);height:max(100vh,56.25vw);pointer-events:none;object-fit:cover}
