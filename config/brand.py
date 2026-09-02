@@ -10,8 +10,8 @@ BRAND = {
     "name_en": "",                       # [확인필요] 영문명 미정
     "sub_name": "",                      # [확인필요] 로고 2줄째 서브명 (예: 살얼음맥주)
     "company": "주식회사 OOO",            # [확인필요] 법인명
-    "slogan": '세대를 넘어 <em>오래도록 사랑받는</em> 브랜드',
-    "sub_slogan": '"투사랑" <b>&</b> "광수비어" <em>23년 노하우</em>로 만든 성공 브랜드',
+    "slogan": '<em>한 번</em>의 <span class="bl">성공</span>이 아닌,<br>장수브랜드의 <em>비결</em>로 만든',
+    "sub_slogan": '"투사랑", "광수비어" <em>23년 노하우</em>로 만든 <span class="or">성공 브랜드</span>',
     "hero_tagline": "소자본 성공창업",    # 히어로 하단 소문구 (가맹문의 전화와 함께)
     "logo": "/static/images/logo.png",   # 투명 PNG — 헤더/폼바/푸터 공용 (히어로는 문구만)
     "kakao_url": "",                     # [확인필요] 카카오톡 채널 상담 URL (하단 바 버튼)

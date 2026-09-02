@@ -39,12 +39,13 @@ body.main main{padding:0}
 /* 딤을 옅게 — 영상 선명하게 (텍스트 가독은 그림자에 위임) */
 .hero-dim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.12) 40%,rgba(0,0,0,.5));pointer-events:none}
 .hero-copy{position:relative;text-align:center}
-.hero-copy .h-main{font-size:clamp(32px,4.2vw,64px);line-height:1.25;text-shadow:0 4px 28px rgba(0,0,0,.75)}
-.hero-copy .h-main em{font-style:normal;color:var(--red);text-shadow:0 4px 28px rgba(0,0,0,.75),0 0 26px rgba(232,38,43,.55)}
-.hero-copy .h-sub{margin-top:18px;font-size:clamp(17px,2vw,28px);font-weight:700;color:#fff;text-shadow:0 3px 18px rgba(0,0,0,.8)}
-.hero-copy .h-sub b{color:var(--yellow)}
-.hero-copy .h-sub em{font-style:normal;color:var(--red);font-size:1.1em}
-.hero-copy .h-name{margin-top:26px;font-size:clamp(48px,6.5vw,100px);line-height:1.05;color:var(--red);text-shadow:0 6px 30px rgba(0,0,0,.7),0 0 40px rgba(232,38,43,.4)}
+.hero-copy .h-main{font-size:clamp(34px,4.6vw,72px);line-height:1.22;letter-spacing:-.01em;text-shadow:0 4px 28px rgba(0,0,0,.8)}
+.hero-copy .h-main em{font-style:normal;color:var(--red);text-shadow:0 4px 28px rgba(0,0,0,.75),0 0 26px rgba(232,38,43,.5)}
+.hero-copy .h-main .bl{color:#6B96FF;text-shadow:0 4px 28px rgba(0,0,0,.75),0 0 24px rgba(90,140,255,.45)}
+.hero-copy .h-sub{margin-top:16px;font-size:clamp(15px,1.7vw,24px);font-weight:800;color:#fff;text-shadow:0 3px 18px rgba(0,0,0,.85)}
+.hero-copy .h-sub em{font-style:normal;color:var(--red)}
+.hero-copy .h-sub .or{color:#FF8A2A}
+.hero-copy .h-name{margin-top:9vh;font-size:clamp(52px,7vw,110px);line-height:1.05;color:var(--red);text-shadow:0 6px 30px rgba(0,0,0,.7),0 0 40px rgba(232,38,43,.4)}
 .hero-copy .h-info{margin-top:18px;font-size:clamp(13.5px,1.4vw,17px);font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.04em;text-shadow:0 2px 12px rgba(0,0,0,.8)}
 .hero-copy .h-info b{color:var(--yellow);font-family:var(--disp)}
 /* 별 떨어지는 효과 */
