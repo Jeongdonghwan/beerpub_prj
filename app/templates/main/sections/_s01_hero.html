@@ -20,7 +20,10 @@
   <div class="wrap hero-copy">
     <div class="star-fall" aria-hidden="true"><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i><i>✦</i></div>
     <p class="h-main disp" data-rv>{{ brand.slogan | safe }}</p>
-    <p class="h-sub disp" data-rv style="transition-delay:.15s">{{ brand.sub_slogan | safe }}</p>
+    <div class="h-sub-wrap" data-rv style="transition-delay:.15s">
+      <i class="st" aria-hidden="true">✦</i><i class="st" aria-hidden="true">✦</i><i class="st" aria-hidden="true">✦</i><i class="st" aria-hidden="true">✦</i><i class="st" aria-hidden="true">✦</i>
+      <p class="h-sub disp">{{ brand.sub_slogan | safe }}</p>
+    </div>
     <p class="h-name disp" data-rv="zoom" style="transition-delay:.3s">{{ brand.name }}</p>
     <p class="h-info" data-rv style="transition-delay:.42s">가맹문의 <b>{{ brand.phone }}</b> · {{ brand.hero_tagline }}</p>
   </div>
