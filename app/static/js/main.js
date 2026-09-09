@@ -10,6 +10,37 @@
   var nav = document.getElementById('fpnav');
   var mqDesktop = window.matchMedia('(min-width:1025px)');
 
+  /* ---------- 히어로: 진입 시 영상만 → 첫 스크롤(또는 5초) 때 문구 등장 ---------- */
+  var hero = document.getElementById('s1');
+  var heroClean = hero && hero.classList.contains('s1--clean');
+  function revealHeroCopy() {
+    if (!heroClean) return false;
+    heroClean = false;
+    hero.classList.remove('s1--clean');
+    return true; /* 이번 입력은 문구 등장에 사용 (섹션 이동 안 함) */
+  }
+  if (heroClean) {
+    setTimeout(revealHeroCopy, 5000);                              /* 폴백: 5초 후 자동 등장 */
+    window.addEventListener('touchmove', revealHeroCopy, { once: true, passive: true });
+    window.addEventListener('scroll', function onS() {
+      if (!mqDesktop.matches) revealHeroCopy();
+      window.removeEventListener('scroll', onS);
+    }, { passive: true });
+  }
+
+  /* ---------- 히어로 소리 토글 (자동재생 정책상 muted 시작 → 버튼으로 켬) ---------- */
+  var heroVideo = document.getElementById('heroVideo');
+  var sndBtn = document.getElementById('heroSnd');
+  if (heroVideo && sndBtn) {
+    sndBtn.addEventListener('click', function () {
+      heroVideo.muted = !heroVideo.muted;
+      if (!heroVideo.muted) { heroVideo.volume = 1; heroVideo.play(); }
+      sndBtn.classList.toggle('on', !heroVideo.muted);
+      sndBtn.setAttribute('aria-pressed', String(!heroVideo.muted));
+      sndBtn.innerHTML = heroVideo.muted ? '🔇 <span>소리 켜기</span>' : '🔊 <span>소리 끄기</span>';
+    });
+  }
+
   /* ---------- 도트 내비 생성 + 섹션 활성화 (이탈 시 .active 제거 → 재진입 재생) ---------- */
   var dots = [];
   if (nav && secs.length) {
@@ -72,12 +103,13 @@
       });
     }
 
-    /* 휠: 한 번에 한 섹션 */
+    /* 휠: 한 번에 한 섹션 (히어로 문구가 아직 안 나왔으면 첫 휠은 문구 등장에 사용) */
     window.addEventListener('wheel', function (e) {
       if (!mqDesktop.matches) return;
       if (document.body.classList.contains('modal-open')) return; /* 모달 내부 스크롤 허용 */
       e.preventDefault();
       if (animating || Math.abs(e.deltaY) < 4) return;
+      if (e.deltaY > 0 && nearestIndex() === 0 && revealHeroCopy()) return;
       goTo(nearestIndex() + (e.deltaY > 0 ? 1 : -1));
     }, { passive: false });
 

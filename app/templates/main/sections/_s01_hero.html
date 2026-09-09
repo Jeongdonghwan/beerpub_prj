@@ -1,8 +1,9 @@
 {% from "_macros.html" import ph with context %}
-<section class="fp s1" id="s1">
+{# 히어로 — 진입 시 영상만, 스크롤(또는 5초) 후 문구 등장. 소리는 버튼으로 켬(브라우저 자동재생 정책상 muted 시작) #}
+<section class="fp s1 s1--clean" id="s1">
   <div class="vwrap">
     {% if brand.hero_video %}
-    <video class="hero-video" autoplay muted loop playsinline preload="metadata"
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="metadata"
            poster="{{ brand.hero_poster }}" aria-hidden="true" tabindex="-1">
       <source src="{{ brand.hero_video }}" type="video/mp4">
     </video>
@@ -27,5 +28,8 @@
     <p class="h-name disp" data-rv="zoom" style="transition-delay:.3s">{{ brand.name }}</p>
     <p class="h-info" data-rv style="transition-delay:.42s">가맹문의 <b>{{ brand.phone }}</b> · {{ brand.hero_tagline }}</p>
   </div>
+  {% if brand.hero_video %}
+  <button class="snd" id="heroSnd" type="button" aria-label="소리 켜기" aria-pressed="false">🔇 <span>소리 켜기</span></button>
+  {% endif %}
   <a class="scroll-down" href="#s2" aria-label="아래로 스크롤"><i></i></a>
 </section>
