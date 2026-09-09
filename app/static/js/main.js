@@ -28,16 +28,46 @@
     }, { passive: true });
   }
 
-  /* ---------- 히어로 소리 토글 (자동재생 정책상 muted 시작 → 버튼으로 켬) ---------- */
+  /* ---------- 히어로 소리 — 자동으로 켜기 시도, 브라우저가 막으면 첫 인터랙션에서 자동 켬.
+     버튼은 켜짐 상태에서 '소리 끄기' 토글로 동작 ---------- */
   var heroVideo = document.getElementById('heroVideo');
   var sndBtn = document.getElementById('heroSnd');
   if (heroVideo && sndBtn) {
+    var autoArm = true; /* 사용자가 직접 끄기 전까지 자동 켜기 시도 유지 */
+    function syncSnd() {
+      var on = !heroVideo.muted;
+      sndBtn.classList.toggle('on', on);
+      sndBtn.setAttribute('aria-pressed', String(on));
+      sndBtn.innerHTML = on ? '🔊 <span>소리 끄기</span>' : '🔇 <span>소리 켜기</span>';
+    }
+    function soundOn() {
+      heroVideo.muted = false;
+      heroVideo.volume = 1;
+      var p = heroVideo.play();
+      if (p && p.catch) {
+        p.then(function () { autoArm = false; syncSnd(); })
+         .catch(function () { heroVideo.muted = true; heroVideo.play(); syncSnd(); });
+      } else {
+        autoArm = false;
+        syncSnd();
+      }
+      syncSnd();
+    }
     sndBtn.addEventListener('click', function () {
-      heroVideo.muted = !heroVideo.muted;
-      if (!heroVideo.muted) { heroVideo.volume = 1; heroVideo.play(); }
-      sndBtn.classList.toggle('on', !heroVideo.muted);
-      sndBtn.setAttribute('aria-pressed', String(!heroVideo.muted));
-      sndBtn.innerHTML = heroVideo.muted ? '🔇 <span>소리 켜기</span>' : '🔊 <span>소리 끄기</span>';
+      if (heroVideo.muted) {
+        soundOn();
+      } else {
+        heroVideo.muted = true;
+        autoArm = false; /* 직접 껐으면 자동으로 다시 켜지 않음 */
+        syncSnd();
+      }
+    });
+    soundOn(); /* 1차: 페이지 로드 즉시 시도 (차단될 수 있음) */
+    ['pointerdown', 'touchstart', 'keydown', 'wheel'].forEach(function (t) {
+      window.addEventListener(t, function onAct() {
+        if (autoArm && heroVideo.muted) soundOn();
+        if (!autoArm || !heroVideo.muted) window.removeEventListener(t, onAct, true);
+      }, { capture: true, passive: true });
     });
   }
 

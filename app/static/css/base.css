@@ -61,11 +61,12 @@ nav.gnb>ul>li:hover .dep2,nav.gnb>ul>li:focus-within .dep2{opacity:1;visibility:
 .hd-call .num{display:block;font-size:28px;letter-spacing:.01em}
 .hd-call .tag{display:none}
 @media(max-width:1024px){
-  /* 모바일: '가맹문의' 라벨 대신 번호 + 소자본 성공창업 (크게) */
+  /* 모바일: '가맹문의' 라벨 대신 번호 + 소자본 성공창업 (번호와 같은 크기) */
   .hd-call .lbl{display:none}
   .hd-call .num{font-size:26px;line-height:1.05}
-  .hd-call .tag{display:block;color:var(--red);font-weight:800;font-size:14px;margin-top:3px;letter-spacing:.02em}
-  .logo img{height:48px}
+  .hd-call .tag{display:block;color:var(--red);font-weight:800;font-size:26px;line-height:1.05;font-family:var(--disp);margin-top:3px;letter-spacing:-.01em}
+  .logo img{height:44px}
+  .hd{gap:10px}
 }
 .ham{display:none;flex-direction:column;gap:5px;padding:8px}
 .ham i{display:block;width:26px;height:3px;background:var(--black);transition:.3s}
