@@ -246,8 +246,8 @@ body.main main{padding:0}
 .wom-cards{margin-top:34px}
 .rv{width:230px;flex-shrink:0;cursor:pointer;transition:transform .3s}
 .rv:hover{transform:translateY(-8px)}
-.rv .rv-img{aspect-ratio:9/16;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 26px 50px -24px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
-.rv .rv-img .ph-img{object-fit:cover;object-position:top}
+.rv .rv-img{aspect-ratio:9/17;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 26px 50px -24px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
+.rv .rv-img .ph-img{object-fit:contain;object-position:center}   /* 캡처 전체 표시 — 흰 배경이라 여백 티 안 남 */
 .rv .rv-img .ph{border-color:#bbb}
 .rv span{display:block;margin-top:8px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.7)}
 @media(max-width:1024px){.rv{width:170px}.wom-row{gap:14px}}
