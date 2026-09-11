@@ -11,7 +11,7 @@
           {% set ns.total = ns.total + r.cost %}
           <tr>
             <td><b>{{ r.item }}</b><small>{{ r.desc }}</small>{% if r.note %}<small class="rnote">{{ r.note }}</small>{% endif %}</td>
-            <td class="disp">{{ '{:,}'.format(r.cost) }}</td>
+            <td class="disp {{ 'dc' if r.original }}">{% if r.original %}<s>{{ '{:,}'.format(r.original) }}</s> {% endif %}{{ '{:,}'.format(r.cost) }}</td>
           </tr>
           {% endfor %}
           <tr class="tt"><td>합계</td><td>{{ '{:,}'.format(ns.total) }}</td></tr>

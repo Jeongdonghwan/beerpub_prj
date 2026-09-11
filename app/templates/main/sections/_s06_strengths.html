@@ -1,4 +1,4 @@
-{# 성공포인트 — 만석 매장 영상 배경 + 레드 오버레이 + Easy / Taste / Cozy #}
+{# 성공포인트 — 영상이 주인공: 헤드라인은 상단 2줄, 3 POINT 카드는 하단 컴팩트 배치 #}
 <section class="fp s6" id="s6">
   {% if brand.success_points.bg_video %}
   <video class="s6-video" autoplay muted loop playsinline preload="metadata"
@@ -9,7 +9,7 @@
     <h2 data-rv>{{ brand.success_points.headline | safe }}</h2>
     <div class="sp-grid">
       {% for p in brand.success_points['items'] %}
-      <div class="sp" data-rv="blur" style="transition-delay:{{ loop.index0 * 0.12 }}s">
+      <div class="sp" data-rv style="transition-delay:{{ loop.index0 * 0.12 }}s">
         <b class="disp en">{{ p.en }}</b>
         <h4>{{ p.title }}</h4>
         <p>{{ p.desc }}</p>

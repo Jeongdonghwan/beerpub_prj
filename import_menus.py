@@ -41,8 +41,9 @@ NAME_OVERRIDES = {  # 파싱된 이름 → (표기명, 가격원, 정렬)
 }
 
 
-def optimize(src, out_path, max_px):
-    """투명 여백(알파 bbox) 크롭 + RGBA 유지 WebP 저장. 이미 있으면 스킵(--rebuild 시 재생성)."""
+def optimize(src, out_path, max_px, square=False):
+    """투명 여백(알파 bbox) 크롭 + RGBA 유지 WebP 저장. 이미 있으면 스킵(--rebuild 시 재생성).
+    square=True 면 max_px 정사각 캔버스에 88% 크기로 중앙 배치 → 카드 크기·정렬 통일."""
     from PIL import Image
 
     if out_path.exists() and not REBUILD:
@@ -55,6 +56,15 @@ def optimize(src, out_path, max_px):
         pad_y = int((bbox[3] - bbox[1]) * 0.04)
         img = img.crop((max(0, bbox[0] - pad_x), max(0, bbox[1] - pad_y),
                         min(w, bbox[2] + pad_x), min(h, bbox[3] + pad_y)))
+    if square:
+        inner = int(max_px * 0.88)
+        img.thumbnail((inner, inner))
+        canvas = Image.new("RGBA", (max_px, max_px), (0, 0, 0, 0))
+        canvas.paste(img, ((max_px - img.width) // 2, (max_px - img.height) // 2), img)
+        canvas.save(out_path, "WEBP", quality=80, method=6)
+        if out_path.stat().st_size > MAX_KB * 1024:
+            canvas.save(out_path, "WEBP", quality=70, method=6)
+        return out_path.stat().st_size // 1024
     img.thumbnail((max_px, max_px))
     img.save(out_path, "WEBP", quality=80, method=6)
     if out_path.stat().st_size > MAX_KB * 1024:
@@ -119,7 +129,7 @@ def build_records():
             card_src = entry["files"].get(1) or next(iter(entry["files"].values()))
             detail_src = entry["files"].get(2, card_src)
             stem = f"c{cat_no:02d}_m{menu_no:02d}"
-            card_kb = optimize(card_src, OUT_DIR / f"{stem}.webp", CARD_SIZE)
+            card_kb = optimize(card_src, OUT_DIR / f"{stem}.webp", CARD_SIZE, square=True)
             detail_kb = optimize(detail_src, OUT_DIR / f"{stem}_d.webp", DETAIL_SIZE)
             rec = {
                 "cat_no": cat_no, "cat_name": disp_cat,
