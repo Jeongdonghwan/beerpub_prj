@@ -10,22 +10,26 @@
   var nav = document.getElementById('fpnav');
   var mqDesktop = window.matchMedia('(min-width:1025px)');
 
-  /* ---------- 히어로: 진입 시 영상만 → 첫 스크롤(또는 5초) 때 문구 등장 ---------- */
+  /* ---------- 히어로 문구: 영상 처음 3초 표시 → 사라짐 → 마지막 3초 다시 표시 (루프마다 반복) ---------- */
   var hero = document.getElementById('s1');
-  var heroClean = hero && hero.classList.contains('s1--clean');
-  function revealHeroCopy() {
-    if (!heroClean) return false;
-    heroClean = false;
-    hero.classList.remove('s1--clean');
-    return true; /* 이번 입력은 문구 등장에 사용 (섹션 이동 안 함) */
-  }
-  if (heroClean) {
-    setTimeout(revealHeroCopy, 3000);                              /* 스크롤 전이라도 3초 후 자동 등장 */
-    window.addEventListener('touchmove', revealHeroCopy, { once: true, passive: true });
-    window.addEventListener('scroll', function onS() {
-      if (!mqDesktop.matches) revealHeroCopy();
-      window.removeEventListener('scroll', onS);
-    }, { passive: true });
+  var heroTimeVideo = document.getElementById('heroVideo');
+  if (hero && heroTimeVideo) {
+    var COPY_SEC = 3;
+    function updateHeroCopy() {
+      var d = heroTimeVideo.duration;
+      if (!d || isNaN(d)) return;
+      var t = heroTimeVideo.currentTime;
+      var show = t < COPY_SEC || t > d - COPY_SEC;
+      hero.classList.toggle('s1--clean', !show);
+    }
+    heroTimeVideo.addEventListener('timeupdate', updateHeroCopy);
+    heroTimeVideo.addEventListener('loadedmetadata', updateHeroCopy);
+    updateHeroCopy();
+    if (hero.classList.contains('s1--clean') && heroTimeVideo.readyState === 0) {
+      hero.classList.remove('s1--clean'); /* 메타데이터 로드 전엔 문구 표시(영상 실패 대비) */
+    }
+  } else if (hero) {
+    hero.classList.remove('s1--clean'); /* 영상 없는 폴백은 문구 상시 표시 */
   }
 
   /* ---------- 히어로 소리 — 자동으로 켜기 시도, 브라우저가 막으면 첫 인터랙션에서 자동 켬.
@@ -139,7 +143,6 @@
       if (document.body.classList.contains('modal-open')) return; /* 모달 내부 스크롤 허용 */
       e.preventDefault();
       if (animating || Math.abs(e.deltaY) < 4) return;
-      if (e.deltaY > 0 && nearestIndex() === 0 && revealHeroCopy()) return;
       goTo(nearestIndex() + (e.deltaY > 0 ? 1 : -1));
     }, { passive: false });
 
