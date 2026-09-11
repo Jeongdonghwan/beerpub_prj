@@ -10,6 +10,8 @@
   .fp{height:100vh}
 }
 .fp{position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;min-height:100svh;padding:var(--hd-h) 0 var(--form-h)}
+/* 콘텐츠가 화면보다 클 때 위(헤더 아래)부터 보이게 — 상단 글씨 잘림 방지 (미지원 브라우저는 center 유지) */
+.fp{justify-content:safe center}
 @media(max-width:1024px){.fp{min-height:auto;padding:80px 0}}
 body.main main{padding:0}
 
@@ -320,7 +322,7 @@ body.main main{padding:0}
 .s14 .ft-links a:hover{color:#fff}
 
 /* ---------- 낮은 화면높이(노트북 등) 잘림 방지 — 콘텐츠 컴팩트 ---------- */
-@media(min-width:1025px) and (max-height:920px){
+@media(min-width:1025px) and (max-height:999px){
   .hero-copy .h-name{margin-top:5vh;font-size:clamp(44px,6vw,84px)}
   .rbox{padding:20px 14px}
   .rbox p small{font-size:12px;margin-top:6px}

@@ -20,7 +20,7 @@
     return true; /* 이번 입력은 문구 등장에 사용 (섹션 이동 안 함) */
   }
   if (heroClean) {
-    setTimeout(revealHeroCopy, 5000);                              /* 폴백: 5초 후 자동 등장 */
+    setTimeout(revealHeroCopy, 3000);                              /* 스크롤 전이라도 3초 후 자동 등장 */
     window.addEventListener('touchmove', revealHeroCopy, { once: true, passive: true });
     window.addEventListener('scroll', function onS() {
       if (!mqDesktop.matches) revealHeroCopy();
