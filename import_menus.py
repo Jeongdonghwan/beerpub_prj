@@ -57,10 +57,12 @@ def optimize(src, out_path, max_px, square=False):
         img = img.crop((max(0, bbox[0] - pad_x), max(0, bbox[1] - pad_y),
                         min(w, bbox[2] + pad_x), min(h, bbox[3] + pad_y)))
     if square:
-        inner = int(max_px * 0.88)
-        img.thumbnail((inner, inner))
-        canvas = Image.new("RGBA", (max_px, max_px), (0, 0, 0, 0))
-        canvas.paste(img, ((max_px - img.width) // 2, (max_px - img.height) // 2), img)
+        # cover 방식: 짧은 변이 캔버스를 가득 채우도록 확대 후 중앙 크롭 — 카드에 사진이 꽉 차게
+        scale = max_px / min(img.width, img.height)
+        img = img.resize((max(max_px, round(img.width * scale)), max(max_px, round(img.height * scale))), Image.LANCZOS)
+        left = (img.width - max_px) // 2
+        top = (img.height - max_px) // 2
+        canvas = img.crop((left, top, left + max_px, top + max_px))
         canvas.save(out_path, "WEBP", quality=80, method=6)
         if out_path.stat().st_size > MAX_KB * 1024:
             canvas.save(out_path, "WEBP", quality=70, method=6)
