@@ -245,19 +245,21 @@ body.main main{padding:0}
 .s10{background:radial-gradient(700px 360px at 50% 20%,rgba(232,38,43,.22),transparent 70%),linear-gradient(180deg,#141416 0%,#0B0B0D 100%);text-align:center}
 .wom-head{position:relative;z-index:1}
 .wom-head .stars{color:var(--yellow);letter-spacing:.6em;font-size:14px;text-shadow:0 0 12px rgba(255,211,77,.8)}
-.wom-big{font-size:clamp(28px,3.6vw,52px);color:var(--yellow);margin-top:10px;letter-spacing:.04em;text-shadow:0 0 18px rgba(255,211,77,.45)}
-.wom-row{display:flex;align-items:center;justify-content:center;gap:clamp(18px,3vw,48px);margin-top:-6px}
-.wom-side{font-size:clamp(17px,2vw,30px);line-height:1.25;color:#fff}
-.wom-punch{font-size:clamp(90px,13vw,190px);line-height:.95;color:var(--red);text-shadow:0 0 30px rgba(232,38,43,.7),0 14px 40px rgba(0,0,0,.6)}
-.wom-tags{margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.14);display:inline-flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;font-weight:800;font-size:clamp(13px,1.3vw,17px);color:rgba(255,255,255,.85)}
-.wom-cards{margin-top:34px}
-.rv{width:310px;flex-shrink:0;cursor:pointer;transition:transform .3s}
+/* 타이포 블록은 컴팩트하게 — 리뷰 캡처가 주인공 (카드 높이 = 화면 비례로 최대 확보) */
+.wom-big{font-size:clamp(20px,2.4vw,36px);color:var(--yellow);margin-top:6px;letter-spacing:.04em;text-shadow:0 0 18px rgba(255,211,77,.45)}
+.wom-row{display:flex;align-items:center;justify-content:center;gap:clamp(14px,2.2vw,34px);margin-top:-4px}
+.wom-side{font-size:clamp(14px,1.6vw,22px);line-height:1.25;color:#fff}
+.wom-punch{font-size:clamp(58px,8vw,118px);line-height:.95;color:var(--red);text-shadow:0 0 30px rgba(232,38,43,.7),0 14px 40px rgba(0,0,0,.6)}
+.wom-tags{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.14);display:inline-flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;font-weight:800;font-size:clamp(12px,1.1vw,14.5px);color:rgba(255,255,255,.85)}
+.wom-cards{margin-top:20px}
+.rv{width:auto;flex-shrink:0;cursor:pointer;transition:transform .3s}
 .rv:hover{transform:translateY(-8px)}
-.rv .rv-img{aspect-ratio:9/17;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 26px 50px -24px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
-.rv .rv-img .ph-img{object-fit:contain;object-position:center}   /* 캡처 전체 표시 — 흰 배경이라 여백 티 안 남 */
-.rv .rv-img .ph{border-color:#bbb}
+.rv .rv-img{height:min(54vh,600px);aspect-ratio:9/17;width:auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 26px 50px -24px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
+.rv .rv-img .ph-img{width:100%;height:100%;object-fit:contain;object-position:center;transition:transform .35s var(--ease)}
+.rv:hover .rv-img .ph-img{transform:scale(1.06)}
+.rv .rv-img .ph{border-color:#bbb;width:100%;height:100%}
 .rv span{display:block;margin-top:8px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.7)}
-@media(max-width:1024px){.rv{width:210px}.wom-row{gap:14px}}
+@media(max-width:1024px){.rv .rv-img{height:min(46vh,420px)}.wom-row{gap:12px}}
 
 /* ---------- S11 개설절차 — 원형 카드 지그재그 슬라이더 ---------- */
 .s11{background:#F3F1EC;color:var(--black);text-align:center}
@@ -339,9 +341,9 @@ body.main main{padding:0}
   .step.down{padding-top:46px}
   .steps-grid{margin-top:24px}
   .steps-line{margin-top:20px}
-  .wom-punch{font-size:clamp(76px,10vw,140px)}
-  .wom-cards{margin-top:22px}
-  .rv{width:190px}
+  .wom-punch{font-size:clamp(54px,7vw,100px)}
+  .wom-cards{margin-top:14px}
+  .rv .rv-img{height:min(50vh,480px)}
   .ctab th{padding:9px 14px}
   .ctab td{padding:7px 14px;font-size:12.5px}
   .ctab td small{font-size:10.5px;margin-top:2px}

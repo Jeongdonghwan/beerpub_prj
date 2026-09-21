@@ -57,12 +57,16 @@ def optimize(src, out_path, max_px, square=False):
         img = img.crop((max(0, bbox[0] - pad_x), max(0, bbox[1] - pad_y),
                         min(w, bbox[2] + pad_x), min(h, bbox[3] + pad_y)))
     if square:
-        # cover 방식: 짧은 변이 캔버스를 가득 채우도록 확대 후 중앙 크롭 — 카드에 사진이 꽉 차게
-        scale = max_px / min(img.width, img.height)
-        img = img.resize((max(max_px, round(img.width * scale)), max(max_px, round(img.height * scale))), Image.LANCZOS)
-        left = (img.width - max_px) // 2
-        top = (img.height - max_px) // 2
-        canvas = img.crop((left, top, left + max_px, top + max_px))
+        # 절충 크롭: 가능한 꽉 채우되 긴 변 잘림은 최대 22%까지만 (완전 cover 는 음식이 잘림)
+        w, h = img.width, img.height
+        scale_fit = max_px / max(w, h)                 # 전부 보임(여백 최대)
+        scale_cover = max_px / min(w, h)               # 꽉 참(잘림 최대)
+        scale_cap = 1.22 * max_px / max(w, h)          # 긴 변 22% 초과 잘림 방지
+        scale = max(scale_fit, min(scale_cover, scale_cap))
+        nw, nh = round(w * scale), round(h * scale)
+        img = img.resize((nw, nh), Image.LANCZOS)
+        canvas = Image.new("RGBA", (max_px, max_px), (0, 0, 0, 0))
+        canvas.paste(img, ((max_px - nw) // 2, (max_px - nh) // 2), img)
         canvas.save(out_path, "WEBP", quality=80, method=6)
         if out_path.stat().st_size > MAX_KB * 1024:
             canvas.save(out_path, "WEBP", quality=70, method=6)
