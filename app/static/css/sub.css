@@ -55,7 +55,7 @@
 .cat-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:44px}
 .cat-tabs a{padding:12px 26px;border:1px solid #c9c4b9;background:#fff;font-weight:800;font-size:14.5px;transition:.2s}
 .cat-tabs a.on,.cat-tabs a:hover{background:var(--red);border-color:var(--red);color:#fff}
-.menu-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}  /* 4→3열: 메뉴 사진 크게 */
 .menu-grid .mc{background:#fff;cursor:pointer;transition:transform .3s,box-shadow .3s}
 .menu-grid .mc:hover{transform:translateY(-8px);box-shadow:0 22px 40px -18px rgba(0,0,0,.3)}
 .menu-grid .mth{aspect-ratio:1/1;position:relative;overflow:hidden;background:#F7F5F1;display:flex;align-items:center;justify-content:center}

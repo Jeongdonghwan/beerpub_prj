@@ -61,7 +61,7 @@ def sitemap():
     base = request.url_root.rstrip("/")
     static_paths = [
         "/", "/brand/info", "/brand/history", "/menu/preview", "/menu/list",
-        "/interior/list", "/store/list", "/startup/step", "/startup/cost",
+        "/interior/list", "/startup/step", "/startup/cost",
         "/inquiry/", "/board/notice", "/doc/policy", "/doc/private", "/doc/antiemail",
     ]
     urls = [f"<url><loc>{base}{p}</loc></url>" for p in static_paths]
