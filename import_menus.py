@@ -41,7 +41,11 @@ NAME_OVERRIDES = {  # 파싱된 이름 → (표기명, 가격원, 정렬)
 }
 
 
-def optimize(src, out_path, max_px, square=False):
+# 카드 배율 개별 보정 (표기명 기준) — 빨대 없는 맥주잔이 하이볼 대비 커 보이는 문제 등
+CARD_SCALE = {"살얼음 맥주": 0.74}
+
+
+def optimize(src, out_path, max_px, square=False, scale_mult=1.0):
     """투명 여백(알파 bbox) 크롭 + RGBA 유지 WebP 저장. 이미 있으면 스킵(--rebuild 시 재생성).
     square=True 면 max_px 정사각 캔버스에 88% 크기로 중앙 배치 → 카드 크기·정렬 통일."""
     from PIL import Image
@@ -61,9 +65,10 @@ def optimize(src, out_path, max_px, square=False):
         # 본체를 정중앙 배치 — 그림자/여백 비율과 무관하게 모든 카드의 음식 크기·위치 동일.
         # 본체는 절대 잘리지 않고, 연한 그림자만 가장자리에서 잘릴 수 있음.
         w, h = img.width, img.height
-        solid = img.getchannel("A").point(lambda v: 255 if v > 150 else 0).getbbox() or (0, 0, w, h)
+        # 완전 불투명(>245)만 본체로 — 진한 그림자가 본체로 잡혀 중심이 쏠리는 것 방지
+        solid = img.getchannel("A").point(lambda v: 255 if v > 245 else 0).getbbox() or (0, 0, w, h)
         sw, sh = solid[2] - solid[0], solid[3] - solid[1]
-        scale = (max_px * 0.92) / max(sw, sh)
+        scale = (max_px * 0.92 * scale_mult) / max(sw, sh)
         nw, nh = round(w * scale), round(h * scale)
         img = img.resize((nw, nh), Image.LANCZOS)
         sl, st, sr, sb = [round(v * scale) for v in solid]
@@ -139,7 +144,8 @@ def build_records():
             card_src = entry["files"].get(1) or next(iter(entry["files"].values()))
             detail_src = entry["files"].get(2, card_src)
             stem = f"c{cat_no:02d}_m{menu_no:02d}"
-            card_kb = optimize(card_src, OUT_DIR / f"{stem}.webp", CARD_SIZE, square=True)
+            card_kb = optimize(card_src, OUT_DIR / f"{stem}.webp", CARD_SIZE, square=True,
+                               scale_mult=CARD_SCALE.get(name, 1.0))
             detail_kb = optimize(detail_src, OUT_DIR / f"{stem}_d.webp", DETAIL_SIZE)
             rec = {
                 "cat_no": cat_no, "cat_name": disp_cat,
