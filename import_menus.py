@@ -57,18 +57,18 @@ def optimize(src, out_path, max_px, square=False):
         img = img.crop((max(0, bbox[0] - pad_x), max(0, bbox[1] - pad_y),
                         min(w, bbox[2] + pad_x), min(h, bbox[3] + pad_y)))
     if square:
-        # 100% 맞춤 + 본체 기준 중앙 정렬: 그림자(연한 알파)는 중심 계산에서 제외해
-        # 음식 본체가 카드 정가운데 오도록 배치 (잘림 없음, 그림자만 가장자리서 잘릴 수 있음)
+        # 본체 기준 통일: 음식 본체(진한 알파)가 카드의 92%를 차지하도록 스케일하고
+        # 본체를 정중앙 배치 — 그림자/여백 비율과 무관하게 모든 카드의 음식 크기·위치 동일.
+        # 본체는 절대 잘리지 않고, 연한 그림자만 가장자리에서 잘릴 수 있음.
         w, h = img.width, img.height
-        scale = max_px / max(w, h)
-        nw, nh = round(w * scale), round(h * scale)
         solid = img.getchannel("A").point(lambda v: 255 if v > 150 else 0).getbbox() or (0, 0, w, h)
-        sl, st, sr, sb = [round(v * scale) for v in solid]
+        sw, sh = solid[2] - solid[0], solid[3] - solid[1]
+        scale = (max_px * 0.92) / max(sw, sh)
+        nw, nh = round(w * scale), round(h * scale)
         img = img.resize((nw, nh), Image.LANCZOS)
+        sl, st, sr, sb = [round(v * scale) for v in solid]
         px = round(max_px / 2 - (sl + sr) / 2)
         py = round(max_px / 2 - (st + sb) / 2)
-        px = min(max(px, -sl), max_px - sr) if sr - sl <= max_px else round((max_px - sl - sr) / 2)
-        py = min(max(py, -st), max_px - sb) if sb - st <= max_px else round((max_px - st - sb) / 2)
         canvas = Image.new("RGBA", (max_px, max_px), (0, 0, 0, 0))
         canvas.paste(img, (px, py), img)
         canvas.save(out_path, "WEBP", quality=80, method=6)
