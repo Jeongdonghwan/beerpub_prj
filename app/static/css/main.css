@@ -254,8 +254,9 @@ body.main main{padding:0}
 .wom-cards{margin-top:20px}
 .rv{width:auto;flex-shrink:0;cursor:pointer;transition:transform .3s}
 .rv:hover{transform:translateY(-8px)}
-.rv .rv-img{height:min(54vh,600px);aspect-ratio:9/17;width:auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 26px 50px -24px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
-.rv .rv-img .ph-img{width:100%;height:100%;object-fit:contain;object-position:center;transition:transform .35s var(--ease)}
+/* 카드 이미지는 720x1280 통일 규격 — 모든 카드가 같은 크기·높낮이 */
+.rv .rv-img{height:min(54vh,600px);aspect-ratio:9/16;width:auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 26px 50px -24px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.08)}
+.rv .rv-img .ph-img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .35s var(--ease)}
 .rv:hover .rv-img .ph-img{transform:scale(1.06)}
 .rv .rv-img .ph{border-color:#bbb;width:100%;height:100%}
 .rv span{display:block;margin-top:8px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.7)}

@@ -1,6 +1,7 @@
 {% from "_macros.html" import ph with context %}
 <div class="story-popup">
-  <div class="sp-th sp-capture">{{ ph(item.thumb, '리뷰 캡처', '720x1280', alt=brand.name ~ ' ' ~ item.branch_name ~ ' 리뷰', tone='light') }}</div>
+  {# 모달은 크롭 없는 full 버전으로 (카드용은 720x1280 통일 규격) #}
+  <div class="sp-th sp-capture">{{ ph(item.thumb | replace('.webp', '_full.webp') if item.thumb else '', '리뷰 캡처', '720x1280', alt=brand.name ~ ' ' ~ item.branch_name ~ ' 리뷰', tone='light') }}</div>
   <span class="sp-branch">{{ item.branch_name }}</span>
   {% if item.title %}<h3>{{ item.title }}</h3>{% endif %}
 </div>
