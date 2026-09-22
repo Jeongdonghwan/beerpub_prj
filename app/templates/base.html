@@ -17,10 +17,11 @@
 {# Pretendard 는 @font-face 보다 먼저 link 로 로드 (프로토타입 @import 순서 버그 수정) #}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
 <style>
-{# 도현체: 숫자(0-9)는 지마켓산스로, '딹'(U+B539)은 Pretendard 로 폴백 (도현체 미보유/장식 숫자꼴 회피) #}
-@font-face{font-family:'BMDohyeon';src:url('{{ url_for('static', filename='fonts/BMDOHYEON.ttf') }}') format('truetype');font-weight:400 700;font-display:swap;unicode-range:U+0000-002F,U+003A-B538,U+B53A-10FFFF}
-@font-face{font-family:'GmarketSans';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');font-weight:700;font-display:swap;unicode-range:U+0000-B538,U+B53A-10FFFF}
-@font-face{font-family:'GmarketSans';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');font-weight:500;font-display:swap;unicode-range:U+0000-B538,U+B53A-10FFFF}
+{# 브랜드명 '맥주엔딹'(U+B9E5,C8FC,C5D4,B539)은 도현체·지마켓산스에서 제외 → Pretendard 볼드로 통일
+   (도현체에 '딹' 글리프가 없어 글자별로 서체가 섞이는 문제 방지). 숫자(0-9)는 지마켓산스 사용 #}
+@font-face{font-family:'BMDohyeon';src:url('{{ url_for('static', filename='fonts/BMDOHYEON.ttf') }}') format('truetype');font-weight:400 700;font-display:swap;unicode-range:U+0000-002F,U+003A-B538,U+B53A-B9E4,U+B9E6-C5D3,U+C5D5-C8FB,U+C8FD-10FFFF}
+@font-face{font-family:'GmarketSans';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff');font-weight:700;font-display:swap;unicode-range:U+0000-B538,U+B53A-B9E4,U+B9E6-C5D3,U+C5D5-C8FB,U+C8FD-10FFFF}
+@font-face{font-family:'GmarketSans';src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');font-weight:500;font-display:swap;unicode-range:U+0000-B538,U+B53A-B9E4,U+B9E6-C5D3,U+C5D5-C8FB,U+C8FD-10FFFF}
 :root{
   --red:{{ brand.colors.red }}; --black:{{ brand.colors.black }};
   --dark:{{ brand.colors.dark }}; --paper:{{ brand.colors.paper }}; --yellow:{{ brand.colors.yellow }};
