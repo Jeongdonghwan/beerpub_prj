@@ -13,18 +13,16 @@ DOC_SLUGS = {
 
 @bp.route("/")
 def index():
-    menus = (
-        Menu.query.filter_by(is_active=True)
-        .order_by(Menu.sort, Menu.id)
-        .limit(10)
-        .all()
-    )
+    drink_cat = MenuCategory.query.filter_by(name="주류").first()
+    menus_q = Menu.query.filter_by(is_active=True)
+    if drink_cat:
+        menus_q = menus_q.filter(Menu.category_id != drink_cat.id)  # 메인 메뉴 마퀴는 음식만
+    menus = menus_q.order_by(Menu.sort, Menu.id).limit(10).all()
     interiors = Interior.query.order_by(Interior.sort, Interior.id).limit(12).all()
     stories = (
         Story.query.filter_by(is_active=True).order_by(Story.sort).limit(16).all()
     )
     banners = Banner.query.filter_by(is_active=True).order_by(Banner.sort).all()
-    drink_cat = MenuCategory.query.filter_by(name="주류").first()
     drinks = (
         Menu.query.filter_by(category_id=drink_cat.id, is_active=True)
         .order_by(Menu.sort, Menu.id).all()
