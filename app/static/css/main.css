@@ -62,9 +62,9 @@ body.main main{padding:0}
 .h-badge{display:inline-block;background:var(--yellow);color:#111;font-size:clamp(15px,1.7vw,25px);padding:.4em .9em;border-radius:6px;transform:rotate(-7deg);transform-origin:50% 120%;box-shadow:0 10px 26px rgba(0,0,0,.5);margin-right:14px;vertical-align:middle;animation:badgeSwing 2.6s ease-in-out infinite}
 @keyframes badgeSwing{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(-3deg)}}
 @media(prefers-reduced-motion:reduce){.h-badge{animation:none}}
-/* 서브 문구: 글자 흰색 테두리(8방향 아웃라인) + 하단 다크 그림자 — 영상 위 가독 */
-.hero-copy .h-sub{display:inline-block;vertical-align:middle;font-size:clamp(19px,2.5vw,37px);font-weight:800;color:#fff;
-  text-shadow:-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,-2px 0 0 #fff,2px 0 0 #fff,0 -2px 0 #fff,0 2px 0 #fff,0 7px 20px rgba(0,0,0,.85)}
+/* 서브 문구: 기본 글자 블랙 + 흰색 테두리 — 흰 글자가 테두리에 묻히던 문제 해결 */
+.hero-copy .h-sub{display:inline-block;vertical-align:middle;font-size:clamp(19px,2.5vw,37px);font-weight:800;color:#111;
+  text-shadow:-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,-2px 0 0 #fff,2px 0 0 #fff,0 -2px 0 #fff,0 2px 0 #fff,0 7px 20px rgba(0,0,0,.55)}
 .hero-copy .h-sub em{font-style:normal;color:var(--red);font-size:1.12em}
 .hero-copy .h-sub .or{color:#FF8A2A;font-size:1.08em}
 /* 서브 카피 주변 집중 별 효과 */
@@ -230,7 +230,7 @@ body.main main{padding:0}
 .mmi{width:min(420px,78vw);flex-shrink:0;cursor:pointer;transition:transform .3s}
 .mmi:hover{transform:translateY(-8px)}
 .mmi .ph-img,.mmi .ph{width:100%;height:310px;object-fit:contain;filter:drop-shadow(0 22px 38px rgba(0,0,0,.55))}
-.mmi span{display:block;margin-top:12px;font-size:clamp(16px,1.8vw,21px);color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.85)}
+.mmi span{display:block;margin-top:12px;font-size:19px;font-weight:800;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.85)}  /* 이름은 전부 흰색·동일 크기 */
 @media(max-width:1024px){.mmi .ph-img,.mmi .ph{height:220px}}
 
 /* ---------- S8 인테리어 2열 역방향 마퀴 ---------- */
@@ -249,7 +249,7 @@ body.main main{padding:0}
 .wom-head .stars{color:var(--yellow);letter-spacing:.6em;font-size:14px;text-shadow:0 0 12px rgba(255,211,77,.8)}
 /* 타이포 블록은 컴팩트하게 — 리뷰 캡처가 주인공 (카드 높이 = 화면 비례로 최대 확보) */
 .wom-big{font-size:clamp(20px,2.4vw,36px);color:var(--yellow);margin-top:6px;letter-spacing:.04em;text-shadow:0 0 18px rgba(255,211,77,.45)}
-.wom-row{display:flex;align-items:center;justify-content:center;gap:clamp(14px,2.2vw,34px);margin-top:-4px}
+.wom-row{display:flex;align-items:center;justify-content:center;gap:clamp(14px,2.2vw,34px);margin-top:10px}  /* '끝!'이 윗줄과 겹치지 않게 */
 .wom-side{font-size:clamp(14px,1.6vw,22px);line-height:1.25;color:#fff}
 .wom-punch{font-size:clamp(58px,8vw,118px);line-height:.95;color:var(--red);text-shadow:0 0 30px rgba(232,38,43,.7),0 14px 40px rgba(0,0,0,.6)}
 .wom-tags{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.14);display:inline-flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;font-weight:800;font-size:clamp(12px,1.1vw,14.5px);color:rgba(255,255,255,.85)}
@@ -298,7 +298,7 @@ body.main main{padding:0}
 .ctab td small{display:block;color:#98938a;font-size:11.5px;margin-top:3px;font-family:var(--body);font-weight:400}
 .ctab td .rnote{color:var(--red);font-weight:700}
 .ctab td.dc{color:var(--red)}
-.ctab td.dc s{color:#98938a;font-weight:400;font-size:.82em;margin-right:6px;text-decoration-color:#c0392b;text-decoration-thickness:2px}
+.ctab td.dc s{display:block;color:#98938a;font-weight:400;font-size:.82em;line-height:1.15;text-decoration-color:#c0392b;text-decoration-thickness:2px}  /* 취소선 위 · 할인가 아래 세로 배치 */
 .ctab tr.tt td{background:var(--red);color:#fff;font-weight:800}
 .ctab tr.tt td:last-child{font-size:22px}
 .s12 .note{text-align:center;color:#98938a;font-size:12px;margin-top:16px}

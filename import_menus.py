@@ -41,8 +41,56 @@ NAME_OVERRIDES = {  # 파싱된 이름 → (표기명, 가격원, 정렬)
 }
 
 
-# 카드 배율 개별 보정 (표기명 기준) — 빨대 없는 맥주잔이 하이볼 대비 커 보이는 문제 등
-CARD_SCALE = {"살얼음 맥주": 0.74}
+# 카드 배율 개별 보정 (표기명 기준) — 질량 기반 본체 판정으로 대부분 불필요, 예외만 등록
+CARD_SCALE = {}
+
+
+def _mass_bbox(alpha, lo=0.02, hi=0.98, min_a=200):
+    """본체 bbox — 알파 질량 누적 2%~98% 구간.
+    - min_a 미만(그림자·흐린 번짐)은 질량 0 으로 제외
+    - 빨대·손잡이 등 가는 돌출은 질량이 작아 양끝 2% 트림으로 자동 제외
+    - 임계값 하나로 자르는 방식과 달리 누끼 경계 품질(최대 알파값)에 무관하게 안정적
+    """
+    w, h = alpha.size
+    sc = max(1.0, max(w, h) / 300.0)          # 300px 로 축소 샘플링 (순수 파이썬 속도 확보)
+    sw, sh = max(1, round(w / sc)), max(1, round(h / sc))
+    px = list(alpha.resize((sw, sh)).getdata())
+    weights = [v if v >= min_a else 0 for v in px]
+    if not any(weights):                       # 전부 반투명(비정상 누끼) → 알파 그대로
+        weights = px
+    cols, rows = [0] * sw, [0] * sh
+    for y in range(sh):
+        base = y * sw
+        s = 0
+        for x in range(sw):
+            v = weights[base + x]
+            cols[x] += v
+            s += v
+        rows[y] = s
+
+    def span(mass):
+        total = sum(mass)
+        if total == 0:
+            return 0, len(mass) - 1
+        trim_lo, trim_hi = total * lo, total * (1 - hi)
+        acc, i0 = 0, 0
+        for i, v in enumerate(mass):
+            acc += v
+            if acc >= trim_lo:
+                i0 = i
+                break
+        acc, i1 = 0, len(mass) - 1
+        for i in range(len(mass) - 1, -1, -1):
+            acc += mass[i]
+            if acc >= trim_hi:
+                i1 = i
+                break
+        return i0, i1
+
+    x0, x1 = span(cols)
+    y0, y1 = span(rows)
+    return (int(x0 * sc), int(y0 * sc),
+            min(w, int((x1 + 1) * sc)), min(h, int((y1 + 1) * sc)))
 
 
 def optimize(src, out_path, max_px, square=False, scale_mult=1.0):
@@ -65,8 +113,8 @@ def optimize(src, out_path, max_px, square=False, scale_mult=1.0):
         # 본체를 정중앙 배치 — 그림자/여백 비율과 무관하게 모든 카드의 음식 크기·위치 동일.
         # 본체는 절대 잘리지 않고, 연한 그림자만 가장자리에서 잘릴 수 있음.
         w, h = img.width, img.height
-        # 완전 불투명(>245)만 본체로 — 진한 그림자가 본체로 잡혀 중심이 쏠리는 것 방지
-        solid = img.getchannel("A").point(lambda v: 255 if v > 245 else 0).getbbox() or (0, 0, w, h)
+        # 질량 기반 본체 bbox — 그림자·빨대·경계 품질 차이에 강건 (_mass_bbox 참조)
+        solid = _mass_bbox(img.getchannel("A"))
         sw, sh = solid[2] - solid[0], solid[3] - solid[1]
         scale = (max_px * 0.92 * scale_mult) / max(sw, sh)
         nw, nh = round(w * scale), round(h * scale)
