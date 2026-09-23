@@ -116,7 +116,10 @@ body.sub .ctab td:last-child{text-align:right;font-family:var(--disp);font-weigh
 body.sub .ctab td small{display:block;color:#98938a;font-size:11.5px;margin-top:3px}
 body.sub .ctab td .rnote{color:var(--red);font-weight:700}
 body.sub .ctab td.dc{color:var(--red)}
-body.sub .ctab td.dc s{color:#98938a;font-weight:400;font-size:.82em;margin-right:6px;text-decoration-color:#c0392b;text-decoration-thickness:2px}
+body.sub .ctab td.dc s{display:block;color:#98938a;font-weight:400;font-size:.82em;line-height:1.15;text-decoration-color:#c0392b;text-decoration-thickness:2px}  /* 메인 S12 과 동일 — 취소선 위 · 할인가 아래 */
+body.sub .cost-head{text-align:center;font-family:var(--disp);font-weight:700;font-size:clamp(30px,3.6vw,50px);line-height:1.3;margin-bottom:30px}
+body.sub .cost-head .s-sub2{display:block;font-size:.55em;margin-top:8px}
+body.sub .cost-head .r{color:var(--red)}
 body.sub .ctab tr.tt td{background:var(--red);color:#fff;font-weight:800}
 body.sub .ctab tr.tt td:last-child{font-size:22px}
 .cost-note{text-align:center;color:#98938a;font-size:12px;margin-top:16px}
