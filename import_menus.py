@@ -93,7 +93,31 @@ def _mass_bbox(alpha, lo=0.02, hi=0.98, min_a=200):
             min(w, int((x1 + 1) * sc)), min(h, int((y1 + 1) * sc)))
 
 
-def optimize(src, out_path, max_px, square=False, scale_mult=1.0):
+def _drink_body(alpha, min_a=200, w_ratio=0.42):
+    """잔 본체 bbox — 행별 실루엣 폭이 최대폭의 w_ratio 이상인 구간.
+    빨대·머들러(가는 돌출)는 폭이 좁아 제외되고 잔(거품·손잡이 포함)만 잡힌다."""
+    w, h = alpha.size
+    sc = max(1.0, max(w, h) / 300.0)
+    sw, sh = max(1, round(w / sc)), max(1, round(h / sc))
+    px = list(alpha.resize((sw, sh)).getdata())
+    spans = []                                  # (y, x0, x1) — 마스크 행 극좌우
+    for y in range(sh):
+        row = px[y * sw:(y + 1) * sw]
+        xs = [x for x, v in enumerate(row) if v >= min_a]
+        spans.append((xs[0], xs[-1]) if xs else None)
+    widths = [(s[1] - s[0] + 1) if s else 0 for s in spans]
+    max_w = max(widths) or 1
+    body_ys = [y for y, wd in enumerate(widths) if wd >= max_w * w_ratio]
+    if not body_ys:
+        return _mass_bbox(alpha)
+    y0, y1 = body_ys[0], body_ys[-1]
+    x0 = min(spans[y][0] for y in body_ys)
+    x1 = max(spans[y][1] for y in body_ys)
+    return (int(x0 * sc), int(y0 * sc),
+            min(w, int((x1 + 1) * sc)), min(h, int((y1 + 1) * sc)))
+
+
+def optimize(src, out_path, max_px, square=False, scale_mult=1.0, drink=False):
     """투명 여백(알파 bbox) 크롭 + RGBA 유지 WebP 저장. 이미 있으면 스킵(--rebuild 시 재생성).
     square=True 면 max_px 정사각 캔버스에 88% 크기로 중앙 배치 → 카드 크기·정렬 통일."""
     from PIL import Image
@@ -113,15 +137,27 @@ def optimize(src, out_path, max_px, square=False, scale_mult=1.0):
         # 본체를 정중앙 배치 — 그림자/여백 비율과 무관하게 모든 카드의 음식 크기·위치 동일.
         # 본체는 절대 잘리지 않고, 연한 그림자만 가장자리에서 잘릴 수 있음.
         w, h = img.width, img.height
-        # 질량 기반 본체 bbox — 그림자·빨대·경계 품질 차이에 강건 (_mass_bbox 참조)
-        solid = _mass_bbox(img.getchannel("A"))
-        sw, sh = solid[2] - solid[0], solid[3] - solid[1]
-        scale = (max_px * 0.92 * scale_mult) / max(sw, sh)
-        nw, nh = round(w * scale), round(h * scale)
-        img = img.resize((nw, nh), Image.LANCZOS)
-        sl, st, sr, sb = [round(v * scale) for v in solid]
-        px = round(max_px / 2 - (sl + sr) / 2)
-        py = round(max_px / 2 - (st + sb) / 2)
+        if drink:
+            # 주류: 잔 본체 높이를 70% 로 통일하고 잔 바닥을 93% 라인에 정렬
+            # (잔 모양·빨대 길이와 무관하게 잔 크기 동일 — 빨대는 위로 자연스럽게 뻗음)
+            body = _drink_body(img.getchannel("A"))
+            bw, bh = body[2] - body[0], body[3] - body[1]
+            scale = (max_px * 0.70 * scale_mult) / bh
+            nw, nh = round(w * scale), round(h * scale)
+            img = img.resize((nw, nh), Image.LANCZOS)
+            bl, bt, br, bb = [round(v * scale) for v in body]
+            px = round(max_px / 2 - (bl + br) / 2)
+            py = round(max_px * 0.93 - bb)
+        else:
+            # 질량 기반 본체 bbox — 그림자·빨대·경계 품질 차이에 강건 (_mass_bbox 참조)
+            solid = _mass_bbox(img.getchannel("A"))
+            sw, sh = solid[2] - solid[0], solid[3] - solid[1]
+            scale = (max_px * 0.92 * scale_mult) / max(sw, sh)
+            nw, nh = round(w * scale), round(h * scale)
+            img = img.resize((nw, nh), Image.LANCZOS)
+            sl, st, sr, sb = [round(v * scale) for v in solid]
+            px = round(max_px / 2 - (sl + sr) / 2)
+            py = round(max_px / 2 - (st + sb) / 2)
         canvas = Image.new("RGBA", (max_px, max_px), (0, 0, 0, 0))
         canvas.paste(img, (px, py), img)
         canvas.save(out_path, "WEBP", quality=80, method=6)
@@ -193,7 +229,8 @@ def build_records():
             detail_src = entry["files"].get(2, card_src)
             stem = f"c{cat_no:02d}_m{menu_no:02d}"
             card_kb = optimize(card_src, OUT_DIR / f"{stem}.webp", CARD_SIZE, square=True,
-                               scale_mult=CARD_SCALE.get(name, 1.0))
+                               scale_mult=CARD_SCALE.get(name, 1.0),
+                               drink=(disp_cat == DRINK_CATEGORY))
             detail_kb = optimize(detail_src, OUT_DIR / f"{stem}_d.webp", DETAIL_SIZE)
             rec = {
                 "cat_no": cat_no, "cat_name": disp_cat,
