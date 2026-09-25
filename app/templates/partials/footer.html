@@ -2,11 +2,13 @@
   <div class="wrap">
     {% if brand.logo %}<img class="f-logo" src="{{ brand.logo }}" alt="{{ brand.name }}">{% endif %}
     <p class="f-info">
-      {{ brand.company or "회사명 [확인필요]" }} ·
-      주소 {{ brand.footer.address or "[확인필요]" }} ·
-      대표 {{ brand.footer.ceo or "[확인필요]" }} ·
-      사업자등록번호 {{ brand.footer.biz_no or "[확인필요]" }} ·
-      이메일 {{ brand.footer.email or "[확인필요]" }}
+      <span>상호 {{ brand.company }}</span>
+      <span>대표 {{ brand.footer.ceo }}</span>
+      <span>사업자등록번호 {{ brand.footer.biz_no }}</span>
+      {% if brand.footer.liquor_no %}<span>주류판매신고번호 {{ brand.footer.liquor_no }}</span>{% endif %}
+      <span>주소 {{ brand.footer.address }}</span>
+      <span>가맹문의 {{ brand.phone }}</span>
+      {% if brand.footer.email %}<span>이메일 {{ brand.footer.email }}</span>{% endif %}
     </p>
     <p class="f-copy">COPYRIGHT © {{ brand.name }}{% if brand.name_en %} ({{ brand.name_en }}){% endif %} ALL RIGHTS RESERVED.</p>
     <p class="f-links">

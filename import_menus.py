@@ -93,6 +93,46 @@ def _mass_bbox(alpha, lo=0.02, hi=0.98, min_a=200):
             min(w, int((x1 + 1) * sc)), min(h, int((y1 + 1) * sc)))
 
 
+def _body_bbox(alpha, th=200, min_px=3):
+    """음식 본체 bbox — 그림자와 잔티끌을 뺀 실루엣 전체의 외곽 사각형.
+
+    행/열별로 본체 픽셀이 min_px 개 이상인 구간만 본체로 인정한다.
+    - 반투명 그림자: 알파 임계(th)로 제외
+      (실측: 245 는 밝은 접시 테두리를 놓쳐 중심이 400px 넘게 튀고, 40 은 드롭섀도를 포함)
+    - 누끼 과정에서 남은 몇 픽셀짜리 잔티끌: 개수 조건으로 제외
+      (크림파스타 원본에 접시와 떨어진 티끌이 있어 외곽이 118px 끌려가던 문제)
+    - 도마 손잡이처럼 가늘어도 실제로 이어진 구조는 그대로 보존 → 잘리지 않는다
+    """
+    w, h = alpha.size
+    sc = max(1.0, max(w, h) / 300.0)
+    sw, sh = max(1, round(w / sc)), max(1, round(h / sc))
+    px = list(alpha.resize((sw, sh)).getdata())
+    mask = [1 if v >= th else 0 for v in px]
+    if not any(mask):                               # 전체가 반투명한 비정상 누끼 → 임계 완화
+        mask = [1 if v >= 128 else 0 for v in px]
+    if not any(mask):
+        return (0, 0, w, h)
+
+    cols, rows = [0] * sw, [0] * sh
+    for y in range(sh):
+        base = y * sw
+        for x in range(sw):
+            if mask[base + x]:
+                cols[x] += 1
+                rows[y] += 1
+
+    def span(counts):
+        keep = [i for i, c in enumerate(counts) if c >= min_px]
+        if not keep:                                 # 전부 얇으면 개수 조건 없이
+            keep = [i for i, c in enumerate(counts) if c]
+        return keep[0], keep[-1]
+
+    x0, x1 = span(cols)
+    y0, y1 = span(rows)
+    return (int(x0 * sc), int(y0 * sc),
+            min(w, int((x1 + 1) * sc)), min(h, int((y1 + 1) * sc)))
+
+
 def _drink_body(alpha, min_a=200, w_ratio=0.42):
     """잔 본체 bbox — 행별 실루엣 폭이 최대폭의 w_ratio 이상인 구간.
     빨대·머들러(가는 돌출)는 폭이 좁아 제외되고 잔(거품·손잡이 포함)만 잡힌다."""
@@ -149,8 +189,8 @@ def optimize(src, out_path, max_px, square=False, scale_mult=1.0, drink=False):
             px = round(max_px / 2 - (bl + br) / 2)
             py = round(max_px * 0.93 - bb)
         else:
-            # 질량 기반 본체 bbox — 그림자·빨대·경계 품질 차이에 강건 (_mass_bbox 참조)
-            solid = _mass_bbox(img.getchannel("A"))
+            # 본체 실루엣 전체 기준 (_body_bbox) — 손잡이·접시 테두리가 잘리지 않는다
+            solid = _body_bbox(img.getchannel("A"))
             sw, sh = solid[2] - solid[0], solid[3] - solid[1]
             scale = (max_px * 0.92 * scale_mult) / max(sw, sh)
             nw, nh = round(w * scale), round(h * scale)

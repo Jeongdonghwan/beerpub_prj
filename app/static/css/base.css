@@ -158,7 +158,10 @@ body.sub .site-footer{padding-bottom:calc(var(--form-h) + 30px)}
 
 /* ---------- 푸터 ---------- */
 .site-footer{background:#0B0B0D;color:rgba(255,255,255,.4);font-size:12.5px;padding:36px 0}
-.site-footer .f-info{line-height:1.9}
+.site-footer .f-info{line-height:1.9;display:flex;flex-wrap:wrap;gap:4px 16px}  /* 사업자정보 — 좁은 화면에선 자동 줄바꿈 */
+.site-footer .f-info span{white-space:nowrap}
+.site-footer .f-info span+span{position:relative}
+.site-footer .f-info span+span::before{content:'';position:absolute;left:-9px;top:50%;transform:translateY(-50%);width:1px;height:11px;background:rgba(255,255,255,.18)}
 .site-footer .f-copy{margin-top:10px;letter-spacing:.04em}
 .site-footer .f-links{margin-top:14px;display:flex;gap:18px}
 .site-footer .f-links a:hover{color:#fff}
