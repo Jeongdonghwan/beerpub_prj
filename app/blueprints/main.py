@@ -10,13 +10,22 @@ DOC_SLUGS = {
     "antiemail": ("이메일무단수집거부", "doc_antiemail"),
 }
 
+# 메인 메뉴 마퀴에 노출할 카테고리 (클라이언트 확정)
+MARQUEE_CATEGORIES = ["치킨", "치떡세트", "분식 & 파스타", "국물요리", "일품안주"]
+
 
 @bp.route("/")
 def index():
     drink_cat = MenuCategory.query.filter_by(name="주류").first()
     menus_q = Menu.query.filter_by(is_active=True)
-    if drink_cat:
-        menus_q = menus_q.filter(Menu.category_id != drink_cat.id)  # 메인 메뉴 마퀴는 음식만
+    mq_cat_ids = [
+        c.id
+        for c in MenuCategory.query.filter(MenuCategory.name.in_(MARQUEE_CATEGORIES)).all()
+    ]
+    if mq_cat_ids:
+        menus_q = menus_q.filter(Menu.category_id.in_(mq_cat_ids))
+    elif drink_cat:
+        menus_q = menus_q.filter(Menu.category_id != drink_cat.id)   # 카테고리명 변경 시 폴백
     menus = menus_q.order_by(Menu.sort, Menu.id).limit(10).all()
     interiors = Interior.query.order_by(Interior.sort, Interior.id).limit(12).all()
     stories = (
