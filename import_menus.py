@@ -10,6 +10,7 @@
 사용법: python import_menus.py   (로컬/서버 공용, DATABASE_URL 따름)
 """
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -41,8 +42,16 @@ NAME_OVERRIDES = {  # 파싱된 이름 → (표기명, 가격원, 정렬)
 }
 
 
-# 카드 배율 개별 보정 (표기명 기준) — 질량 기반 본체 판정으로 대부분 불필요, 예외만 등록
+# 카드 배율 개별 보정 (표기명 기준) — 자동 규칙으로 충분하므로 비워둠, 예외 생기면 등록
 CARD_SCALE = {}
+
+# --- 카드 크기 규칙 (클라이언트 확정) -------------------------------------
+# 기본: 음식이 가마보꼬와 같은 크기로 보이도록 가로x세로 기하평균을 통일한다.
+# 다만 도마 안주처럼 납작한 접시는 이미 가로 폭이 꽉 차 있어 더 키우면 잘리므로 제외한다.
+CARD_GEO = 0.817      # 가마보꼬 실측 기준 (647x661 → 기하평균 654 / 800)
+CARD_FILL = 0.92      # 납작한 접시: 기존처럼 긴 변 기준
+CARD_MAX = 0.96       # 캔버스를 넘지 않도록 하는 상한
+FLAT_ASPECT = 1.8     # 가로:세로가 이 이상이면 도마류로 간주
 
 
 def _mass_bbox(alpha, lo=0.02, hi=0.98, min_a=200):
@@ -133,26 +142,38 @@ def _body_bbox(alpha, th=200, min_px=3):
             min(w, int((x1 + 1) * sc)), min(h, int((y1 + 1) * sc)))
 
 
-def _drink_body(alpha, min_a=200, w_ratio=0.42):
-    """잔 본체 bbox — 행별 실루엣 폭이 최대폭의 w_ratio 이상인 구간.
-    빨대·머들러(가는 돌출)는 폭이 좁아 제외되고 잔(거품·손잡이 포함)만 잡힌다."""
+def _drink_body(alpha, min_a=200, w_ratio=0.42, col_cov=0.70):
+    """잔 몸통 bbox — 손잡이와 빨대를 뺀, 잔 그 자체의 범위.
+
+    - 세로: 행 폭이 최대폭의 w_ratio 이상인 구간 → 빨대·머들러 제외, 잔 높이만
+    - 가로: 그 구간에서 세로 점유율이 col_cov 이상인 열만 → 손잡이 제외
+      (손잡이는 C자로 휘어 가운데가 비므로 점유율이 낮다. 실측상 잔 몸통은 85%+,
+       손잡이는 50% 미만으로 뚜렷이 갈린다.)
+    잔 몸통을 기준으로 가운데 정렬하므로 손잡이는 오른쪽으로 자연스럽게 나간다.
+    """
     w, h = alpha.size
     sc = max(1.0, max(w, h) / 300.0)
     sw, sh = max(1, round(w / sc)), max(1, round(h / sc))
     px = list(alpha.resize((sw, sh)).getdata())
-    spans = []                                  # (y, x0, x1) — 마스크 행 극좌우
+    mask = [1 if v >= min_a else 0 for v in px]
+    spans = []                                  # 행별 실루엣 극좌우
     for y in range(sh):
-        row = px[y * sw:(y + 1) * sw]
-        xs = [x for x, v in enumerate(row) if v >= min_a]
+        row = mask[y * sw:(y + 1) * sw]
+        xs = [x for x, v in enumerate(row) if v]
         spans.append((xs[0], xs[-1]) if xs else None)
     widths = [(s[1] - s[0] + 1) if s else 0 for s in spans]
     max_w = max(widths) or 1
     body_ys = [y for y, wd in enumerate(widths) if wd >= max_w * w_ratio]
     if not body_ys:
-        return _mass_bbox(alpha)
+        return _body_bbox(alpha)
     y0, y1 = body_ys[0], body_ys[-1]
-    x0 = min(spans[y][0] for y in body_ys)
-    x1 = max(spans[y][1] for y in body_ys)
+    bh = y1 - y0 + 1
+
+    cov = [sum(1 for y in range(y0, y1 + 1) if mask[y * sw + x]) / bh for x in range(sw)]
+    keep = [x for x, c in enumerate(cov) if c >= col_cov]
+    if not keep:                                # 손잡이가 없는 잔 등 → 전체 폭 사용
+        keep = [x for x, c in enumerate(cov) if c > 0]
+    x0, x1 = keep[0], keep[-1]
     return (int(x0 * sc), int(y0 * sc),
             min(w, int((x1 + 1) * sc)), min(h, int((y1 + 1) * sc)))
 
@@ -173,13 +194,12 @@ def optimize(src, out_path, max_px, square=False, scale_mult=1.0, drink=False):
         img = img.crop((max(0, bbox[0] - pad_x), max(0, bbox[1] - pad_y),
                         min(w, bbox[2] + pad_x), min(h, bbox[3] + pad_y)))
     if square:
-        # 본체 기준 통일: 음식 본체(진한 알파)가 카드의 92%를 차지하도록 스케일하고
-        # 본체를 정중앙 배치 — 그림자/여백 비율과 무관하게 모든 카드의 음식 크기·위치 동일.
-        # 본체는 절대 잘리지 않고, 연한 그림자만 가장자리에서 잘릴 수 있음.
+        # 음식(진한 알파)만 기준으로 크기·위치를 통일한다. 그림자는 계산에서 빠지고,
+        # 음식은 절대 잘리지 않는다 (연한 그림자만 가장자리에서 잘릴 수 있음).
         w, h = img.width, img.height
         if drink:
-            # 주류: 잔 본체 높이를 70% 로 통일하고 잔 바닥을 93% 라인에 정렬
-            # (잔 모양·빨대 길이와 무관하게 잔 크기 동일 — 빨대는 위로 자연스럽게 뻗음)
+            # 주류: 잔 몸통 높이를 70% 로 통일하고 바닥을 93% 라인에 정렬.
+            # 가로는 손잡이를 뺀 잔 몸통 기준으로 정중앙 (_drink_body 참조).
             body = _drink_body(img.getchannel("A"))
             bw, bh = body[2] - body[0], body[3] - body[1]
             scale = (max_px * 0.70 * scale_mult) / bh
@@ -189,10 +209,15 @@ def optimize(src, out_path, max_px, square=False, scale_mult=1.0, drink=False):
             px = round(max_px / 2 - (bl + br) / 2)
             py = round(max_px * 0.93 - bb)
         else:
-            # 본체 실루엣 전체 기준 (_body_bbox) — 손잡이·접시 테두리가 잘리지 않는다
+            # 음식 실루엣 전체 기준 (_body_bbox) — 손잡이·접시 테두리가 잘리지 않는다
             solid = _body_bbox(img.getchannel("A"))
             sw, sh = solid[2] - solid[0], solid[3] - solid[1]
-            scale = (max_px * 0.92 * scale_mult) / max(sw, sh)
+            if max(sw / sh, sh / sw) >= FLAT_ASPECT:
+                scale = (max_px * CARD_FILL) / max(sw, sh)      # 도마류: 기존 방식 유지
+            else:
+                scale = (max_px * CARD_GEO) / math.sqrt(sw * sh)  # 가마보꼬와 같은 크기감
+                scale = min(scale, max_px * CARD_MAX / sw, max_px * CARD_MAX / sh)
+            scale *= scale_mult
             nw, nh = round(w * scale), round(h * scale)
             img = img.resize((nw, nh), Image.LANCZOS)
             sl, st, sr, sb = [round(v * scale) for v in solid]
