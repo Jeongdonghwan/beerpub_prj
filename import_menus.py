@@ -102,16 +102,18 @@ def _mass_bbox(alpha, lo=0.02, hi=0.98, min_a=200):
             min(w, int((x1 + 1) * sc)), min(h, int((y1 + 1) * sc)))
 
 
-def _body_bbox(alpha, th=250, min_px=3):
+def _body_bbox(alpha, th=250, min_px=3, min_frac=0.03):
     """음식 본체 bbox — 그림자와 잔티끌을 뺀, 음식 그 자체의 외곽 사각형.
 
     행/열별로 본체 픽셀이 min_px 개 이상인 구간만 본체로 인정한다.
     - 그림자: 알파 임계(th)로 제외. 실측상 음식은 알파 250 이상이 나오고
       바닥 그림자는 250 미만(어두운 무채색)이라 깔끔히 갈린다. 임계를 200 으로
       두면 그림자가 본체로 잡혀 음식이 그만큼 위로 밀려 올라간다.
-    - 누끼 과정에서 남은 몇 픽셀짜리 잔티끌: 개수 조건으로 제외
-      (크림파스타 원본에 접시와 떨어진 티끌이 있어 외곽이 118px 끌려가던 문제)
-    - 도마 손잡이처럼 가늘어도 실제로 이어진 구조는 그대로 보존 → 잘리지 않는다
+    - 누끼 과정에서 남은 잔티끌: 행/열 픽셀 수가 최대치의 min_frac 미만이면 제외.
+      고정 개수(3px)로만 걸렀더니 가마보꼬 위쪽의 2~3px 티끌이 통과해 기준이
+      위로 늘어나고 그만큼 냄비가 아래로 밀렸다 → 비율 기준을 함께 쓴다.
+    - 도마 손잡이처럼 가늘어도 실제로 이어진 구조는 최대치 대비 충분히 두꺼워
+      그대로 보존된다 → 잘리지 않는다
     """
     w, h = alpha.size
     sc = max(1.0, max(w, h) / 300.0)
@@ -134,7 +136,8 @@ def _body_bbox(alpha, th=250, min_px=3):
                 rows[y] += 1
 
     def span(counts):
-        keep = [i for i, c in enumerate(counts) if c >= min_px]
+        limit = max(min_px, max(counts) * min_frac)
+        keep = [i for i, c in enumerate(counts) if c >= limit]
         if not keep:                                 # 전부 얇으면 개수 조건 없이
             keep = [i for i, c in enumerate(counts) if c]
         return keep[0], keep[-1]
@@ -215,13 +218,19 @@ def optimize(src, out_path, max_px, square=False, scale_mult=1.0, drink=False):
             py = round(max_px * 0.93 - bb)
         else:
             # 음식 실루엣 전체 기준 (_body_bbox) — 손잡이·접시 테두리가 잘리지 않는다
-            solid = _body_bbox(img.getchannel("A"))
+            alpha = img.getchannel("A")
+            solid = _body_bbox(alpha)
             sw, sh = solid[2] - solid[0], solid[3] - solid[1]
             if max(sw / sh, sh / sw) >= FLAT_ASPECT:
                 scale = (max_px * CARD_FILL) / max(sw, sh)      # 도마류: 기존 방식 유지
             else:
                 scale = (max_px * CARD_GEO) / math.sqrt(sw * sh)  # 가마보꼬와 같은 크기감
                 scale = min(scale, max_px * CARD_MAX / sw, max_px * CARD_MAX / sh)
+            # 꽂아둔 젓가락처럼 기준 영역 밖으로 삐져나온 부분도 캔버스 안에 들어오게
+            full = alpha.point(lambda v: 255 if v >= 250 else 0).getbbox() or solid
+            cx, cy = (solid[0] + solid[2]) / 2, (solid[1] + solid[3]) / 2
+            half = max(cx - full[0], full[2] - cx, cy - full[1], full[3] - cy)
+            scale = min(scale, max_px * 0.495 / half)
             scale *= scale_mult
             nw, nh = round(w * scale), round(h * scale)
             img = img.resize((nw, nh), Image.LANCZOS)
