@@ -102,12 +102,13 @@ def _mass_bbox(alpha, lo=0.02, hi=0.98, min_a=200):
             min(w, int((x1 + 1) * sc)), min(h, int((y1 + 1) * sc)))
 
 
-def _body_bbox(alpha, th=200, min_px=3):
-    """음식 본체 bbox — 그림자와 잔티끌을 뺀 실루엣 전체의 외곽 사각형.
+def _body_bbox(alpha, th=250, min_px=3):
+    """음식 본체 bbox — 그림자와 잔티끌을 뺀, 음식 그 자체의 외곽 사각형.
 
     행/열별로 본체 픽셀이 min_px 개 이상인 구간만 본체로 인정한다.
-    - 반투명 그림자: 알파 임계(th)로 제외
-      (실측: 245 는 밝은 접시 테두리를 놓쳐 중심이 400px 넘게 튀고, 40 은 드롭섀도를 포함)
+    - 그림자: 알파 임계(th)로 제외. 실측상 음식은 알파 250 이상이 나오고
+      바닥 그림자는 250 미만(어두운 무채색)이라 깔끔히 갈린다. 임계를 200 으로
+      두면 그림자가 본체로 잡혀 음식이 그만큼 위로 밀려 올라간다.
     - 누끼 과정에서 남은 몇 픽셀짜리 잔티끌: 개수 조건으로 제외
       (크림파스타 원본에 접시와 떨어진 티끌이 있어 외곽이 118px 끌려가던 문제)
     - 도마 손잡이처럼 가늘어도 실제로 이어진 구조는 그대로 보존 → 잘리지 않는다
@@ -117,8 +118,10 @@ def _body_bbox(alpha, th=200, min_px=3):
     sw, sh = max(1, round(w / sc)), max(1, round(h / sc))
     px = list(alpha.resize((sw, sh)).getdata())
     mask = [1 if v >= th else 0 for v in px]
-    if not any(mask):                               # 전체가 반투명한 비정상 누끼 → 임계 완화
-        mask = [1 if v >= 128 else 0 for v in px]
+    for fallback in (200, 128):                     # 전체가 반투명한 비정상 누끼 → 임계 완화
+        if any(mask):
+            break
+        mask = [1 if v >= fallback else 0 for v in px]
     if not any(mask):
         return (0, 0, w, h)
 
@@ -198,10 +201,12 @@ def optimize(src, out_path, max_px, square=False, scale_mult=1.0, drink=False):
         # 음식은 절대 잘리지 않는다 (연한 그림자만 가장자리에서 잘릴 수 있음).
         w, h = img.width, img.height
         if drink:
-            # 주류: 잔 몸통 높이를 70% 로 통일하고 바닥을 93% 라인에 정렬.
-            # 가로는 손잡이를 뺀 잔 몸통 기준으로 정중앙 (_drink_body 참조).
+            # 주류: 잔 몸통 높이를 70% 로 통일하고 바닥을 93% 라인에 맞춘다.
+            # 빨대 길이가 제각각이라 세로 가운데 정렬을 하면 빨대가 크기를 좌우해
+            # 잔 크기가 다시 들쭉날쭉해진다 → 바닥 기준이 가장 균일하다.
+            # 가로만 손잡이를 뺀 잔 몸통 기준 정중앙 (_drink_body 참조).
             body = _drink_body(img.getchannel("A"))
-            bw, bh = body[2] - body[0], body[3] - body[1]
+            bh = body[3] - body[1]
             scale = (max_px * 0.70 * scale_mult) / bh
             nw, nh = round(w * scale), round(h * scale)
             img = img.resize((nw, nh), Image.LANCZOS)
@@ -372,6 +377,7 @@ def run():
             item.detail_image = r["detail_image"]
             item.sort = r["menu_no"]
             item.is_active = True
+            item.badge = ""   # 구 시드의 '시그니처' 뱃지 잔존 제거 — 카드 디자인 통일
             if "price" in r:
                 item.price = r["price"]
 

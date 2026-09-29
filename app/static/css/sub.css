@@ -56,12 +56,14 @@
 .cat-tabs a{padding:12px 26px;border:1px solid #c9c4b9;background:#fff;font-weight:800;font-size:14.5px;transition:.2s}
 .cat-tabs a.on,.cat-tabs a:hover{background:var(--red);border-color:var(--red);color:#fff}
 .menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}  /* 4→3열: 메뉴 사진 크게 */
-.menu-grid .mc{background:#fff;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.menu-grid .mc{background:#fff;cursor:pointer;transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column}
 .menu-grid .mc:hover{transform:translateY(-8px);box-shadow:0 22px 40px -18px rgba(0,0,0,.3)}
 .menu-grid .mth{aspect-ratio:1/1;position:relative;overflow:hidden;background:#F7F5F1;display:flex;align-items:center;justify-content:center}
 .menu-grid .mth .ph-img{object-fit:contain}  /* 카드 이미지는 정사각 캔버스 통일본 — 여백 내장 */
 .menu-grid .bd{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;font-size:10.5px;font-weight:800;padding:4px 9px;z-index:1}
-.menu-grid .nm{background:var(--black);color:#fff;text-align:center;padding:13px 10px}
+/* 이름 바는 카드 맨 아래 고정 + 높이 통일 — 가격 유무로 카드 모양이 달라지지 않게 */
+.menu-grid .nm{background:var(--black);color:#fff;text-align:center;padding:13px 10px;
+  margin-top:auto;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .menu-grid .nm h4{font-size:15.5px;font-weight:800}
 .menu-grid .nm span{font-family:var(--disp);font-weight:700;font-size:13.5px;color:var(--yellow);display:block;margin-top:5px}
 .cat-sec{margin-bottom:54px}
