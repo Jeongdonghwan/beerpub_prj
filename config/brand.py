@@ -44,9 +44,9 @@ BRAND = {
 
     # ---------- S3/S4 문제제기→해결 (23년 경험 프레임) ----------
     "contrast_frame": {
-        "problem_headline": "빠르게 변하는 외식시장 속에서<br><em>유행만 따라가시겠습니까?</em>",
+        "problem_headline": "빠르게 변하는<br>외식시장 속에서<br><em>유행만<br>따라가시겠습니까?</em>",
         "problem_sub": "화려한 유행보다 중요한 건 오래 사랑받는 맛",
-        "solution_headline": "맥주엔딹은 <em>23년의 외식 경험</em>을<br>한 곳에 담았습니다",
+        "solution_headline": "맥주엔딹은 <em>23년의<br>외식경험</em>을<br>한 곳에 담았습니다",
         "solution_sub": "투사랑 · 광수비어 23년",
         "disclaimer": "맛과 품질, 메뉴 구성 그리고 운영의 완성도까지 — 오래 사랑받는 기본을 지킵니다.",
     },

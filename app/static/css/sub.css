@@ -117,7 +117,7 @@ body.sub .ctab td{padding:13px 18px;border-top:1px solid #EFEBE2;font-size:14px}
 body.sub .ctab td:last-child{text-align:right;font-family:var(--disp);font-weight:700;font-size:15px}
 body.sub .ctab td small{display:block;color:#98938a;font-size:11.5px;margin-top:3px}
 body.sub .ctab td .rnote{color:var(--red);font-weight:700}
-body.sub .ctab td.dc{color:var(--red)}
+body.sub .ctab td.dc{color:var(--red);text-align:center}  /* 할인 항목은 취소선·할인가를 가운데로 */
 body.sub .ctab td.dc s{display:block;color:#98938a;font-weight:400;font-size:.82em;line-height:1.15;text-decoration-color:#c0392b;text-decoration-thickness:2px}  /* 메인 S12 과 동일 — 취소선 위 · 할인가 아래 */
 body.sub .cost-head{text-align:center;font-family:var(--disp);font-weight:700;font-size:clamp(30px,3.6vw,50px);line-height:1.3;margin-bottom:30px}
 body.sub .cost-head .s-sub2{display:block;font-size:.55em;margin-top:8px}

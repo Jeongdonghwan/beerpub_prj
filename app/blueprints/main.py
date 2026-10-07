@@ -67,7 +67,7 @@ def doc(slug):
 def sitemap():
     base = request.url_root.rstrip("/")
     static_paths = [
-        "/", "/brand/info", "/brand/history", "/menu/preview", "/menu/list",
+        "/", "/brand/info", "/menu/preview", "/menu/list",
         "/interior/list", "/startup/step", "/startup/cost",
         "/inquiry/", "/board/notice", "/doc/policy", "/doc/private", "/doc/antiemail",
     ]

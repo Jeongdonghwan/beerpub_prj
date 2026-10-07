@@ -45,6 +45,11 @@ NAME_OVERRIDES = {  # 파싱된 이름 → (표기명, 가격원, 정렬)
 # 카드 배율 개별 보정 (표기명 기준) — 자동 규칙으로 충분하므로 비워둠, 예외 생기면 등록
 CARD_SCALE = {}
 
+# 본체 판정에서 제외할 가는 돌출의 기준(행/열 픽셀 수 / 최대치). 기본 3%.
+# 꼬불이는 꼬치가 여러 개 부채처럼 꽂혀 기본값으로는 본체로 잡혀 그릇이 작아진다
+# → 20% 로 올려 그릇만 본체로 본다 (꼬치는 위로 잘려도 무관 — 클라이언트 확인).
+BODY_FRAC = {"꼬불이": 0.20}
+
 # --- 카드 크기 규칙 (클라이언트 확정) -------------------------------------
 # 기본: 음식이 가마보꼬와 같은 크기로 보이도록 가로x세로 기하평균을 통일한다.
 # 다만 도마 안주처럼 납작한 접시는 이미 가로 폭이 꽉 차 있어 더 키우면 잘리므로 제외한다.
@@ -184,7 +189,7 @@ def _drink_body(alpha, min_a=200, w_ratio=0.42, col_cov=0.70):
             min(w, int((x1 + 1) * sc)), min(h, int((y1 + 1) * sc)))
 
 
-def optimize(src, out_path, max_px, square=False, scale_mult=1.0, drink=False):
+def optimize(src, out_path, max_px, square=False, scale_mult=1.0, drink=False, body_frac=0.03):
     """투명 여백(알파 bbox) 크롭 + RGBA 유지 WebP 저장. 이미 있으면 스킵(--rebuild 시 재생성).
     square=True 면 max_px 정사각 캔버스에 88% 크기로 중앙 배치 → 카드 크기·정렬 통일."""
     from PIL import Image
@@ -219,18 +224,13 @@ def optimize(src, out_path, max_px, square=False, scale_mult=1.0, drink=False):
         else:
             # 음식 실루엣 전체 기준 (_body_bbox) — 손잡이·접시 테두리가 잘리지 않는다
             alpha = img.getchannel("A")
-            solid = _body_bbox(alpha)
+            solid = _body_bbox(alpha, min_frac=body_frac)
             sw, sh = solid[2] - solid[0], solid[3] - solid[1]
             if max(sw / sh, sh / sw) >= FLAT_ASPECT:
                 scale = (max_px * CARD_FILL) / max(sw, sh)      # 도마류: 기존 방식 유지
             else:
                 scale = (max_px * CARD_GEO) / math.sqrt(sw * sh)  # 가마보꼬와 같은 크기감
                 scale = min(scale, max_px * CARD_MAX / sw, max_px * CARD_MAX / sh)
-            # 꽂아둔 젓가락처럼 기준 영역 밖으로 삐져나온 부분도 캔버스 안에 들어오게
-            full = alpha.point(lambda v: 255 if v >= 250 else 0).getbbox() or solid
-            cx, cy = (solid[0] + solid[2]) / 2, (solid[1] + solid[3]) / 2
-            half = max(cx - full[0], full[2] - cx, cy - full[1], full[3] - cy)
-            scale = min(scale, max_px * 0.495 / half)
             scale *= scale_mult
             nw, nh = round(w * scale), round(h * scale)
             img = img.resize((nw, nh), Image.LANCZOS)
@@ -309,7 +309,8 @@ def build_records():
             stem = f"c{cat_no:02d}_m{menu_no:02d}"
             card_kb = optimize(card_src, OUT_DIR / f"{stem}.webp", CARD_SIZE, square=True,
                                scale_mult=CARD_SCALE.get(name, 1.0),
-                               drink=(disp_cat == DRINK_CATEGORY))
+                               drink=(disp_cat == DRINK_CATEGORY),
+                               body_frac=BODY_FRAC.get(name, 0.03))
             detail_kb = optimize(detail_src, OUT_DIR / f"{stem}_d.webp", DETAIL_SIZE)
             rec = {
                 "cat_no": cat_no, "cat_name": disp_cat,
