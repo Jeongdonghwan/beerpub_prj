@@ -175,7 +175,7 @@ body.sub .site-footer{padding-bottom:calc(var(--form-h) + 30px)}
 body.modal-open{overflow:hidden}
 
 /* ---------- 레이어 팝업 ---------- */
-.layer-popup{position:fixed;top:calc(var(--hd-h) + 24px);left:calc(24px + var(--i) * 40px);z-index:150;width:min(360px,86vw);background:#1B1B1E;border:1px solid #333;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+.layer-popup{position:fixed;top:calc(var(--hd-h) + 24px);left:calc(24px + var(--i) * 384px);z-index:150;width:min(360px,86vw);background:#1B1B1E;border:1px solid #333;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
 .layer-popup .lp-img,.layer-popup .ph{aspect-ratio:5/6}
 .lp-btns{display:flex}
 .lp-btns button{flex:1;padding:12px;font-size:13px;font-weight:600;color:#ccc;background:#141414}

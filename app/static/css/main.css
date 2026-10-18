@@ -77,7 +77,10 @@ body.main main{padding:0}
 @keyframes stMini{0%{transform:translateY(0) rotate(0);opacity:0}12%{opacity:1}85%{opacity:.9}100%{transform:translateY(90px) rotate(140deg);opacity:0}}
 @media(prefers-reduced-motion:reduce){.h-sub-wrap .st{display:none}}
 .hero-copy .h-name{margin-top:9vh;font-size:clamp(52px,7vw,110px);line-height:1.05;color:var(--red);text-shadow:0 6px 30px rgba(0,0,0,.7),0 0 40px rgba(232,38,43,.4)}
-.hero-copy .h-info{margin-top:18px;font-size:clamp(13.5px,1.4vw,17px);font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.04em;text-shadow:0 2px 12px rgba(0,0,0,.8)}
+/* 브랜드명(최대 110px)과 가맹문의(17px) 사이 — 중간 크기 */
+.hero-copy .h-point{margin-top:16px;font-size:clamp(20px,2.6vw,38px);font-weight:700;color:#fff;letter-spacing:-.01em;text-shadow:0 3px 16px rgba(0,0,0,.8)}
+.hero-copy .h-point b{color:var(--yellow)}
+.hero-copy .h-info{margin-top:14px;font-size:clamp(13.5px,1.4vw,17px);font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.04em;text-shadow:0 2px 12px rgba(0,0,0,.8)}
 .hero-copy .h-info b{color:var(--yellow);font-family:var(--disp)}
 /* 별 떨어지는 효과 */
 .star-fall{position:absolute;inset:-40px 0 0;pointer-events:none}
