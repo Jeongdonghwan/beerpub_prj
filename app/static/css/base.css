@@ -184,16 +184,14 @@ body.modal-open{overflow:hidden}
 @media(max-width:1024px){.layer-popup{left:50%;transform:translateX(-50%)}}
 /* 팝업 네온 효과 — 이미지가 아니라 틀에 걸려 있어 어드민에서 이미지를 바꿔도 유지됨 */
 .layer-popup{border:0;border-radius:6px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);   /* 네온 테두리·발광 없음 — 네온은 이미지 안에서만 */
-  animation:lpIn .6s var(--ease) both,lpFlicker 6s steps(1,end) 2s infinite}
+  animation:lpIn .6s var(--ease) both,lpHum 3.2s ease-in-out 1s infinite}
 @keyframes lpIn{from{opacity:0;transform:scale(.88) translateY(14px)}to{opacity:1;transform:none}}
 @media(max-width:1024px){@keyframes lpIn{from{opacity:0;transform:translateX(-50%) scale(.88)}to{opacity:1;transform:translateX(-50%)}}}
 @keyframes lpGlow{
   0%,100%{box-shadow:0 0 6px #FF3B40,0 0 18px rgba(255,59,64,.75),0 0 40px rgba(255,59,64,.45),0 30px 60px -20px rgba(0,0,0,.6)}
   50%{box-shadow:0 0 10px #FF6B6E,0 0 30px rgba(255,59,64,1),0 0 70px rgba(255,59,64,.7),0 0 110px rgba(255,211,77,.35),0 30px 60px -20px rgba(0,0,0,.6)}}
-@keyframes lpFlicker{ /* 진짜 네온처럼 가끔 툭툭 끊기는 깜빡임 */
-  0%,100%{filter:brightness(1)} 7%{filter:brightness(.72)} 8%{filter:brightness(1.08)} 9.5%{filter:brightness(.8)} 11%{filter:brightness(1)}
-  43%{filter:brightness(1)} 44%{filter:brightness(.65)} 45%{filter:brightness(1.1)} 46.5%{filter:brightness(1)}
-  78%{filter:brightness(1)} 78.6%{filter:brightness(.78)} 79.4%{filter:brightness(1)}}
+@keyframes lpHum{ /* 네온 특유의 은은한 밝기 호흡 — 끊김 없이 부드럽게 */
+  0%,100%{filter:brightness(1)} 45%{filter:brightness(1.07)} 52%{filter:brightness(.96)} 58%{filter:brightness(1.05)} 75%{filter:brightness(1)}}
 @media(prefers-reduced-motion:reduce){.layer-popup{animation:lpIn .3s both}}
 
 /* ---------- Go Top ---------- */
