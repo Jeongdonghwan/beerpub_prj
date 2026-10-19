@@ -182,6 +182,21 @@ body.modal-open{overflow:hidden}
 .lp-btns button:hover{color:#fff}
 .lp-btns .lp-today{border-right:1px solid #2a2a2e}
 @media(max-width:1024px){.layer-popup{left:50%;transform:translateX(-50%)}}
+/* 팝업 네온 효과 — 이미지가 아니라 틀에 걸려 있어 어드민에서 이미지를 바꿔도 유지됨 */
+.layer-popup{border:2px solid #FF3B40;border-radius:6px;overflow:hidden;
+  animation:lpIn .6s var(--ease) both,lpGlow 2.4s ease-in-out 1s infinite,lpFlicker 6s steps(1,end) 2s infinite}
+.layer-popup::after{content:'';position:absolute;inset:0;pointer-events:none;border-radius:4px;
+  box-shadow:inset 0 0 0 1px rgba(255,211,77,.55),inset 0 0 18px rgba(255,59,64,.35)}   /* 안쪽 옐로 라인 + 레드 번짐 */
+@keyframes lpIn{from{opacity:0;transform:scale(.88) translateY(14px)}to{opacity:1;transform:none}}
+@media(max-width:1024px){@keyframes lpIn{from{opacity:0;transform:translateX(-50%) scale(.88)}to{opacity:1;transform:translateX(-50%)}}}
+@keyframes lpGlow{
+  0%,100%{box-shadow:0 0 6px #FF3B40,0 0 18px rgba(255,59,64,.75),0 0 40px rgba(255,59,64,.45),0 30px 60px -20px rgba(0,0,0,.6)}
+  50%{box-shadow:0 0 10px #FF6B6E,0 0 30px rgba(255,59,64,1),0 0 70px rgba(255,59,64,.7),0 0 110px rgba(255,211,77,.35),0 30px 60px -20px rgba(0,0,0,.6)}}
+@keyframes lpFlicker{ /* 진짜 네온처럼 가끔 툭툭 끊기는 깜빡임 */
+  0%,100%{filter:brightness(1)} 7%{filter:brightness(.72)} 8%{filter:brightness(1.08)} 9.5%{filter:brightness(.8)} 11%{filter:brightness(1)}
+  43%{filter:brightness(1)} 44%{filter:brightness(.65)} 45%{filter:brightness(1.1)} 46.5%{filter:brightness(1)}
+  78%{filter:brightness(1)} 78.6%{filter:brightness(.78)} 79.4%{filter:brightness(1)}}
+@media(prefers-reduced-motion:reduce){.layer-popup{animation:lpIn .3s both}}
 
 /* ---------- Go Top ---------- */
 .go-top{position:fixed;right:26px;bottom:calc(var(--form-h) + 22px);z-index:98;width:46px;height:46px;border-radius:50%;background:rgba(20,20,20,.85);border:1px solid #333;color:#fff;font-size:18px;opacity:0;visibility:hidden;transition:.3s}
