@@ -107,7 +107,7 @@ def stars(img, cx, y, n=5, size=11):
 
 
 FRAMES = 14          # 한 바퀴 프레임 수
-FRAME_MS = 110       # 프레임 간격 → 한 바퀴 약 1.5초
+FRAME_MS = 80        # 프레임 간격 → 한 바퀴 약 1.1초
 
 
 def sparkle(img, x, y, size, a):
@@ -182,17 +182,18 @@ for i, (label, orig, new) in enumerate(EVENT["rows"]):
 neon_center(static, 530, EVENT["foot"], font(DOH, 19), strength=.6)
 stars(static, W / 2, 562, size=10)
 
-SPK_EV = [(52, 190), (448, 186), (40, 262), (462, 258), (118, 296), (384, 170), (250, 292)]
+SPK_EV = [(52, 190, 11), (448, 186, 9), (40, 262, 10), (462, 258, 12), (118, 296, 8), (384, 170, 10), (250, 292, 9),
+          (96, 176, 7), (410, 246, 8), (176, 160, 6), (330, 300, 7), (24, 222, 9), (476, 214, 8), (290, 164, 6)]
 frames = []
 for k in range(FRAMES):
     t = k / FRAMES
     img = static.copy()
-    g = 0.55 + 0.45 * pulse(t)                      # 글로우 세기 0.55~1.0
+    g = 0.4 + 0.75 * pulse(t)                       # 글로우 세기 0.4~1.15
     hf = font(DOH, 46)
     neon_center(img, 182, EVENT["title"], hf, strength=g)
     neon_center(img, 236, EVENT["title2"], hf, strength=g)
-    for i, (x, y) in enumerate(SPK_EV):
-        sparkle(img, x, y, 9, max(0.0, pulse(t, i / len(SPK_EV)) * 2 - 1))
+    for i, (x, y, sz) in enumerate(SPK_EV):
+        sparkle(img, x, y, sz, max(0.0, pulse(t, i / len(SPK_EV) * 2) * 2 - 1))
     frames.append(img)
 save_apng(frames, OUT / "event_fee.png")
 
@@ -221,15 +222,16 @@ for (x, y), name in zip(cells, OPEN["branches"]):
 neon_center(static, 548, OPEN["foot1"], font(DOH, 17), strength=.55)
 neon_center(static, 572, OPEN["foot2"], font(DOH, 17), color=RED, glow=RED_GLOW, core=(255, 210, 210), strength=.7)
 
-SPK_OP = [(58, 186), (442, 184), (84, 232), (420, 230), (250, 170), (160, 238), (350, 236)]
+SPK_OP = [(58, 186, 11), (442, 184, 9), (84, 232, 10), (420, 230, 12), (250, 170, 8), (160, 238, 9), (350, 236, 10),
+          (30, 210, 8), (470, 206, 9), (120, 166, 6), (380, 166, 7), (210, 240, 6), (300, 164, 7), (462, 246, 6)]
 frames = []
 for k in range(FRAMES):
     t = k / FRAMES
     img = static.copy()
-    g = 0.55 + 0.45 * pulse(t)
+    g = 0.4 + 0.75 * pulse(t)
     neon_center(img, 180, OPEN["title"], font(DOH, 46), strength=g)
-    for i, (x, y) in enumerate(SPK_OP):
-        sparkle(img, x, y, 9, max(0.0, pulse(t, i / len(SPK_OP)) * 2 - 1))
+    for i, (x, y, sz) in enumerate(SPK_OP):
+        sparkle(img, x, y, sz, max(0.0, pulse(t, i / len(SPK_OP) * 2) * 2 - 1))
     frames.append(img)
 save_apng(frames, OUT / "open_soon.png")
 print("saved:", OUT)
