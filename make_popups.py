@@ -1,4 +1,6 @@
-"""레이어 팝업 이미지 생성 (500x600) — 네온사인 스타일.
+"""레이어 팝업 이미지 생성 (500x600) — 네온사인 스타일, 헤드라인 반짝임(APNG).
+헤드라인 글로우가 숨쉬듯 세지고 약해지며 주변 별이 교대로 반짝인다. 나머지는 정지.
+결과는 .png(APNG) — 브라우저 <img> 에서 그대로 움직인다.
 문구를 바꾸려면 아래 EVENT/OPEN 블록만 고치고 실행 → static/images/popup/ 에 저장.
 (로컬 전용: 맑은고딕 볼드 사용. 서버는 git 으로 결과 PNG 만 받는다)
 """
@@ -104,6 +106,36 @@ def stars(img, cx, y, n=5, size=11):
     neon(img, (cx - text_w(t, f) / 2, y), t, f, color=GOLD, strength=.5)
 
 
+FRAMES = 14          # 한 바퀴 프레임 수
+FRAME_MS = 110       # 프레임 간격 → 한 바퀴 약 1.5초
+
+
+def sparkle(img, x, y, size, a):
+    """4갈래 반짝이 별 — a(0~1)로 밝기"""
+    if a <= 0.02:
+        return
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ld = ImageDraw.Draw(layer)
+    s_, c = size * a, (255, 246, 200, int(255 * a))
+    ld.line((x - s_, y, x + s_, y), fill=c, width=2)
+    ld.line((x, y - s_, x, y + s_), fill=c, width=2)
+    ld.line((x - s_ * .45, y - s_ * .45, x + s_ * .45, y + s_ * .45), fill=c, width=1)
+    ld.line((x - s_ * .45, y + s_ * .45, x + s_ * .45, y - s_ * .45), fill=c, width=1)
+    glow = layer.filter(ImageFilter.GaussianBlur(3))
+    img.alpha_composite(glow)
+    img.alpha_composite(layer)
+
+
+def pulse(t, phase=0.0):
+    """0~1 사이 부드러운 왕복 (t: 0~1 진행도)"""
+    return 0.5 - 0.5 * math.cos(2 * math.pi * (t + phase))
+
+
+def save_apng(frames, path):
+    frames[0].convert("RGB").save(path, save_all=True, append_images=[f.convert("RGB") for f in frames[1:]],
+                                  duration=FRAME_MS, loop=0, optimize=True)
+
+
 def base():
     img = Image.new("RGBA", (W, H), BG + (255,))
     d = ImageDraw.Draw(img)
@@ -131,27 +163,38 @@ EVENT = {
     "rows": [("가맹비", "500만원", "0원"), ("교육비", "500만원", "300만원")],
     "foot": "좋은 상권은 금방 사라집니다",
 }
-img = base()
-confetti(img, seed=3)
-stars(img, W / 2, 128)
-neon_center(img, 148, EVENT["tag"], font(DOH, 22), color=RED, glow=RED_GLOW, core=(255, 200, 200))
-neon_center(img, 182, EVENT["title"], font(DOH, 46))
-neon_center(img, 236, EVENT["title2"], font(DOH, 46))
-d = ImageDraw.Draw(img)
+static = base()
+confetti(static, seed=3)
+stars(static, W / 2, 128)
+neon_center(static, 148, EVENT["tag"], font(DOH, 22), color=RED, glow=RED_GLOW, core=(255, 200, 200))
+d = ImageDraw.Draw(static)
 d.rounded_rectangle((38, 308, W - 38, 500), radius=12, fill=(24, 22, 24, 255), outline=(110, 85, 40), width=2)
 lf, sf, bf = font(DOH, 26), font(DOH, 20), font(DOH, 36)
 for i, (label, orig, new) in enumerate(EVENT["rows"]):
     y = 332 + i * 92
     if i:
         d.line((60, y - 12, W - 60, y - 12), fill=(60, 52, 40), width=1)
-    neon(img, (60, y + 8), label, lf, color=WHITE, glow=(255, 220, 150), core=WHITE, strength=.45)
-    ow = strike(img, 168, y + 12, orig, sf)
-    d = ImageDraw.Draw(img)
+    neon(static, (60, y + 8), label, lf, color=WHITE, glow=(255, 220, 150), core=WHITE, strength=.45)
+    ow = strike(static, 168, y + 12, orig, sf)
+    d = ImageDraw.Draw(static)
     d.text((168 + ow + 12, y + 10), "→", font=sf, fill=DIM)
-    neon(img, (168 + ow + 44, y + 2), new, bf, color=RED, glow=RED_GLOW, core=(255, 215, 215))
-neon_center(img, 530, EVENT["foot"], font(DOH, 19), strength=.6)
-stars(img, W / 2, 562, size=10)
-img.convert("RGB").save(OUT / "event_fee.png", optimize=True)
+    neon(static, (168 + ow + 44, y + 2), new, bf, color=RED, glow=RED_GLOW, core=(255, 215, 215))
+neon_center(static, 530, EVENT["foot"], font(DOH, 19), strength=.6)
+stars(static, W / 2, 562, size=10)
+
+SPK_EV = [(52, 190), (448, 186), (40, 262), (462, 258), (118, 296), (384, 170), (250, 292)]
+frames = []
+for k in range(FRAMES):
+    t = k / FRAMES
+    img = static.copy()
+    g = 0.55 + 0.45 * pulse(t)                      # 글로우 세기 0.55~1.0
+    hf = font(DOH, 46)
+    neon_center(img, 182, EVENT["title"], hf, strength=g)
+    neon_center(img, 236, EVENT["title2"], hf, strength=g)
+    for i, (x, y) in enumerate(SPK_EV):
+        sparkle(img, x, y, 9, max(0.0, pulse(t, i / len(SPK_EV)) * 2 - 1))
+    frames.append(img)
+save_apng(frames, OUT / "event_fee.png")
 
 # ---------------- 2. 오픈 예정 지점 ----------------
 OPEN = {
@@ -161,23 +204,32 @@ OPEN = {
     "foot1": "좋은 상권은 금방 사라집니다",
     "foot2": "아직 늦지 않았습니다!",
 }
-img = base()
-confetti(img, seed=11)
-stars(img, W / 2, 128)
-neon_center(img, 148, OPEN["tag"], font(DOH, 22), color=RED, glow=RED_GLOW, core=(255, 200, 200))
-neon_center(img, 180, OPEN["title"], font(DOH, 46))
-# 지점 그리드 — 2열, 마지막은 가운데 (레퍼런스처럼 별 + 지점명 + 상태)
+static = base()
+confetti(static, seed=11)
+stars(static, W / 2, 128)
+neon_center(static, 148, OPEN["tag"], font(DOH, 22), color=RED, glow=RED_GLOW, core=(255, 200, 200))
 cells = [(38, 250), (254, 250), (38, 350), (254, 350), (146, 450)]
 cw, ch = 208, 86
 nf, st = font(DOH, 27), font(DOH, 14)
 for (x, y), name in zip(cells, OPEN["branches"]):
-    d = ImageDraw.Draw(img)
+    d = ImageDraw.Draw(static)
     d.rounded_rectangle((x, y, x + cw, y + ch), radius=10, fill=(24, 22, 24, 255), outline=(70, 58, 36), width=1)
-    stars(img, x + cw / 2, y + 7, size=10)
-    neon(img, (x + (cw - text_w(name, nf)) / 2, y + 24), name, nf)
-    d = ImageDraw.Draw(img)
-    t = "오픈예정!"; d.text((x + (cw - text_w(t, st)) / 2, y + 60), t, font=st, fill=(230, 190, 110))
-neon_center(img, 548, OPEN["foot1"], font(DOH, 17), strength=.55)
-neon_center(img, 572, OPEN["foot2"], font(DOH, 17), color=RED, glow=RED_GLOW, core=(255, 210, 210), strength=.7)
-img.convert("RGB").save(OUT / "open_soon.png", optimize=True)
+    stars(static, x + cw / 2, y + 7, size=10)
+    neon(static, (x + (cw - text_w(name, nf)) / 2, y + 24), name, nf)
+    d = ImageDraw.Draw(static)
+    t_ = "오픈예정!"; d.text((x + (cw - text_w(t_, st)) / 2, y + 60), t_, font=st, fill=(230, 190, 110))
+neon_center(static, 548, OPEN["foot1"], font(DOH, 17), strength=.55)
+neon_center(static, 572, OPEN["foot2"], font(DOH, 17), color=RED, glow=RED_GLOW, core=(255, 210, 210), strength=.7)
+
+SPK_OP = [(58, 186), (442, 184), (84, 232), (420, 230), (250, 170), (160, 238), (350, 236)]
+frames = []
+for k in range(FRAMES):
+    t = k / FRAMES
+    img = static.copy()
+    g = 0.55 + 0.45 * pulse(t)
+    neon_center(img, 180, OPEN["title"], font(DOH, 46), strength=g)
+    for i, (x, y) in enumerate(SPK_OP):
+        sparkle(img, x, y, 9, max(0.0, pulse(t, i / len(SPK_OP)) * 2 - 1))
+    frames.append(img)
+save_apng(frames, OUT / "open_soon.png")
 print("saved:", OUT)
