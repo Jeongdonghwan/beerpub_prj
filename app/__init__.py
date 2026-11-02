@@ -8,6 +8,9 @@ from .extensions import db
 
 def create_app():
     app = Flask(__name__)
+    # nginx 리버스 프록시 뒤에서 https·실제 호스트·클라이언트 IP 를 인식 (og:image/sitemap/문의 IP)
+    from werkzeug.middleware.proxy_fix import ProxyFix
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
     app.config.from_object(Config)
 
     db.init_app(app)
